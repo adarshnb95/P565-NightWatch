@@ -1,0 +1,21 @@
+{% extends 'demosky/base.html' %}
+
+{% block title_block %}Home Page{% endblock %}
+
+ {% block body_block %}
+ <p align="center" class="text-big">The stars beckon you !</p>
+ <div id="map" style="width:400px;height:400px;background:yellow; margin: 0 auto 0 auto;"></div>
+
+<script>
+function myMap() {
+var mapOptions = {
+    center: new google.maps.LatLng(39.1657335, -86.4970895),
+    zoom: 10,
+    mapTypeId: google.maps.MapTypeId.HYBRID
+}
+var map = new google.maps.Map(document.getElementById("map"), mapOptions);
+}
+</script>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA22S--gBRL49Y2SRDiE15XMlmvf2DEQ3Y&callback=myMap"></script>
+ {% endblock %}
