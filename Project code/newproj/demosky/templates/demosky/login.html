@@ -3,9 +3,15 @@
 {% block title_block %} Login Page {% endblock %}
 {% block head_block %}
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+	<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+
+
 {% endblock %}
 
 {% block body_block %}
+
+
+
 <div class="container loginbox" align="center" class="text-big">
 	<form method="post" class="text-big">
 		{% csrf_token %}
@@ -13,14 +19,24 @@
 		
 		<button class="btn btn-default" type="submit" id="loginbtn"> Login</button>
 		<a class="btn btn-default" type="button" id="register" href= "/demosky/register">Register</a>
-		<!--
-		<a href="{% url 'social:begin' 'github' %}">Login with GitHub</a><br>
-		<a href="{% url 'social:begin' 'facebook' %}">Login with Facebook</a>
-		<a href="{% url 'social:begin' 'twitter' %}">Login with Twitter</a>
-		<a href="{% url 'social:begin' 'google-oauth2' %}">Login with google</a>
-		-->
+		<a href ="/demosky/reset-password" style="color:black"> Forgot Password?</a>
+	<!-- 	<a href="{% url 'social:begin' 'github' %}">Login with GitHub</a><br>
+		<a href="{% url 'social:begin' 'facebook' %}">Login with Facebook</a> -->
+	<!-- 	<a href="{% url 'social:begin' 'twitter' %}">Login with Twitter</a> -->
+	<br/>
+	<!--
+	<br/> Login via: &nbsp;		
+				<a href="{% url 'social:begin' 'facebook' %}" class="btn btn-facebook">
+			        <i class="fa fa-facebook"></i>
+			    </a>
+				<a href="{% url 'social:begin' 'twitter' %}" class="btn btn-twitter">
+			        <i class="fa fa-twitter"></i>
+			    </a>
+				<a href="{% url 'social:begin' 'github' %}" class="btn btn-github">
+			        <i class="fa fa-github"></i>
+			    </a> -->
 		
-		
+
 	</form>
 </div>
 {% endblock %}

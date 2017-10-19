@@ -29,15 +29,13 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
-
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com' # mail service smtp
-EMAIL_HOST_USER = 'varun.machingal@gmail.com' # email id
-EMAIL_HOST_PASSWORD = 'nutron123e'
+EMAIL_HOST_USER = 'darksky.test@gmail.com' # email id
+EMAIL_HOST_PASSWORD = 'darksky1234'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-DEFAULT_FROM_EMAIL = 'varun.machingal@gmail.com'
+DEFAULT_FROM_EMAIL = 'darksky1234'
 
 
 
@@ -109,7 +107,7 @@ AUTHENTICATION_BACKENDS = (
     'social_core.backends.facebook.FacebookOAuth2',
 	'social_core.backends.facebook.FacebookAppOAuth2',
     'django.contrib.auth.backends.ModelBackend',
-	'social_core.backends.google.GoogleOAuth2',
+    	'social_core.backends.google.GoogleOAuth2',
 	#'social.backends.google.GoogleOAuth2',
 	#'django.contrib.auth.backends.ModelBackend',
     #'social.backends.github.GithubOAuth2',
@@ -172,8 +170,13 @@ STATICFILES_DIRS = [
     '/var/www/static/',
 ]
 
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR,'newproj/media')
+
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-LOGIN_REDIRECT_URL = '/demosky/'
+LOGIN_REDIRECT_URL = '/demosky/verify-user/'
+
+LOGOUT_REDIRECT_URL = '/demosky/login/'
 
 #######################
 SOCIAL_AUTH_GITHUB_KEY = '83fa50a02c1efcbc0752'
@@ -188,6 +191,9 @@ SOCIAL_AUTH_FACEBOOK_SECRET = '94eca4297cc4ce51f226eeb0d9a99df0'  # App Secret
 SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '319144368430-aqok8iifai8ps26ohptf4eurhe9fhm5h.apps.googleusercontent.com'
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'qqFE5fz90BkywueZ-E5qBWDd'
 
+
 LOGIN_URL = 'login'
 LOGOUT_URL = 'logout'
+
+AUTH_PROFILE_MODULE= 'demosky.UserProfile'
 

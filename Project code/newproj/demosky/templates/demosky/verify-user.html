@@ -1,0 +1,26 @@
+{% extends 'demosky/base.html' %}
+
+{% block title_block %} Register {% endblock %}
+{% block head_block %}
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+{% endblock %}
+
+{% block body_block %}
+<div class="container">
+	
+
+<div class="container loginbox" align="center" class="text-big">
+	
+	<form method="post" class="text-big" id="tokenform" name ="tokenform">
+	{{error}}
+	{% csrf_token %}
+
+	<label>Enter Token</label>
+          <input type = "
+          " id = "token" name="token"/>
+
+    <button class="btn btn-default" type="submit">Submit</button>
+	</form>	
+
+</div>
+{% endblock %}

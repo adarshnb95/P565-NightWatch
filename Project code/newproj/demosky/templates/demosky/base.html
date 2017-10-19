@@ -4,6 +4,7 @@
 {% load static %}
 
 <head>
+
   <title>{% block title_block %}The Base Page{% endblock %}</title>
 
   <!-- bootsrap declerations -->
@@ -12,9 +13,11 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
   {% block head_block %} {% endblock %}
 
-  <link rel="stylesheet" href="{% static "DarkSky-Dev/css/base.css" %}" /> <!-- CSS -->
+  <link rel="stylesheet" href="{% static "DarkSky-Dev/css/base.css" %}" />
+  <link rel="stylesheet" href="{% static "DarkSky-Dev/css/bootstrap-social.css" %}" /> <!-- CSS -->
 </head>
 {% block script_block %}
 
@@ -28,13 +31,28 @@
     </div>
     <ul class="nav navbar-nav">
       <li class="active"><a href="/demosky/">Home</a></li>
+
       <!-- bootsrap declerations 
       <li><a href="#">Page 1</a></li>-->
     </ul>
-        <ul class="nav navbar-nav navbar-right">
-      <li><a href="/demosky/register/"><span class="glyphicon glyphicon-user"></span> Register</a></li>
-      <li><a href="/demosky/login/"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
-    </ul>
+    {% if user.is_authenticated %}
+
+          <ul class="nav navbar-nav">
+              <li class="active"><a href="/demosky/profile">Profile</a></li></ul>
+       <ul class="nav navbar-nav navbar-right">
+         <li><a href="/demosky/logout/"><span class="glyphicon glyphicon-log-in"></span>{{user}} Logout</a></li>
+       </ul>
+
+ 
+     {% else %} 
+       <ul class="nav navbar-nav navbar-right">
+        <li><a href="/demosky/register/"><span class="glyphicon glyphicon-user"></span> Register</a></li>
+         <li><a href="/demosky/login/"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+       </ul>
+
+      
+     {% endif %} 
+
   </div>
 </nav>
   

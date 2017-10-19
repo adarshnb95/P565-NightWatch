@@ -1,21 +1,72 @@
-{% extends 'demosky/base.html' %}
 
+{% extends 'demosky/base.html' %}
+{% load staticfiles %}
 {% block title_block %}Home Page{% endblock %}
 
  {% block body_block %}
- <p align="center" class="text-big">The stars beckon you !</p>
- <div id="map" style="width:400px;height:400px;background:yellow; margin: 0 auto 0 auto;"></div>
 
-<script>
+ <h1 align="center" class="headers">The stars beckon you !</h1>
+ <div id="map" style="width:1000px;height:450px;background:yellow; margin: 0 auto 0 auto;"></div>
+
+<script type="text/javascript">
 function myMap() {
-var mapOptions = {
-    center: new google.maps.LatLng(39.1657335, -86.4970895),
-    zoom: 10,
-    mapTypeId: google.maps.MapTypeId.HYBRID
-}
-var map = new google.maps.Map(document.getElementById("map"), mapOptions);
-}
+
+	var myObj, j=[], x="";
+	myObj = JSON.parse("{{full_list|escapejs}}");
+	Object.keys(myObj).forEach(function(key,index){
+		j.push(myObj[key]);
+	});
+	var mapOptions = {
+    	center: new google.maps.LatLng(38.4737775, -86.5473785),
+    	zoom: 14,
+    	mapTypeId: google.maps.MapTypeId.HYBRID
+	}
+
+	var map = new google.maps.Map(document.getElementById("map"), mapOptions);
+
+	var marker,i;
+	var size = Object.keys(j).length;
+	//alert(size);
+
+	 for (i = 0; i < size; i++) {  
+      marker = new google.maps.Marker({
+        position: new google.maps.LatLng(j[i][1], j[i][2]),
+        map: map,
+        title: j[i][3],
+      });
+
+    var infowindow = new google.maps.InfoWindow();
+
+   var contentString;
+     google.maps.event.addListener(marker, 'click', (function(marker, i) {
+        return function() {
+          infowindow.setContent(
+
+          	     contentString = 
+          	     '<div id="content">'+
+				'<p>'+ 'sensor image:'  +'<br/>' +
+				'<img src="/static/DarkSky-Dev/imgs/' + j[i][3] + '.jpg"/>'+
+				'<br/>' + '<br/>'+
+				'sensor light level :' + j[i][4] +'<br/>' +
+				'sensor battery level :' + j[i][5] +
+				'</p>'+
+				'</div>'
+
+
+
+
+          	);
+          infowindow.open(map, marker);
+        }
+      })(marker, i));
+
+
+
+}}
 </script>
 
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA22S--gBRL49Y2SRDiE15XMlmvf2DEQ3Y&callback=myMap"></script>
- {% endblock %}
+
+<div class="text-big">
+</div>
+{% endblock %}
