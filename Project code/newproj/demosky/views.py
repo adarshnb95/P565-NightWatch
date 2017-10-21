@@ -44,8 +44,9 @@ def test():
 # Create your views here.
 def home(request):
     full_list = json.dumps(test())
-    print full_list
-    return render(request,'demosky/home.html',{'full_list':full_list})
+    light_list = json.dumps(ldat())
+    print light_list
+    return render(request,'demosky/home.html',{'full_list':full_list , 'light_list':light_list})
 
 def register(request):
     if request.method == 'POST':
@@ -205,4 +206,85 @@ def password(request):
         form = PasswordForm(request.user)
     return render(request, 'demosky/password.html', {'form': form})
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#################sprint 3 code
+def ldat():
+    pass
+    a = Sensors.objects.all()
+    lightdat = {}
+    for j in a:
+              lightdat[int(j.sensor_id)] = [j.light_data,str(j.sensor_id)]
+    #print bundle
+    return lightdat
 

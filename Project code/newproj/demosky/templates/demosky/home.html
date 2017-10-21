@@ -8,6 +8,12 @@
  <h1 align="center" class="headers">The stars beckon you !</h1>
  <div id="map" style="width:1000px;height:450px;background:yellow; margin: 0 auto 0 auto;"></div>
 
+ <div class="text-big" id="try">
+</div>
+
+ <div class="text-big" id="try1">
+</div>
+
 <script type="text/javascript">
 function myMap() {
 
@@ -16,6 +22,57 @@ function myMap() {
 	Object.keys(myObj).forEach(function(key,index){
 		j.push(myObj[key]);
 	});
+
+	//new code
+
+	//alert(j);
+
+	var myObj1, q=[];
+	myObj1 = JSON.parse("{{light_list|escapejs}}");
+	Object.keys(myObj1).forEach(function(key,index){
+		q.push(myObj1[key]);
+	});
+
+	var keySorted = q.sort(function(a, b){return a[0] - b[0]});
+	document.getElementById("try").innerHTML = 'senor light widget';
+	//document.getElementById("try1").innerHTML = q[1][0];  // 45,3 -> 45
+	var demop = document.getElementById("try1");
+	var size1 = Object.keys(q).length;
+	var test=0;
+	for (test=0 ; test < size1 ; test++) {
+		demop.innerHTML +=  'sensor ' + q[test][1] + ' ' + 'ligth intensity level :' + q[test][0] + ';&nbsp' ;
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	//
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	var mapOptions = {
     	center: new google.maps.LatLng(38.4737775, -86.5473785),
     	zoom: 14,
@@ -67,6 +124,7 @@ function myMap() {
 
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA22S--gBRL49Y2SRDiE15XMlmvf2DEQ3Y&callback=myMap"></script>
 
-<div class="text-big">
-</div>
+
+
+
 {% endblock %}
