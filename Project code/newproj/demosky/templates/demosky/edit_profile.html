@@ -8,18 +8,101 @@
 {% endblock %}
 
 {% block body_block %}
-<div class="container">
-    <form method="POST" action=" " enctype="multipart/form-data">
-     {% csrf_token %}
-     {{ user_form.as_p }}
-     {{ profile_form.as_p }}
-     <button type="submit">Save changes</button>
-    </form>
 
-    <br>
+
+
+<div class="container">
+<form method="POST" action=" " enctype="multipart/form-data" id="editform">
+            {% csrf_token %}
+    <div class="span3 well">
+        <center>
+        <a>
+               {% if user.userprofile.photo %}
+            <img src="{{user.userprofile.photo.url}}"  name="about" width="140" height="140" class="img-circle">
+                {% endif %}
+            <br>
+
+        </center>
+
+
+
+
+        <center>
+        </a><br>
+            <p><label>Name:  <input type="text" name="first_name" value="{{user.first_name}}" > &nbsp <input type="text" name="last_name" value="{{user.last_name}}" enabled></label></p>
+            <h4><small>
+
+
+
+		</center>
+         <b>Update your Profile Picture:</b>
+            <br>
+            <a class="join">{{profile_form.photo}}</a>
+    </div>
+
+                    <p> <strong><i class="fa fa-quote-left"></i></strong>Tell us one of your favourite quotes.....<i class="fa fa-quote-right"></i></a></p>{{profile_form.quote}}
+                    <p> <strong><i class="fa fa-graduation-cap"></i></strong>What did you study? </a></p>{{ profile_form.study}}
+
+
+                    <p><strong><i class="fa fa-briefcase"></i> </strong>What do you work as?</a></p>{{ profile_form.work}}
+
+                    <p> <strong><i class="fa fa-home"></i> </strong> Where do you live? </a></p>{{ profile_form.location }}
+
+                    <p> <strong><i class="fa fa-map-marker"></i></strong>Where are you from? </a></p>{{ profile_form.birthplace }}
+
+                    <hr>
+
+                    <center>
+
+                    <p class="text-left"><strong>Tell us about yourself:</strong><br><small>(max length: 500 word)</small>
+                        </p>{{ profile_form.bio}}
+                    <br>
+
+                    </center>
+
+
+ <div class="modal-footer">
+     <center><br>
+        <button type="submit">Save changes</button>
+
+     </center>
+ </div>
+</form>
+
 </div>
 
 {% endblock %}
 
 
 
+<!--<div class="container">
+
+    <form method="POST" action=" " enctype="multipart/form-data" id="editform">
+     {% csrf_token %}
+
+        <p><label>Name:  <input type="text" name="first_name" value=" {{user.userprofile.first_name}}" > &nbsp <input type="text" name="last_name" value="{{user.userprofile.last_name}}" enabled></label></p>
+
+  {{ user_form.as_p }}
+     {{ profile_form.as_p }}
+
+     <button type="submit">Save changes</button>
+    </form>
+
+<input type="text" name="quote" maxlength="100" required="" id="id_quote">
+
+    <br>
+</div>-->
+
+<!--
+<p><label for="id_location">Location:</label> <input type="text" name="location" value="wells library" maxlength="50" required="" id="id_location" value="{{user.userprofile.location}}"></p>
+<!--<p><label for="id_photo">Photo:</label> Currently: <a href="/media/profile_image/killz_4j33Pbr.jpg">profile_image/killz_4j33Pbr.jpg</a>
+<input type="checkbox" name="photo-clear" id="photo-clear_id">
+<label for="photo-clear_id">Clear Your Profile Picture</label><br>
+Change:
+<input type="file" name="photo" id="id_photo"></p>
+            <b>Enter your favourite quote here:</b>
+<p><label for="id_quote"></label><textarea name="Quote" cols="80" rows="2" maxlength="500" required="" id="id_quote" value="{{user.userprofile.quote}}">done</textarea></p></p>
+<b>  Enter something about you:</b>
+<p><label for="id_bio">
+</label> <textarea name="bio" cols="80" rows="5" maxlength="500" required="" id="id_bio" value="{{user.userprofile.bio}}"></textarea></p>
+<p><label></label></p>-->

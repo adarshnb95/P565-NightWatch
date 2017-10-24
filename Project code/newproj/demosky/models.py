@@ -6,9 +6,13 @@ from django.utils.encoding import python_2_unicode_compatible
 
 class UserProfile(models.Model):
     user= models.OneToOneField(User, unique=True)
-    bio = models.CharField(max_length=100, default = '')
     location=models.CharField(max_length=50,default = '')
-    photo = models.ImageField(upload_to="profile_image", null=True, blank=True)
+    birthplace = models.CharField(max_length=50, default='')
+    work = models.CharField(max_length=50, default='')
+    study = models.CharField(max_length=50, default='')
+    photo = models.ImageField(upload_to="profile_image",null=True, blank=True)
+    quote=models.TextField(max_length=100,default='')
+    bio = models.TextField(max_length=500, default = '')
     token = models.IntegerField(null = True, blank = True)
 
 

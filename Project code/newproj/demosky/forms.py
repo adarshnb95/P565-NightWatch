@@ -46,11 +46,49 @@ class EditProfileForm(UserChangeForm):
         )
 
 class UserProfileForm(forms.ModelForm):
+    study=forms.CharField(widget=forms.TextInput(
+        attrs={
+        'class':'form-control',
+        'placeholder':'What did you study? eg. Software Engineering'
+        }))
+    work=forms.CharField(widget=forms.TextInput(
+        attrs={
+        'class':'form-control',
+        'placeholder':'What work do you do? eg. Software Developer at XYZ company'
+        }))
+
+    birthplace=forms.CharField(widget=forms.TextInput(
+        attrs={
+        'class':'form-control',
+        'placeholder':'Where are you from? eg. Chicago,IL'
+        }))
+    location=forms.CharField(widget=forms.TextInput(
+        attrs={
+        'class':'form-control',
+        'placeholder':'Where do you stay? eg. Bloomington,IN'
+        }))
+    quote= forms.CharField(widget= forms.TextInput(
+        attrs={
+            'class':'form-control',
+            'placeholder': 'Your favourite quote goes here!'
+        }
+    ))
+    bio= forms.CharField(widget= forms.Textarea(
+        attrs={
+            'class':'form-control',
+            'placeholder': 'Let us know about you! Write something about yourself'
+        }
+    ))
+
     class Meta:
         model = UserProfile
         fields = (
-                    'bio',
+                    'study',
+                    'work',
                     'location',
+                    'birthplace',
+                    'quote',
+                    'bio',
                     'photo',
                     'token',
 

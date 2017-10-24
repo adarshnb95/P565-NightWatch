@@ -1,14 +1,75 @@
-{{% extends 'demosky/base.html' %}
+{% extends 'demosky/base.html' %}
 
 {% block title_block %} PROFILE {% endblock %}
 <br>
-{% block head_block %}
+<!--{% block head_block %}
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-{% endblock %}
+{% endblock %}-->
 
 {% block body_block %}
-<div class ='container'>
-    <h1>Profile</h1>
+
+<div class="container">
+    <div class="span3 well">
+        <center>
+        <a>
+               {% if user.userprofile.photo %}
+            <img src="{{user.userprofile.photo.url}}"  name="about" width="140" height="140" class="img-circle">
+                {% endif %}
+        </a>
+
+        <h3>{{user.first_name}} {{user.last_name}}</h3>
+            <h4><small>{{user.userprofile.quote}}</small></h4>
+
+		</center>
+    </div>
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                        <h4 class="modal-title" id="myModalLabel">More About {{user.first_name}} {{user.last_name}}</h4>
+                </div>
+
+                <div class="modal-body">
+                    <h3 class="media-heading"> <i class ="fa fa-user"></i>  {{user.first_name}} {{user.last_name}}</h3>
+
+                    <p> <strong><i class="fa fa-graduation-cap"></i></strong>Studied <a class="from" href="//google.com/?q={{user.userprofile.location}}"> {{user.userprofile.study}}</a></p>
+
+                    <p><strong><i class="fa fa-briefcase"></i> </strong>Works as <a class="location" href="//google.com/?q={{user.userprofile.location}}"  > {{user.userprofile.work}}</a></p>
+
+                    <p> <strong><i class="fa fa-home"></i> </strong> Lives in <a class="location" href="//maps.google.com/?q={{user.userprofile.location}}"> {{user.userprofile.location}}</a></p>
+
+                    <p> <strong><i class="fa fa-map-marker"></i></strong>From <a class="from" href="//maps.google.com/?q={{user.userprofile.location}}"> {{user.userprofile.birthplace}}</a></p>
+
+                    <p> <strong><i class="fa fa-envelope"></i></strong>
+                       Contact me at  <a class="from" href="//mail.google.com/mail/u/0/#inbox?compose=new"> {{user.email}}</a></p>
+                    <hr>
+
+                    <center>
+
+                    <p class="text-left"><strong>About Me: {{user.userprofile.bio}} </strong><br>
+                        </p>
+                    <br>
+
+                    </center>
+
+                </div>
+                <div class="time">
+                     <p> <strong><i class="fa fa-clock-o"></i></strong>  You last logged in at: <a class="time"> {{user.last_login}}</a></p>
+                </div>
+                <div class="join">
+                     <p> <strong><i class="fa fa-calendar-o"></i></strong>  You joined us on: <a class="time"> {{user.date_joined}}</a></p>
+                </div>
+                <div class="modal-footer">
+                    <center><br>
+               <a class="btn btn-default" type="button" id="Profile" href= "/demosky/edit_profile">Edit profile</a>
+                    </center>
+                </div>
+
+</div>
+{% endblock%}
+
+
+
+
+<!--    <h1>Profile</h1>
     <p>Username :{{user}}</p>
     <p>Name : {{user.first_name}}</p>
     <p>Email : {{user.email}}</p>
@@ -18,12 +79,40 @@
         {% if user.userprofile.photo %}
          <img src="{{user.userprofile.photo.url}}" width="240">
         {% endif %}</p>
-<a class="btn btn-default" type="button" id="Profile" href= "/demosky/edit_profile">Edit profile</a>
-</div>
-
-
-{% endblock%}
+-->
 
 
 
+<!--
+<h1>Profile Information</h1>
 
+<article role="profile">
+  <aside class="avatar">
+      {% if user.userprofile.photo %}
+         <img src="{{user.userprofile.photo.url}}" alt="Avatar Korra" />
+        {% endif %}</p>
+  </aside>
+
+  <h2>{{user.first_name}} {{user.last_name}}</h2>
+  <ul class="vitals">
+
+    <li>
+      <a class="Birthday" ><i class="fa fa-birthday-cake" aria-hidden="true"></i> Birthday on : {{user.userprofile.location}}</a>
+    </li>
+    <li>
+      <a class="Work"  ><i class="fa fa-building"></i>Works at : {{user.userprofile.location}}</a>
+    </li>
+    <li>
+      <a class="Study" ><i class="fa fa-graduation-cap"></i> Studied at : {{user.userprofile.location}}</a>
+    </li>
+    <li>
+      <a class="location" href="//maps.google.com/?q={{user.userprofile.location}}"  ><i class="fa fa-globe"></i> {{user.userprofile.location}}</a>
+    </li>
+  </ul>
+
+  <p>
+        {{user.userprofile.bio}}
+  </p>
+</article>
+
+-->

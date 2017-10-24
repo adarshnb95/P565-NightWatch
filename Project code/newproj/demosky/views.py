@@ -45,7 +45,7 @@ def test():
 def home(request):
     full_list = json.dumps(test())
     light_list = json.dumps(ldat())
-    print light_list
+    #print light_list
     return render(request,'demosky/home.html',{'full_list':full_list , 'light_list':light_list})
 
 def register(request):
