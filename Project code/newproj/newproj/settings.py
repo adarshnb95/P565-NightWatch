@@ -192,7 +192,7 @@ SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '319144368430-aqok8iifai8ps26ohptf4eurhe9fhm5h.a
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'qqFE5fz90BkywueZ-E5qBWDd'
 
 
-LOGIN_URL = 'login'
+LOGIN_URL = '/demosky/login/'
 LOGOUT_URL = 'logout'
 
 AUTH_PROFILE_MODULE= 'demosky.UserProfile'

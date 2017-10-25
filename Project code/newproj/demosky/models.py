@@ -29,11 +29,11 @@ post_save.connect(create_profile, sender=User)
 
 class Sensors(models.Model):
     sensor_id = models.CharField(max_length=100)
-    x_coord = models.FloatField()
-    y_coord = models.FloatField()
+    x_coord = models.FloatField(null=True)
+    y_coord = models.FloatField(null=True)
     img_name = models.CharField(max_length=100)
-    light_data = models.IntegerField()
-    battery_level = models.FloatField()
+    light_data = models.IntegerField(null=True)
+    battery_level = models.FloatField(null=True)
 
     def __str__(self):
         return self.sensor_id

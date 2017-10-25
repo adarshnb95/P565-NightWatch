@@ -42,10 +42,19 @@ def test():
 
 
 # Create your views here.
+@login_required
 def home(request):
+    if request.method == 'POST':
+        print(request.POST)
+        xcord = request.POST.get('x-coord')
+        ycord = request.POST.get('y-coord')
+        prev = Sensors.objects.last()
+        id = int(prev.sensor_id)+1
+        sens = Sensors(sensor_id =str(id),x_coord = xcord, y_coord = ycord)
+        sens.save()
     full_list = json.dumps(test())
     light_list = json.dumps(ldat())
-    print light_list
+    print (light_list);
     return render(request,'demosky/home.html',{'full_list':full_list , 'light_list':light_list})
 
 def register(request):
@@ -61,12 +70,12 @@ def register(request):
         args = {'form': form}
         return render(request, 'demosky/reg_form.html', args)
 
-
+@login_required
 def profile(request):
     args = {'user': request.user}
     return render(request, 'demosky/profile.html', args)
 
-
+@login_required
 def edit_profile(request):
     if request.method == 'POST':
         user_form = EditProfileForm(request.POST , instance=request.user)
@@ -86,6 +95,7 @@ def edit_profile(request):
 
 
 #------------Varun------------------------------------------
+@login_required
 def verify(request):
     if request.method == 'POST':
         print (request.POST)
@@ -96,7 +106,7 @@ def verify(request):
         print (token)
         if(int(token) == int(newEmailUser.token)):
             print("Great Success")
-            return render(request,'demosky/home.html')
+            return redirect('/demosky/')
         else:
             error = ("Invalid Token.")
             return render(request,'demosky/verify-user.html',{'error' : error}) 
@@ -270,14 +280,6 @@ def password(request):
 
 
 
-
-
-
-
-
-
-
-
 #################sprint 3 code
 def ldat():
     pass
@@ -288,3 +290,39 @@ def ldat():
     #print bundle
     return lightdat
 
+
+
+
+##########Varun##############
+
+@login_required
+def manageuser(request):
+    if request.method == 'POST':
+        print( request.POST)
+        userlist = request.POST.get('userlist')
+        if userlist is not None:
+            for user in userlist:
+               newadmin = User.objects.get(pk=user)
+               newadmin.is_staff = True;
+               newadmin.save()
+            error = "Users changed to admin successfully."
+        else:
+            
+            error = "No User roles changed"
+            
+
+        users = User.objects.filter(is_staff=False)    
+        args = {
+                'users': users,
+                'error': error
+            }    
+            
+        return render(request,'demosky/manage-user.html', args)   
+    else:    
+        users = User.objects.filter(is_staff=False)
+        print (users)
+        return render(request,'demosky/manage-user.html',{'users':users})            
+
+
+
+#######end-Varun##############

@@ -31,14 +31,17 @@
     </div>
     <ul class="nav navbar-nav">
       <li class="active"><a href="/demosky/">Home</a></li>
-
+      {% if user.is_staff %}
+        <li ><a href="/demosky/manage-user">Manage User</a></li>
+        <li ><a href="/demosky/manage-sensor">Manage Sensor</a></li>
+      {% endif %}
       <!-- bootsrap declerations 
       <li><a href="#">Page 1</a></li>-->
     </ul>
     {% if user.is_authenticated %}
 
           <ul class="nav navbar-nav">
-              <li class="active"><a href="/demosky/profile">Profile</a></li></ul>
+              <li><a href="/demosky/profile">Profile</a></li></ul>
        <ul class="nav navbar-nav navbar-right">
          <li><a href="/demosky/logout/"><span class="glyphicon glyphicon-log-in"></span>{{user}} Logout</a></li>
        </ul>

@@ -19,4 +19,5 @@ urlpatterns = [
     url(r'^reset-password/complete/$', password_reset_complete, name='password_reset_complete'),
 	#url(r'^profile_picture/$', views.profile_pic)
 	url(r'^verify-user/$', views.verify),
+	url(r'^manage-user/$', views.manageuser),
 ]

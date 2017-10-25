@@ -13,13 +13,20 @@
 
 
 <div class="container loginbox" align="center" class="text-big">
-	<form method="post" class="text-big">
+
+{% if user.is_authenticated %}
+	
+	<meta http-equiv="REFRESH" content="0;url=http://127.0.0.1:8000/demosky/">   
+
+{% else %}
+   
+    <form method="post" class="text-big">
 		{% csrf_token %}
 		{{form.as_p}}
 		
 		<button class="btn btn-default" type="submit" id="loginbtn"> Login</button>
 		<a class="btn btn-default" type="button" id="register" href= "/demosky/register">Register</a>
-		<a href ="/demosky/reset-password" style="color:black"> Forgot Password?</a>
+		<a href ="/demosky/reset-password" style="color:blue"> Forgot Password?</a>
 	<!-- 	<a href="{% url 'social:begin' 'github' %}">Login with GitHub</a><br>
 		<a href="{% url 'social:begin' 'facebook' %}">Login with Facebook</a> -->
 	<!-- 	<a href="{% url 'social:begin' 'twitter' %}">Login with Twitter</a> -->
@@ -38,5 +45,9 @@
 		
 
 	</form>
-</div>
+
+{% endif %}
+
+
+	</div>
 {% endblock %}

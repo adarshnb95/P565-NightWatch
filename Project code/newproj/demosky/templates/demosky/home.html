@@ -14,6 +14,17 @@
  <div class="text-big" id="try1">
 </div>
 
+<div class="text-big" id="addsensor">
+<form method="post" class="text-big" id="addsensorform" name="addsensorform">
+	{% csrf_token %}
+	<label>X-Coordinate</label><input type="text" name="x-coord" id="x-coord">
+	<label>Y-Coordinate</label><input type="text" name="y-coord" id="y-coord">
+	<button class="btn btn-default" type="submit"> Submit</button>
+</form>
+</div>	
+
+</div>
+
 <script type="text/javascript">
 function myMap() {
 
