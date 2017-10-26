@@ -44,16 +44,9 @@ def test():
 # Create your views here.
 @login_required
 def home(request):
-    if request.method == 'POST':
-        print(request.POST)
-        xcord = request.POST.get('x-coord')
-        ycord = request.POST.get('y-coord')
-        prev = Sensors.objects.last()
-        id = int(prev.sensor_id)+1
-        sens = Sensors(sensor_id =str(id),x_coord = xcord, y_coord = ycord)
-        sens.save()
     full_list = json.dumps(test())
     light_list = json.dumps(ldat())
+
     print (light_list);
     return render(request,'demosky/home.html',{'full_list':full_list , 'light_list':light_list})
 
@@ -324,5 +317,36 @@ def manageuser(request):
         return render(request,'demosky/manage-user.html',{'users':users})            
 
 
+@login_required
+def managesensors(request):
+    print(request.POST)
+    if request.method == 'POST':
+        action = request.POST.get('action')
+        
+        if(action == 'add'):
+            xcord = request.POST.get('x-coord')
+            ycord = request.POST.get('y-coord')
+            prev = Sensors.objects.last()
+            id = int(prev.sensor_id)+1
+            sens = Sensors(sensor_id =str(id),x_coord = xcord, y_coord = ycord)
+            sens.save()
+            error = "Sensors added successfully."
+        else:
+            sensorlist = request.POST.get('sensorlist')
+        
+            if sensorlist is not None:
+                for sensor in sensorlist:
+                   print(sensor)
+                   removeSensor = Sensors.objects.get(sensor_id=str(sensor))
+                   removeSensor.delete()
+                error = "Sensors deleted successfully."
+            else:
+                error = "No Sensors deleted"
+        
+        sensors = Sensors.objects.all()
+        return render(request,'demosky/manage-sensors.html',{'sensors':sensors, 'error' : error})        
 
+    else:
+        sensors = Sensors.objects.all()
+        return render(request,'demosky/manage-sensors.html',{'sensors':sensors})
 #######end-Varun##############

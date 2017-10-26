@@ -13,27 +13,65 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  
+<script type= "text/javascript">
+/*  
+  $('#thenavigation li').click(function() {
+    alert("hello");
+      $(this).closest("li").addClass('active').siblings().removeClass('active');
+      return(false);   // no default behavior from clicking on the link
+  });
+
+  function onTabClick(e){
+    console.log(e);
+    var ul = document.getElementById('thenavigation');
+    
+    for (var i=0;i<ul.children.length;i++){
+       ul.children[i].className = "" ;
+       console.log(ul.children[i]); 
+       if(ul.children[i].id == e){
+          ul.children[i].className = "active";
+       }  
+    }
+  }
+
+
+  $('#thenavigation li').click(function() {
+    alert("hello");
+    $(this).closest('ul').find('a').removeClass('active');
+    $(this).addClass('active');
+  });
+*/
+  </script>
+
+
+
   <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
   {% block head_block %} {% endblock %}
 
   <link rel="stylesheet" href="{% static "DarkSky-Dev/css/base.css" %}" />
   <link rel="stylesheet" href="{% static "DarkSky-Dev/css/bootstrap-social.css" %}" /> <!-- CSS -->
+
+  
 </head>
 {% block script_block %}
 
 {% endblock %}
+
+
+
 <body>
 
-<nav class="navbar navbar-inverse">
-  <div class="container-fluid">
+<nav class="navbar navbar-inverse" >
+  <div class="container-fluid" >
     <div class="navbar-header">
       <a class="navbar-brand" href="/demosky/">Nights Watch</a>
     </div>
-    <ul class="nav navbar-nav">
+    <ul class="nav navbar-nav" id="thenavigation">
       <li class="active"><a href="/demosky/">Home</a></li>
       {% if user.is_staff %}
         <li ><a href="/demosky/manage-user">Manage User</a></li>
-        <li ><a href="/demosky/manage-sensor">Manage Sensor</a></li>
+        <li ><a href="/demosky/manage-sensors">Manage Sensors</a></li>
       {% endif %}
       <!-- bootsrap declerations 
       <li><a href="#">Page 1</a></li>-->
@@ -58,6 +96,8 @@
 
   </div>
 </nav>
+
+
   
 <div class="container">
   {% block body_block %}

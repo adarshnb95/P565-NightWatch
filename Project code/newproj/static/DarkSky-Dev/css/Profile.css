@@ -1,0 +1,36 @@
+@import "compass/css3";
+
+@import url(//fonts.googleapis.com/css?family=Rosario:400,700);
+@import url(//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css);
+
+%headers {
+  text-transform: uppercase;
+  font-weight: bold;
+  margin-bottom: .5em;
+}
+
+
+body {
+  padding: 2em;
+  font: 16px Rosario, sans-serif;
+}
+
+
+p {
+  margin: 0.5em 0;
+  a {
+    @include transition(all .25s);
+    &:hover {
+      padding: 0 1em;
+      color: #fff;
+      background-color: $darkoff;
+    }
+  }
+}
+
+.time{float:right;
+      text-align:right;}
+.join{float:left;
+       text-align:left;}
+.edit_photo{float:right;
+      text-align:right;}

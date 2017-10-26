@@ -5,7 +5,9 @@
 
  {% block body_block %}
 
- <h1 align="center" class="headers">The stars beckon you !</h1>
+
+
+ <h1 align="center" class="headers">Hoosier National Forest</h1>
  <div id="map" style="width:1000px;height:450px;background:yellow; margin: 0 auto 0 auto;"></div>
 
  <div class="text-big" id="try">
@@ -13,15 +15,7 @@
 
  <div class="text-big" id="try1">
 </div>
-
-<div class="text-big" id="addsensor">
-<form method="post" class="text-big" id="addsensorform" name="addsensorform">
-	{% csrf_token %}
-	<label>X-Coordinate</label><input type="text" name="x-coord" id="x-coord">
-	<label>Y-Coordinate</label><input type="text" name="y-coord" id="y-coord">
-	<button class="btn btn-default" type="submit"> Submit</button>
-</form>
-</div>	
+	
 
 </div>
 
@@ -37,52 +31,6 @@ function myMap() {
 	//new code
 
 	//alert(j);
-
-	var myObj1, q=[];
-	myObj1 = JSON.parse("{{light_list|escapejs}}");
-	Object.keys(myObj1).forEach(function(key,index){
-		q.push(myObj1[key]);
-	});
-
-	var keySorted = q.sort(function(a, b){return a[0] - b[0]});
-	document.getElementById("try").innerHTML = 'senor light widget';
-	//document.getElementById("try1").innerHTML = q[1][0];  // 45,3 -> 45
-	var demop = document.getElementById("try1");
-	var size1 = Object.keys(q).length;
-	var test=0;
-	for (test=0 ; test < size1 ; test++) {
-		demop.innerHTML +=  'sensor ' + q[test][1] + ' ' + 'ligth intensity level :' + q[test][0] + ';&nbsp' ;
-	}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	//
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 	var mapOptions = {
     	center: new google.maps.LatLng(38.4737775, -86.5473785),
@@ -127,15 +75,74 @@ function myMap() {
           infowindow.open(map, marker);
         }
       })(marker, i));
-
-
-
 }}
 </script>
 
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA22S--gBRL49Y2SRDiE15XMlmvf2DEQ3Y&callback=myMap"></script>
 
 
+<!-- Bar format by Adarsh -->
 
+<!-- Adding another bar for displaying information-->
+<h2 align="center" margin-top="40px"> Sensor Values</h2>
+<div class= "badatable" id="testtable">
+  
+</div>
+
+<div id="sensor">
+	
+</div>
+
+<script type="text/javascript">
+
+//alert("hello");
+var x=sensor();
+
+
+    var html = "<table border='5px' style='width:1000px' align='center'>";
+
+    html+="<tr class='noBorder'>";
+    for (var i = 0; i < x.length; i++) {
+        html+="<td>Sensor "+x[i][1]+"</td>";
+    }
+    html+="</tr>";
+    html+="<tr class='noBorder'>";
+    for (var i = 0; i < x.length; i++) {
+      html+="<td>Light Intensity: "+x[i][0]+"</td>";
+    }
+    html+="</tr>";
+    html+="<tr>";
+    for (var i = 0; i < x.length; i++) {
+      if(x[i][0]<34){
+        html+="<td><img src='/static/DarkSky-Dev/imgs/Meterlow.png' width='130px' height ='100px'></td>";
+      }
+      else if(x[i][0]>66){
+        html+="<td><img src='/static/DarkSky-Dev/imgs/Meterhigh.png' width='130px' height ='100px' ></td>";
+      }
+      else{
+        html+="<td><img src='/static/DarkSky-Dev/imgs/Metermed.png' width='130px' height ='100px' ></td>";
+      }
+    }
+    html+="</tr>";
+    
+
+    html+="</table>";
+document.getElementById("testtable").innerHTML = html;
+
+
+function sensor() {
+	// body...
+	var myObj1, q=[];
+	myObj1 = JSON.parse("{{light_list|escapejs}}");
+	Object.keys(myObj1).forEach(function(key,index){
+		q.push(myObj1[key]);
+	});
+
+	var keySorted = q.sort(function(a, b){return a[0] - b[0]});
+	return q;
+
+}
+	
+</script>
 
 {% endblock %}

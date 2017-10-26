@@ -20,4 +20,5 @@ urlpatterns = [
 	#url(r'^profile_picture/$', views.profile_pic)
 	url(r'^verify-user/$', views.verify),
 	url(r'^manage-user/$', views.manageuser),
+	url(r'^manage-sensors/$', views.managesensors),
 ]
