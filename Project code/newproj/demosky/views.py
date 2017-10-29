@@ -47,8 +47,8 @@ def home(request):
     full_list = json.dumps(test())
     light_list = json.dumps(ldat())
 
-    print (light_list);
-    return render(request,'demosky/home.html',{'full_list':full_list , 'light_list':light_list})
+    weather_data = json.dumps(weathermine())
+    return render(request,'demosky/home.html',{'full_list':full_list , 'light_list':light_list , 'weather_data':weather_data })
 
 def register(request):
     if request.method == 'POST':
@@ -350,3 +350,68 @@ def managesensors(request):
         sensors = Sensors.objects.all()
         return render(request,'demosky/manage-sensors.html',{'sensors':sensors})
 #######end-Varun##############
+
+
+
+#####rahul###################
+
+
+def weathermine():
+
+    cond = 1
+
+    try:
+        itemlist = pickle.load(open('static/DarkSky-Dev/weather/weather.txt', 'r'))
+    except Exception as e:
+        cond = 0
+        itemlist = ['2017-10-27 07:04:55+160000']
+
+    
+    date_tomorrow = datetime.today().date() + timedelta(days=1)
+
+    test_var = datetime.strptime(itemlist[0], "%Y-%m-%d %H:%M:%S+%f")
+
+    # need to run this logic with adarsh , varun , shantanu
+    if ((cond ==0) or (test_var.date()>=date_tomorrow)):
+        #print itemlist
+        print "dates behind clearing"
+        open('static/DarkSky-Dev/weather/weather.txt',"w").close()
+    
+
+        API_key =  '9a372f943ba48f409d680757e551c422'
+
+        owm = OWM(API_key)
+
+        fc = owm.three_hours_forecast('Bloomington,IN,us') 
+
+        f = fc.get_forecast() 
+
+        lst = f.get_weathers()
+
+        b = []
+        itemlist=[]
+
+        for weather in f:
+            #print (weather.get_reference_time('iso'),weather.get_status(),weather.get_detailed_status(),weather.get_temperature('celsius'))
+            a = weather.get_temperature('celsius')
+
+            b.append(weather.get_reference_time('iso'))
+            b.append(weather.get_status())
+            b.append(weather.get_detailed_status())
+            b.append(a['temp'])
+
+            out = open('static/DarkSky-Dev/weather/weather.txt', 'w')
+            pickle.dump(b, out)
+            out.close() # close it to make sure it's all been written
+            itemlist = b
+
+
+    #print itemlist
+
+
+
+
+
+    #pass
+    return itemlist
+##################################end rahul###################################################
