@@ -28,6 +28,13 @@ from demosky.models import Sensors
 #from django.http import HttpResponseRedirect, HttpResponse
 import json
 
+#sprint 3
+from pyowm import OWM
+from datetime import datetime,timedelta
+import os
+from django.templatetags.static import static
+import pickle
+
 
 
 # Create your views here.
