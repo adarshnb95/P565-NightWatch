@@ -5,7 +5,10 @@
 
  {% block body_block %}
 
-
+<div align="center" ">
+      <input type="text" id="search-criteria" value="" />
+      <input type="button" id="search" value="search" onclick="searchSensor();">
+</div>
 
  <h1 align="center" class="headers">Hoosier National Forest</h1>
  <div id="map" style="width:1000px;height:450px;background:yellow; margin: 0 auto 0 auto;"></div>
@@ -20,8 +23,32 @@
 </div>
 
 <script type="text/javascript">
-function myMap() {
 
+
+function searchSensor(){
+	search = document.getElementById("search-criteria").value;	
+	console.log(search);
+	var myObj, j=[], x="";
+	myObj = JSON.parse("{{full_list|escapejs}}");
+	Object.keys(myObj).forEach(function(key,index){
+		j.push(myObj[key]);
+	});
+	var size = Object.keys(j).length;
+	var key;
+	for(var i=1; i< size ; i++){
+			if(myObj[i][0] == search){
+				key = i;
+				break;	
+			}
+	}
+
+	myMap(myObj[key])
+
+
+}
+
+function myMap(searchObj) {
+	console.log(searchObj);
 	var myObj, j=[], x="";
 	myObj = JSON.parse("{{full_list|escapejs}}");
 	Object.keys(myObj).forEach(function(key,index){
@@ -32,8 +59,14 @@ function myMap() {
 
 	//alert(j);
 
+	if(searchObj == undefined){
+		searchObj =[];
+		searchObj[1] = 38.4737775 		;
+		searchObj[2] = -86.5473785
+	}
+
 	var mapOptions = {
-    	center: new google.maps.LatLng(38.4737775, -86.5473785),
+    	center: new google.maps.LatLng(searchObj[1], searchObj[2]),
     	zoom: 14,
     	mapTypeId: google.maps.MapTypeId.HYBRID
 	}
@@ -76,6 +109,12 @@ function myMap() {
         }
       })(marker, i));
 }}
+
+
+
+
+
+
 </script>
 
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA22S--gBRL49Y2SRDiE15XMlmvf2DEQ3Y&callback=myMap"></script>

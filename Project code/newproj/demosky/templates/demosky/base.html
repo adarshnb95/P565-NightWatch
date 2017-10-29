@@ -72,10 +72,12 @@
       {% if user.is_staff %}
         <li ><a href="/demosky/manage-user">Manage User</a></li>
         <li ><a href="/demosky/manage-sensors">Manage Sensors</a></li>
+
       {% endif %}
       <!-- bootsrap declerations 
       <li><a href="#">Page 1</a></li>-->
     </ul>
+
     {% if user.is_authenticated %}
 
           <ul class="nav navbar-nav">

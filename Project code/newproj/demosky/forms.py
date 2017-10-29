@@ -11,6 +11,8 @@ class UploadFileForm(forms.Form):
 class RegistrationForm(UserCreationForm):
     email = forms.EmailField(required=True)
 
+   
+    
     class Meta:
         model = User
         fields = (
@@ -21,6 +23,9 @@ class RegistrationForm(UserCreationForm):
             'password1',
             'password2',
         )
+
+
+
 
     def save(self, commit=True):
         user = super(RegistrationForm, self).save(commit=False)
