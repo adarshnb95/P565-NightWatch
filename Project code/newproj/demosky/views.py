@@ -406,7 +406,6 @@ def weathermine():
             b.append(weather.get_status())
             b.append(weather.get_detailed_status())
             b.append(a['temp'])
-
             out = open('static/DarkSky-Dev/weather/weather.txt', 'w')
             pickle.dump(b, out)
             out.close() # close it to make sure it's all been written
