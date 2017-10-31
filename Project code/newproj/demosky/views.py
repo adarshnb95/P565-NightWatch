@@ -381,7 +381,7 @@ def weathermine():
     # need to run this logic with adarsh , varun , shantanu
     if ((cond ==0) or (test_var.date()>=date_tomorrow)):
         #print itemlist
-        print "dates behind clearing"
+        print("dates behind clearing")
         open('static/DarkSky-Dev/weather/weather.txt',"w").close()
     
 
@@ -406,7 +406,8 @@ def weathermine():
             b.append(weather.get_status())
             b.append(weather.get_detailed_status())
             b.append(a['temp'])
-            out = open('static/DarkSky-Dev/weather/weather.txt', 'w')
+
+            out = open('static/DarkSky-Dev/weather/weather.txt', 'wb')
             pickle.dump(b, out)
             out.close() # close it to make sure it's all been written
             itemlist = b
