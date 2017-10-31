@@ -122,13 +122,13 @@ Registration start
 */
 
 .main{
-  margin-top: 70px;
+  margin-top: 10px;
 }
 
 h1.title { 
   font-size: 50px;
-  font-family: 'Passion One', cursive; 
-  font-weight: 400; 
+  /*font-family: 'Passion One', cursive; */
+  font-weight: 200; 
 }
 
 hr{
@@ -163,10 +163,10 @@ input::-webkit-input-placeholder {
 }
 
 .main-center{
-  margin-top: 30px;
+  margin-top: 10px;
   margin: 0 auto;
   max-width: 330px;
-    padding: 40px 40px;
+    padding: 5px 40px
 
 }
 

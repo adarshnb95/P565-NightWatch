@@ -6,7 +6,7 @@
 {% endblock %}
 
 {% block body_block %}
-
+<!-- 
 	{% if form.errors %}
 	    {% for field in form %}
 	        {% for error in field.errors %}
@@ -20,7 +20,7 @@
 	            <strong>{{ error|escape }}</strong>
 	        </div>
 	    {% endfor %}
-	{% endif %}
+	{% endif %} -->
 
 <!-- <div class="container">
 	<h1 class="headers"> Please enter your details</h1>
@@ -54,7 +54,7 @@
 								</div>
 							</div>
 						</div>
-
+						<p>{{form.first_name.errors}}</p>
 						<div class="form-group">
 							<label for="name" class="cols-sm-2 control-label">Last Name</label>
 							<div class="cols-sm-10">
@@ -64,7 +64,7 @@
 								</div>
 							</div>
 						</div>
-
+						<p>{{form.last_name.errors}}</p>
 						<div class="form-group">
 							<label for="email" class="cols-sm-2 control-label">Your Email</label>
 							<div class="cols-sm-10">
@@ -74,7 +74,7 @@
 								</div>
 							</div>
 						</div>
-
+						<p>{{form.email.errors}}</p>
 						<div class="form-group">
 							<label for="username" class="cols-sm-2 control-label">Username</label>
 							<div class="cols-sm-10">
@@ -84,7 +84,7 @@
 								</div>
 							</div>
 						</div>
-
+						 <p>{{form.username.errors}}</p>
 						<div class="form-group">
 							<label for="password" class="cols-sm-2 control-label">Password</label>
 							<div class="cols-sm-10">
@@ -94,7 +94,7 @@
 								</div>
 							</div>
 						</div>
-
+						<p>{{form.password1.errors}}</p>
 						<div class="form-group">
 							<label for="confirm" class="cols-sm-2 control-label">Confirm Password</label>
 							<div class="cols-sm-10">
@@ -104,7 +104,7 @@
 								</div>
 							</div>
 						</div>
-
+						<p>{{form.password2.errors}}</p>
 						<div class="form-group ">
 							<button type="submit" class="btn btn-primary btn-lg btn-block login-button">Register</button>
 						</div>
