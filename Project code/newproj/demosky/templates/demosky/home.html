@@ -30,10 +30,29 @@
 
 <script type="text/javascript">
 
+function testfn(){
+	var test = document.getElementById("test1").innerHTML;
+	//alert(test);
+		$.ajax({
+        	url: 'ajax/favourites_mark/',
+        	type: 'post',
+        	data: {
+          		'var1': test,
+          		'uname' : '{{user}}',
+          		'csrfmiddlewaretoken': '{{ csrf_token }}',},
+        	dataType: 'json',
+        	success: function (data) {
+            		//alert(data.value);
+            		if(data.value == "pass"){
+            			location.reload(true);}
+            		else{
+            			document.getElementById("favbut").innerHTML = 'already favourite';}}  });
+}
+
 
 function searchSensor(){
 	search = document.getElementById("sensornumber").value;	
-	console.log(search);
+	//console.log(search);
 	var myObj, j=[], x="";
 	myObj = JSON.parse("{{full_list|escapejs}}");
 	Object.keys(myObj).forEach(function(key,index){
@@ -54,7 +73,8 @@ function searchSensor(){
 }
 
 function myMap(searchObj) {
-	console.log(searchObj);
+	//console.log(searchObj);
+	var ujer = '{{user}}';
 	var myObj, j=[], x="";
 	myObj = JSON.parse("{{full_list|escapejs}}");
 	Object.keys(myObj).forEach(function(key,index){
@@ -91,36 +111,42 @@ function myMap(searchObj) {
       });
 
     var infowindow = new google.maps.InfoWindow();
-
-   var contentString;
+    var contentString;
      google.maps.event.addListener(marker, 'click', (function(marker, i) {
         return function() {
-          infowindow.setContent(
 
-          	     contentString = 
+
+        	contentString = 
           	     '<div id="content">'+
 				'<p>'+ 'sensor image:'  +'<br/>' +
 				'<img src="/static/DarkSky-Dev/imgs/' + j[i][3] + '.jpg"/>'+
-				'<br/>' + '<br/>'+
-				'sensor light level :' + j[i][4] +'<br/>' +
+				'<br/>' + '<br/>'+ '<div id="test1" hidden>' + j[i][0] + '</div>' +  
+				'sensor light level :' + '<p id="test">' + j[i][4] + '</p>' + '<br/>' +
 				'sensor battery level :' + j[i][5] +
-				'</p>'+
-				'</div>'
+				'</p>';
+
+				if(ujer != 'AnonymousUser'){
+
+					contentString +=
+				'<button type="button" id="favbut" onclick="testfn()">Mark as Favourite ?</button>'
+				+
+				'</div>';
+			} else {
+
+						contentString +=
+				'login please'
+				+
+				'</div>';
+			}
 
 
 
 
-          	);
+          infowindow.setContent( contentString );
           infowindow.open(map, marker);
         }
       })(marker, i));
 }}
-
-
-
-
-
-
 </script>
 
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA22S--gBRL49Y2SRDiE15XMlmvf2DEQ3Y&callback=myMap"></script>

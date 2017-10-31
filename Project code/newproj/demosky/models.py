@@ -14,6 +14,7 @@ class UserProfile(models.Model):
     quote=models.TextField(max_length=100,default='')
     bio = models.TextField(max_length=500, default = '')
     token = models.IntegerField(null = True, blank = True)
+    fav_sen = models.CharField(max_length=10000, default = '')
 
 
     def __str__(self):

@@ -21,4 +21,5 @@ urlpatterns = [
 	url(r'^verify-user/$', views.verify),
 	url(r'^manage-user/$', views.manageuser),
 	url(r'^manage-sensors/$', views.managesensors),
+        url(r'^ajax/favourites_mark/$', views.favourites_mark, name='favourites_mark'),
 ]

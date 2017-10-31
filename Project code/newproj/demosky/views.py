@@ -34,6 +34,8 @@ from datetime import datetime,timedelta
 import os
 from django.templatetags.static import static
 import pickle
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_protect
 
 
 
@@ -57,6 +59,7 @@ def home(request):
     weather_data = json.dumps(weathermine())
     sensorlist = Sensors.objects.all()
     return render(request,'demosky/home.html',{'full_list':full_list , 'light_list':light_list , 'weather_data':weather_data, 'sensorlist' : sensorlist })
+
 def register(request):
     if request.method == 'POST':
         form = RegistrationForm(request.POST)
@@ -217,69 +220,6 @@ def password(request):
     return render(request, 'demosky/password.html', {'form': form})
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 #################sprint 3 code
 def ldat():
     pass
@@ -411,14 +351,35 @@ def weathermine():
             pickle.dump(b, out)
             out.close() # close it to make sure it's all been written
             itemlist = b
-
-
-    #print itemlist
-
-
-
-
-
-    #pass
     return itemlist
+
+def favourites_mark(request):
+    pass
+    # data = { 'value': 'pass' }
+    # return JsonResponse(data);
+
+    if request.method == 'POST':
+        pass
+        post_text = request.POST.get('uname')
+        post_uname = request.POST.get('uname')
+        post_sen = request.POST.get('var1')
+        a = UserProfile.objects.filter(user__username=post_uname)
+
+        for x in a:
+            z = x.fav_sen.split(",")
+            print z
+            print type(z[0])
+            if post_sen in z:
+                print "its present skipping"
+                data = { 'value': 'fail' }
+                return JsonResponse(data);
+            x.fav_sen = x.fav_sen + post_sen + ','
+            #print x.fav_sen
+            x.save()
+        
+        data = { 'value': 'pass' }
+        return JsonResponse(data);
+    else:
+        data = { 'value': 'fail' }
+        return JsonResponse(data);
 ##################################end rahul###################################################
