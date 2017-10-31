@@ -5,8 +5,14 @@
 
  {% block body_block %}
 
-<div align="center" ">
-      <input type="text" id="search-criteria" value="" />
+<div align="center" >
+	  <select name="sensornumber" id="sensornumber">
+	  {% for sensor in sensorlist %}
+	  	<option value="{{sensor.sensor_id}}">Sensor {{sensor.sensor_id}}</option>
+	  {% endfor %}
+	  </select>
+
+     <!--  <input type="text" id="search-criteria" value="" /> -->
       <input type="button" id="search" value="search" onclick="searchSensor();">
 </div>
 
@@ -26,7 +32,7 @@
 
 
 function searchSensor(){
-	search = document.getElementById("search-criteria").value;	
+	search = document.getElementById("sensornumber").value;	
 	console.log(search);
 	var myObj, j=[], x="";
 	myObj = JSON.parse("{{full_list|escapejs}}");
@@ -138,9 +144,9 @@ function myMap(searchObj) {
 var x=sensor();
 
 
-    var html = "<table border='5px' style='width:1000px' align='center'>";
+    var html = "<table border='5px' style='width:1000px' align='center' background=''>";
 
-    html+="<tr class='noBorder'>";
+    html+="<tr class='noBorder'style='background-color:#BBBBBB'>";
     for (var i = 0; i < x.length; i++) {
         html+="<td>Sensor "+x[i][1]+"</td>";
     }

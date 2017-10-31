@@ -55,8 +55,8 @@ def home(request):
     light_list = json.dumps(ldat())
 
     weather_data = json.dumps(weathermine())
-    return render(request,'demosky/home.html',{'full_list':full_list , 'light_list':light_list , 'weather_data':weather_data })
-
+    sensorlist = Sensors.objects.all()
+    return render(request,'demosky/home.html',{'full_list':full_list , 'light_list':light_list , 'weather_data':weather_data, 'sensorlist' : sensorlist })
 def register(request):
     if request.method == 'POST':
         form = RegistrationForm(request.POST)
@@ -381,7 +381,7 @@ def weathermine():
     # need to run this logic with adarsh , varun , shantanu
     if ((cond ==0) or (test_var.date()>=date_tomorrow)):
         #print itemlist
-        print ("dates behind clearing")
+        print("dates behind clearing")
         open('static/DarkSky-Dev/weather/weather.txt',"w").close()
     
 

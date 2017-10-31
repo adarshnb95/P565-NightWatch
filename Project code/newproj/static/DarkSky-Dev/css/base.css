@@ -1,8 +1,12 @@
 body{
-	background: url('/static/DarkSky-Dev/imgs/stars1.gif');
+  background: url('/static/DarkSky-Dev/imgs/background.jpg');
+  background-repeat: no-repeat;
+  background-position: top center;
+  background-attachment: fixed;
+  width: 100%;
+  height: 100%;
+  
 }
-
-
 
 .text-big {
 	color: black;
@@ -48,6 +52,7 @@ body{
 
 /* extra css for container */
 
+
 .noBorder{
 	border-bottom: none;
 }
@@ -57,9 +62,79 @@ table {
 	overflow: auto;
 	width: 1000px;
 	align-self: auto;
-	margin: auto
-
+  margin: auto;
+  color:#000000;
+  background-color: #FFFFFF;
+  margin-bottom: 50px;
 }
+
+
+#footer {
+  padding-top: 10px;
+  margin-top: 50px;
+  background-color: #1F1F1F;
+  color: white;
+  position: relative;
+  bottom:0;
+  left:0;
+  z-index: 10;
+  clear: both;
+  width: 100%;
+  height: 64px;
+}
+#footcontainer {
+  margin: 0px auto;
+  padding: 0px;
+  width: 970px;
+  text-align: left;
+  text-align: bottom;
+}
+#footcontainer p {
+  margin: 0 10px;
+  padding: 0px;
+  color: #FDFDFD;
+}
+#footcontainer p a {
+  margin: 0px;
+  border: none;
+  text-decoration: none;
+  color: #cccccc;
+}
+#footcontainer p a:hover {
+  border-bottom: 1px dotted #444444;
+  color: yellow;
+}
+#footcontainer p a img.rss {
+  border: none;
+  text-decoration: none;
+}
+
+
+
+.w3-table,.w3-table-all{
+  border-collapse:collapse;
+  border-spacing:0;
+  width:100%;
+  display:table
+}
+
+.w3-table-all{
+  border:1px solid #ccc
+}
+.w3-bordered tr,.w3-table-all tr{
+  border-bottom:1px solid #ddd
+}
+.w3-striped tbody tr:nth-child(even){
+  background-color:#f1f1f1
+}
+.w3-table-all tr:nth-child(odd){
+  background-color:#fff
+}
+.w3-table-all tr:nth-child(even){
+  background-color:#f1f1f1
+}
+
+
 
 th, td {
     padding: 10px;
@@ -178,5 +253,4 @@ input::-webkit-input-placeholder {
   font-size: 11px;
   text-align: center;
 }
-
 
