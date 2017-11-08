@@ -367,10 +367,10 @@ def favourites_mark(request):
 
         for x in a:
             z = x.fav_sen.split(",")
-            print z
-            print type(z[0])
+            print(z)
+            print(type(z[0]))
             if post_sen in z:
-                print "its present skipping"
+                print("its present skipping")
                 data = { 'value': 'fail' }
                 return JsonResponse(data);
             x.fav_sen = x.fav_sen + post_sen + ','

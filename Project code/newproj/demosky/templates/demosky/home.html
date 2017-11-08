@@ -118,12 +118,35 @@ function myMap(searchObj) {
 
         	contentString = 
           	     '<div id="content">'+
-				'<p>'+ 'sensor image:'  +'<br/>' +
+				'<p>' +'Sensor '+j[i][0]+'<br/>' +
 				'<img src="/static/DarkSky-Dev/imgs/' + j[i][3] + '.jpg"/>'+
 				'<br/>' + '<br/>'+ '<div id="test1" hidden>' + j[i][0] + '</div>' +  
-				'sensor light level :' + '<p id="test">' + j[i][4] + '</p>' + '<br/>' +
-				'sensor battery level :' + j[i][5] +
+				'Sensor light level :' + '<br/>' + '<p id="test">' + '<img src="/static/DarkSky-Dev/imgs/';
+				if(j[i][4]<33){
+					contentString += 'lightlow.png" style="width:20px;height:20px"/>';
+				}
+				else if(j[i][4]>66){
+					contentString += 'lighthigh.png" style="width:20px;height:20px"/>';
+				}
+				else {
+					contentString += 'lightmed.png" style="width:20px;height:20px"/>';
+				}
+				
+				contentString +=j[i][4] + '</p>' + '<br/>' +
+				
+				'Sensor battery level :'  + '<br/>' + '<img src="/static/DarkSky-Dev/imgs/';
+				if(j[i][5]<33){
+					contentString += 'Batterylow.png" style="width:20px;height:20px"/>';
+				}
+				else if(j[i][5]>66){
+					contentString += 'Batteryhigh.png" style="width:20px;height:20px"/>';
+				}
+				else {
+					contentString += 'Batterymed.png" style="width:20px;height:20px"/>';
+				}
+				contentString+=  j[i][5] +'%'+
 				'</p>';
+
 
 				if(ujer != 'AnonymousUser'){
 
@@ -195,7 +218,6 @@ var x=sensor();
       }
     }
     html+="</tr>";
-    
 
     html+="</table>";
 document.getElementById("testtable").innerHTML = html;
