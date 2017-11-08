@@ -1,261 +1,282 @@
 (lp0
-S'2017-10-31 09:00:00+00'
+S'2017-11-08 21:00:00+00'
 p1
 aVClear
 p2
 aVclear sky
 p3
-aF0.11
-aS'2017-10-31 12:00:00+00'
+aF13.18
+aS'2017-11-09 00:00:00+00'
 p4
 aVClear
 p5
 aVclear sky
 p6
-aF-1.14
-aS'2017-10-31 15:00:00+00'
+aF8.06
+aS'2017-11-09 03:00:00+00'
 p7
 aVClear
 p8
 aVclear sky
 p9
-aF2.4
-aS'2017-10-31 18:00:00+00'
+aF4.7
+aS'2017-11-09 06:00:00+00'
 p10
 aVClear
 p11
 aVclear sky
 p12
-aF5.44
-aS'2017-10-31 21:00:00+00'
+aF1.52
+aS'2017-11-09 09:00:00+00'
 p13
-aVClouds
+aVClear
 p14
-aVscattered clouds
+aVclear sky
 p15
-aF5.99
-aS'2017-11-01 00:00:00+00'
+aF-0.13
+aS'2017-11-09 12:00:00+00'
 p16
-aVClouds
+aVClear
 p17
-aVscattered clouds
+aVclear sky
 p18
-aF1.75
-aS'2017-11-01 03:00:00+00'
+aF-0.85
+aS'2017-11-09 15:00:00+00'
 p19
-aVClouds
+aVClear
 p20
-aVbroken clouds
+aVclear sky
 p21
-aF0.77
-aS'2017-11-01 06:00:00+00'
+aF6.17
+aS'2017-11-09 18:00:00+00'
 p22
-aVClouds
+aVClear
 p23
-aVovercast clouds
+aVclear sky
 p24
-aF0.48
-aS'2017-11-01 09:00:00+00'
+aF10.86
+aS'2017-11-09 21:00:00+00'
 p25
-aVRain
+aVClear
 p26
-aVlight rain
+aVclear sky
 p27
-aF0.73
-aS'2017-11-01 12:00:00+00'
+aF11.47
+aS'2017-11-10 00:00:00+00'
 p28
-aVRain
+aVClear
 p29
-aVlight rain
+aVclear sky
 p30
-aF0.94
-aS'2017-11-01 15:00:00+00'
+aF7.61
+aS'2017-11-10 03:00:00+00'
 p31
-aVRain
+aVClear
 p32
-aVlight rain
+aVclear sky
 p33
-aF2.39
-aS'2017-11-01 18:00:00+00'
+aF3.87
+aS'2017-11-10 06:00:00+00'
 p34
-aVRain
+aVClear
 p35
-aVlight rain
+aVclear sky
 p36
-aF4.84
-aS'2017-11-01 21:00:00+00'
+aF-0.3
+aS'2017-11-10 09:00:00+00'
 p37
-aVRain
+aVClear
 p38
-aVlight rain
+aVclear sky
 p39
-aF5.66
-aS'2017-11-02 00:00:00+00'
+aF-3.13
+aS'2017-11-10 12:00:00+00'
 p40
-aVRain
+aVClear
 p41
-aVlight rain
+aVclear sky
 p42
-aF5.34
-aS'2017-11-02 03:00:00+00'
+aF-5.0
+aS'2017-11-10 15:00:00+00'
 p43
-aVRain
+aVClear
 p44
-aVlight rain
+aVclear sky
 p45
-aF7.53
-aS'2017-11-02 06:00:00+00'
+aF-1.07
+aS'2017-11-10 18:00:00+00'
 p46
-aVRain
+aVClear
 p47
-aVlight rain
+aVclear sky
 p48
-aF11.88
-aS'2017-11-02 09:00:00+00'
+aF4.07
+aS'2017-11-10 21:00:00+00'
 p49
-aVRain
+aVClear
 p50
-aVlight rain
+aVclear sky
 p51
-aF14.26
-aS'2017-11-02 12:00:00+00'
+aF5.11
+aS'2017-11-11 00:00:00+00'
 p52
-aVRain
+aVClear
 p53
-aVlight rain
+aVclear sky
 p54
-aF14.82
-aS'2017-11-02 15:00:00+00'
+aF0.69
+aS'2017-11-11 03:00:00+00'
 p55
-aVRain
+aVClear
 p56
-aVlight rain
+aVclear sky
 p57
-aF15.26
-aS'2017-11-02 18:00:00+00'
+aF-1.59
+aS'2017-11-11 06:00:00+00'
 p58
-aVRain
+aVClouds
 p59
-aVlight rain
+aVfew clouds
 p60
-aF15.73
-aS'2017-11-02 21:00:00+00'
+aF-2.83
+aS'2017-11-11 09:00:00+00'
 p61
-aVRain
+aVClear
 p62
-aVlight rain
+aVclear sky
 p63
-aF15.75
-aS'2017-11-03 00:00:00+00'
+aF-3.79
+aS'2017-11-11 12:00:00+00'
 p64
-aVRain
+aVClouds
 p65
-aVlight rain
+aVscattered clouds
 p66
-aF15.86
-aS'2017-11-03 03:00:00+00'
+aF-4.0
+aS'2017-11-11 15:00:00+00'
 p67
-aVRain
+aVClouds
 p68
-aVlight rain
+aVfew clouds
 p69
-aF15.72
-aS'2017-11-03 06:00:00+00'
+aF0.7
+aS'2017-11-11 18:00:00+00'
 p70
-aVRain
+aVClouds
 p71
-aVlight rain
+aVscattered clouds
 p72
-aF15.79
-aS'2017-11-03 09:00:00+00'
+aF6.35
+aS'2017-11-11 21:00:00+00'
 p73
-aVRain
+aVClouds
 p74
-aVlight rain
+aVbroken clouds
 p75
-aF14.93
-aS'2017-11-03 12:00:00+00'
+aF7.86
+aS'2017-11-12 00:00:00+00'
 p76
-aVRain
+aVClouds
 p77
-aVlight rain
+aVovercast clouds
 p78
-aF10.4
-aS'2017-11-03 15:00:00+00'
+aF4.22
+aS'2017-11-12 03:00:00+00'
 p79
-aVClear
+aVClouds
 p80
-aVclear sky
+aVbroken clouds
 p81
-aF9.93
-aS'2017-11-03 18:00:00+00'
+aF3.35
+aS'2017-11-12 06:00:00+00'
 p82
-aVClear
+aVClouds
 p83
-aVclear sky
+aVovercast clouds
 p84
-aF12.97
-aS'2017-11-03 21:00:00+00'
+aF4.1
+aS'2017-11-12 09:00:00+00'
 p85
 aVClouds
 p86
-aVfew clouds
+aVovercast clouds
 p87
-aF12.69
-aS'2017-11-04 00:00:00+00'
+aF4.4
+aS'2017-11-12 12:00:00+00'
 p88
 aVClouds
 p89
-aVscattered clouds
-p90
-aF9.5
-aS'2017-11-04 03:00:00+00'
-p91
-aVClouds
-p92
-aVfew clouds
-p93
-aF7.82
-aS'2017-11-04 06:00:00+00'
-p94
-aVClear
-p95
-aVclear sky
-p96
-aF6.5
-aS'2017-11-04 09:00:00+00'
-p97
-aVClouds
-p98
-aVbroken clouds
-p99
-aF6.32
-aS'2017-11-04 12:00:00+00'
-p100
-aVClouds
-p101
 aVovercast clouds
+p90
+aF4.35
+aS'2017-11-12 15:00:00+00'
+p91
+aVRain
+p92
+aVlight rain
+p93
+aF6.27
+aS'2017-11-12 18:00:00+00'
+p94
+aVRain
+p95
+aVlight rain
+p96
+aF8.57
+aS'2017-11-12 21:00:00+00'
+p97
+aVRain
+p98
+aVlight rain
+p99
+aF8.99
+aS'2017-11-13 00:00:00+00'
+p100
+aVRain
+p101
+aVmoderate rain
 p102
-aF7.7
-aS'2017-11-04 15:00:00+00'
+aF7.0
+aS'2017-11-13 03:00:00+00'
 p103
 aVRain
 p104
 aVlight rain
 p105
-aF9.4
-aS'2017-11-04 18:00:00+00'
+aF6.44
+aS'2017-11-13 06:00:00+00'
 p106
 aVRain
 p107
 aVlight rain
 p108
-aF11.32
-aS'2017-11-04 21:00:00+00'
+aF5.74
+aS'2017-11-13 09:00:00+00'
 p109
-aVRain
+aVClouds
 p110
-aVlight rain
+aVscattered clouds
 p111
-aF12.67
+aF3.26
+aS'2017-11-13 12:00:00+00'
+p112
+aVRain
+p113
+aVlight rain
+p114
+aF1.3
+aS'2017-11-13 15:00:00+00'
+p115
+aVRain
+p116
+aVlight rain
+p117
+aF2.49
+aS'2017-11-13 18:00:00+00'
+p118
+aVRain
+p119
+aVlight rain
+p120
+aF6.54
 a.

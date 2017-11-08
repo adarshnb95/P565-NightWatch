@@ -328,8 +328,8 @@ def weathermine():
         API_key =  '9a372f943ba48f409d680757e551c422'
 
         owm = OWM(API_key)
-
-        fc = owm.three_hours_forecast('Bloomington,IN,us') 
+        
+        fc = owm.three_hours_forecast('shoals,us')
 
         f = fc.get_forecast() 
 
