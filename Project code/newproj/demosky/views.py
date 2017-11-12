@@ -53,12 +53,14 @@ def test():
 # Create your views here.
 @login_required
 def home(request):
+    testvalue = request.user
+    fav_sensors = json.dumps(get_favs(testvalue))
     full_list = json.dumps(test())
     light_list = json.dumps(ldat())
 
     weather_data = json.dumps(weathermine())
     sensorlist = Sensors.objects.all()
-    return render(request,'demosky/home.html',{'full_list':full_list , 'light_list':light_list , 'weather_data':weather_data, 'sensorlist' : sensorlist })
+    return render(request,'demosky/home.html',{'full_list':full_list , 'light_list':light_list , 'weather_data':weather_data, 'sensorlist' : sensorlist , 'fav_sensors' : fav_sensors })
 
 def register(request):
     if request.method == 'POST':
@@ -371,7 +373,13 @@ def favourites_mark(request):
             print(type(z[0]))
             if post_sen in z:
                 print("its present skipping")
-                data = { 'value': 'fail' }
+                z.remove(post_sen)
+                print z
+                x.fav_sen = ''
+                for k in z:
+                    x.fav_sen = x.fav_sen + k + ','
+                x.save()
+                data = { 'value': 'pass' }
                 return JsonResponse(data);
             x.fav_sen = x.fav_sen + post_sen + ','
             #print x.fav_sen
@@ -382,4 +390,17 @@ def favourites_mark(request):
     else:
         data = { 'value': 'fail' }
         return JsonResponse(data);
+
+
+
+def get_favs(name):
+    pass
+    uname = name
+    retval = []
+    a = UserProfile.objects.filter(user__username = uname)
+    for x in a:
+            z = x.fav_sen.split(",")
+            retval = z
+    return retval
+
 ##################################end rahul###################################################

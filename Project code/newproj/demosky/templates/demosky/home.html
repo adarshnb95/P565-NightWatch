@@ -103,12 +103,19 @@ function myMap(searchObj) {
 	var size = Object.keys(j).length;
 	//alert(size);
 
+	var favsenlist;
+    favsenlist = JSON.parse("{{fav_sensors|escapejs}}");
+    var favsenlen = favsenlist.length;
+    //console.log(favsenlen);
+    //console.log(favsenlist[0] == j[0][0]);
 	 for (i = 0; i < size; i++) {  
       marker = new google.maps.Marker({
         position: new google.maps.LatLng(j[i][1], j[i][2]),
         map: map,
         title: j[i][3],
       });
+
+
 
     var infowindow = new google.maps.InfoWindow();
     var contentString;
@@ -150,10 +157,31 @@ function myMap(searchObj) {
 
 				if(ujer != 'AnonymousUser'){
 
-					contentString +=
+
+					var starcond = false;
+					console.log("in here");
+					for (var n = 0 ; n <= favsenlen-1 ; n++) {
+						console.log(favsenlist[n] == j[i][0]);
+						if (favsenlist[n] == j[i][0]){
+							starcond = true;
+							console.log("came here");
+
+						}
+
+					}
+
+					console.log(starcond);
+					if(starcond){
+						contentString += '<input type="image" onclick="testfn()" src="/static/DarkSky-Dev/imgs/star.jpg" style="width:40px;height:40px"/>'
+					+
+				'</div>';
+
+
+					}else{
+					contentString +=	
 				'<button type="button" id="favbut" onclick="testfn()">Mark as Favourite ?</button>'
 				+
-				'</div>';
+				'</div>';}
 			} else {
 
 						contentString +=
