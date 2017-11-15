@@ -1,0 +1,267 @@
+{% extends 'demosky/base.html' %}
+{% load staticfiles %}
+{% block title_block %}Home Page{% endblock %}
+
+ {% block body_block %}
+
+<div align="center" >
+	  <select name="sensornumber" id="sensornumber">
+	  {% for sensor in sensorlist %}
+	  	<option value="{{sensor.sensor_id}}">Sensor {{sensor.sensor_id}}</option>
+	  {% endfor %}
+	  </select>
+
+     <!--  <input type="text" id="search-criteria" value="" /> -->
+      <input type="button" id="search" value="search" onclick="searchSensor();">
+</div>
+
+ <h1 align="center" class="headers">Hoosier National Forest</h1>
+ <div id="map" style="width:1000px;height:450px;background:yellow; margin: 0 auto 0 auto;"></div>
+
+ <div class="text-big" id="try">
+</div>
+
+ <div class="text-big" id="try1">
+</div>
+
+
+</div>
+
+<script type="text/javascript">
+
+function testfn(){
+	var test = document.getElementById("test1").innerHTML;
+	//alert(test);
+		$.ajax({
+        	url: 'ajax/favourites_mark/',
+        	type: 'post',
+        	data: {
+          		'var1': test,
+          		'uname' : '{{user}}',
+          		'csrfmiddlewaretoken': '{{ csrf_token }}',},
+        	dataType: 'json',
+        	success: function (data) {
+            		//alert(data.value);
+            		if(data.value == "pass"){
+            			location.reload(true);}
+            		}  });
+}
+
+
+function searchSensor(){
+	search = document.getElementById("sensornumber").value;
+	//console.log(search);
+	var myObj, j=[], x="";
+	myObj = JSON.parse("{{full_list|escapejs}}");
+	Object.keys(myObj).forEach(function(key,index){
+		j.push(myObj[key]);
+	});
+	var size = Object.keys(j).length;
+	var key;
+	for(var i=1; i< size ; i++){
+			if(myObj[i][0] == search){
+				key = i;
+				break;
+			}
+	}
+
+	myMap(myObj[key])
+
+
+}
+
+function myMap(searchObj) {
+	//console.log(searchObj);
+	var ujer = '{{user}}';
+	var myObj, j=[], x="";
+	myObj = JSON.parse("{{full_list|escapejs}}");
+	Object.keys(myObj).forEach(function(key,index){
+		j.push(myObj[key]);
+	});
+
+	//new code
+
+	//alert(j);
+
+	if(searchObj == undefined){
+		searchObj =[];
+		searchObj[1] = 38.4737775 		;
+		searchObj[2] = -86.5473785
+	}
+
+	var mapOptions = {
+    	center: new google.maps.LatLng(searchObj[1], searchObj[2]),
+    	zoom: 14,
+    	mapTypeId: google.maps.MapTypeId.HYBRID
+	}
+
+	var map = new google.maps.Map(document.getElementById("map"), mapOptions);
+
+	var marker,i;
+	var size = Object.keys(j).length;
+	//alert(size);
+
+	var favsenlist;
+    favsenlist = JSON.parse("{{fav_sensors|escapejs}}");
+    var favsenlen = favsenlist.length;
+    //console.log(favsenlen);
+    //console.log(favsenlist[0] == j[0][0]);
+	 for (i = 0; i < size; i++) {
+      marker = new google.maps.Marker({
+        position: new google.maps.LatLng(j[i][1], j[i][2]),
+        map: map,
+        title: j[i][3],
+      });
+
+
+
+    var infowindow = new google.maps.InfoWindow();
+    var contentString;
+     google.maps.event.addListener(marker, 'click', (function(marker, i) {
+        return function() {
+
+
+        	contentString =
+          	     '<div id="content">'+
+				'<p>' +'Sensor '+j[i][0]+'<br/>' +
+				'<img src="/static/DarkSky-Dev/imgs/' + j[i][3] + '.jpg"/>'+
+				'<br/>' + '<br/>'+ '<div id="test1" hidden>' + j[i][0] + '</div>' +
+				'Sensor light level :' + '<br/>' + '<p id="test">' + '<img src="/static/DarkSky-Dev/imgs/';
+				if(j[i][4]<33){
+					contentString += 'lightlow.png" style="width:20px;height:20px"/>';
+				}
+				else if(j[i][4]>66){
+					contentString += 'lighthigh.png" style="width:20px;height:20px"/>';
+				}
+				else {
+					contentString += 'lightmed.png" style="width:20px;height:20px"/>';
+				}
+
+				contentString +=j[i][4] + '</p>' + '<br/>' +
+
+				'Sensor battery level :'  + '<br/>' + '<img src="/static/DarkSky-Dev/imgs/';
+				if(j[i][5]<33){
+					contentString += 'Batterylow.png" style="width:20px;height:20px"/>';
+				}
+				else if(j[i][5]>66){
+					contentString += 'Batteryhigh.png" style="width:20px;height:20px"/>';
+				}
+				else {
+					contentString += 'Batterymed.png" style="width:20px;height:20px"/>';
+				}
+				contentString+=  j[i][5] +'%'+
+				'</p>';
+
+
+				if(ujer != 'AnonymousUser'){
+
+
+					var starcond = false;
+					console.log("in here");
+					for (var n = 0 ; n <= favsenlen-1 ; n++) {
+						console.log(favsenlist[n] == j[i][0]);
+						if (favsenlist[n] == j[i][0]){
+							starcond = true;
+							console.log("came here");
+
+						}
+
+					}
+
+					console.log(starcond);
+					if(starcond){
+						contentString += '<input type="image" onclick="testfn()" src="/static/DarkSky-Dev/imgs/star.jpg" style="width:40px;height:40px"/>'
+					+
+				'</div>';
+
+
+					}else{
+					contentString +=
+				'<button type="button" id="favbut" onclick="testfn()">Mark as Favourite ?</button>'
+				+
+				'</div>';}
+			} else {
+
+						contentString +=
+				'login please'
+				+
+				'</div>';
+			}
+
+
+
+
+          infowindow.setContent( contentString );
+          infowindow.open(map, marker);
+        }
+      })(marker, i));
+}}
+</script>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA22S--gBRL49Y2SRDiE15XMlmvf2DEQ3Y&callback=myMap"></script>
+
+
+<!-- Bar format by Adarsh -->
+
+<!-- Adding another bar for displaying information-->
+<h2 align="center" margin-top="40px"> Sensor Values</h2>
+<div class= "badatable" id="testtable">
+  
+</div>
+
+<div id="sensor">
+	
+</div>
+
+<script type="text/javascript">
+
+//alert("hello");
+var x=sensor();
+
+
+    var html = "<table border='5px' style='width:1000px' align='center' background=''>";
+
+    html+="<tr class='noBorder'style='background-color:#BBBBBB'>";
+    for (var i = 0; i < x.length; i++) {
+        html+="<td>Sensor "+x[i][1]+"</td>";
+    }
+    html+="</tr>";
+    html+="<tr class='noBorder'>";
+    for (var i = 0; i < x.length; i++) {
+      html+="<td>Light Intensity: "+x[i][0]+"</td>";
+    }
+    html+="</tr>";
+    html+="<tr>";
+    for (var i = 0; i < x.length; i++) {
+      if(x[i][0]<34){
+        html+="<td><img src='/static/DarkSky-Dev/imgs/Meterlow.png' width='130px' height ='100px'></td>";
+      }
+      else if(x[i][0]>66){
+        html+="<td><img src='/static/DarkSky-Dev/imgs/Meterhigh.png' width='130px' height ='100px' ></td>";
+      }
+      else{
+        html+="<td><img src='/static/DarkSky-Dev/imgs/Metermed.png' width='130px' height ='100px' ></td>";
+      }
+    }
+    html+="</tr>";
+
+    html+="</table>";
+document.getElementById("testtable").innerHTML = html;
+
+
+function sensor() {
+	// body...
+	var myObj1, q=[];
+	myObj1 = JSON.parse("{{light_list|escapejs}}");
+	Object.keys(myObj1).forEach(function(key,index){
+		q.push(myObj1[key]);
+	});
+
+	var keySorted = q.sort(function(a, b){return a[0] - b[0]});
+	return q;
+
+}
+	
+</script>
+
+{% endblock %}

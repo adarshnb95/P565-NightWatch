@@ -1,0 +1,25 @@
+body{
+  background: url('/static/DarkSky-Dev/imgs/Background.jpg');
+  background-repeat: no-repeat;
+  background-position: top center;
+  background-attachment: fixed;
+  width: 100%;
+  height: 90%;
+
+}
+
+#chat-bottom {
+    position: fixed;
+    bottom: 10px;
+}
+
+.panel-body {
+    overflow-y: scroll;
+    height: 85%;
+}
+.panel > .panel-heading {
+    background-image: url('/static/DarkSky-Dev/imgs/Background.jpg');
+
+    color: white;
+
+}

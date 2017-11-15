@@ -1,0 +1,67 @@
+{% extends 'demosky/base.html' %}
+
+{% block title_block %} PROFILE {% endblock %}
+<br>
+<!--{% block head_block %}
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+{% endblock %}-->
+
+{% block body_block %}
+
+<div class="container">
+    <div class="span3 well">
+        <center>
+        <a>
+               {% if user.userprofile.photo %}
+            <img src="{{user.userprofile.photo.url}}"  name="about" width="140" height="140" class="img-circle">
+                {% endif %}
+        </a>
+
+        <h3>{{user.first_name}} {{user.last_name}}</h3>
+            <h4><small>{{user.userprofile.quote}}</small></h4>
+
+		</center>
+    </div>
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                        <h4 class="modal-title" id="myModalLabel">More About {{user.first_name}} {{user.last_name}}</h4>
+                </div>
+
+                <div class="modal-body">
+                    <h3 class="media-heading"> <i class ="fa fa-user"></i>  {{user.first_name}} {{user.last_name}}</h3>
+
+                    <p> <strong><i class="fa fa-graduation-cap"></i></strong>Studied <a class="from" href="//google.com/?q={{user.userprofile.location}}"> {{user.userprofile.study}}</a></p>
+
+                    <p><strong><i class="fa fa-briefcase"></i> </strong>Works as <a class="location" href="//google.com/?q={{user.userprofile.location}}"  > {{user.userprofile.work}}</a></p>
+
+                    <p> <strong><i class="fa fa-home"></i> </strong> Lives in <a class="location" href="//maps.google.com/?q={{user.userprofile.location}}"> {{user.userprofile.location}}</a></p>
+
+                    <p> <strong><i class="fa fa-map-marker"></i></strong>From <a class="from" href="//maps.google.com/?q={{user.userprofile.location}}"> {{user.userprofile.birthplace}}</a></p>
+
+                    <p> <strong><i class="fa fa-envelope"></i></strong>
+                       Contact me at  <a class="from" href="//mail.google.com/mail/u/0/#inbox?compose=new"> {{user.email}}</a></p>
+                    <hr>
+
+                    <center>
+
+                    <p class="text-left"><strong>About {{user.first_name}}: {{user.userprofile.bio}} </strong><br>
+                        </p>
+                    <br>
+
+                    </center>
+
+                </div>
+                <div class="time">
+                     <p><strong><i class="fa fa-clock-o"></i></strong> {{user.first_name}} was last seen at: <a class="time"> {{user.last_login}}</a></p>
+                </div>
+                <div class="join">
+                     <p> <strong><i class="fa fa-calendar-o"></i></strong>{{user.first_name}} joined us at:  <a class="time"> {{user.date_joined}}</a></p>
+                </div>
+                <div class="modal-footer">
+
+                </div>
+
+</div>
+{% endblock%}
+
+
