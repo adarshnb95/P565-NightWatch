@@ -343,6 +343,7 @@ def weathermine():
             itemlist = b
     return itemlist
 
+
 def favourites_mark(request):
     pass
     # data = { 'value': 'pass' }
@@ -361,17 +362,25 @@ def favourites_mark(request):
             print(type(z[0]))
             if post_sen in z:
                 print("its present skipping")
-                data = { 'value': 'fail' }
+                z.remove(post_sen)
+                print
+                z
+                x.fav_sen = ''
+                for k in z:
+                    x.fav_sen = x.fav_sen + k + ','
+                x.save()
+                data = {'value': 'pass'}
                 return JsonResponse(data);
             x.fav_sen = x.fav_sen + post_sen + ','
-            #print x.fav_sen
+            # print x.fav_sen
             x.save()
-        
-        data = { 'value': 'pass' }
+
+        data = {'value': 'pass'}
         return JsonResponse(data);
     else:
-        data = { 'value': 'fail' }
+        data = {'value': 'fail'}
         return JsonResponse(data);
+
 
 def get_favs(name):
     pass
