@@ -65,7 +65,9 @@ def home1(request):
     weather_data = json.dumps(weathermine())
     return render(request,'demosky/homebasic.html',{'full_list':full_list , 'light_list':light_list , 'weather_data':weather_data })
 
-
+def terms(request):
+    pass
+    return render(request,'demosky/termscond.html')
 
 
 

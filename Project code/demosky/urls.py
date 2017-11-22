@@ -28,5 +28,6 @@ urlpatterns = [
 	url(r'^chat_box/messages/$', views.Messages, name='messages'),
     url(r'^chat_box/$', views.Chatbox, name='chat'),
     url(r'^homebasic/$', views.home1, name='home1'),
+    url(r'^terms/$', views.terms, name='terms'),
 
 ]
