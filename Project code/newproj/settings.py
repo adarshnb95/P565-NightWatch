@@ -179,8 +179,9 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR,'newproj/media')
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-LOGIN_REDIRECT_URL = '/demosky/verify-user/'
 
+
+LOGIN_REDIRECT_URL = '/demosky/verify-user/'
 LOGOUT_REDIRECT_URL = '/demosky/login/'
 
 #######################
@@ -193,11 +194,18 @@ SOCIAL_AUTH_TWITTER_SECRET = '1Jn1CpYrIGpoIRuwPi5f7er8zocpB1r2YJf4Gkgxj61DY4Ixj6
 SOCIAL_AUTH_FACEBOOK_KEY = '520728351600204'  # App ID
 SOCIAL_AUTH_FACEBOOK_SECRET = '94eca4297cc4ce51f226eeb0d9a99df0'  # App Secret
 
+SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']
+SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {
+    'fields': 'id,name,email', 
+}
+
+
+
 SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '319144368430-aqok8iifai8ps26ohptf4eurhe9fhm5h.apps.googleusercontent.com'
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'qqFE5fz90BkywueZ-E5qBWDd'
 
 
-LOGIN_URL = '/demosky/login/'
+LOGIN_URL = '/demosky/homebasic/'
 LOGOUT_URL = 'logout'
 
 AUTH_PROFILE_MODULE= 'demosky.UserProfile'

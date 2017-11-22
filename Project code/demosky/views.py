@@ -59,6 +59,16 @@ def test():
     return bundle
 
 
+def home1(request):
+    full_list = json.dumps(test())
+    light_list = json.dumps(ldat())
+    weather_data = json.dumps(weathermine())
+    return render(request,'demosky/homebasic.html',{'full_list':full_list , 'light_list':light_list , 'weather_data':weather_data })
+
+
+
+
+
 # Create your views here.
 @login_required
 def home(request):

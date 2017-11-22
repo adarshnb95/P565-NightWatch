@@ -21,7 +21,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
-    url(r'^$', views.login_redirect),
+    url(r'^$', views.base_page),
     url(r'^admin/', admin.site.urls),
     url(r'^demosky/', include('demosky.urls')),
 	url(r'^oauth/', include('social_django.urls', namespace='social')),
