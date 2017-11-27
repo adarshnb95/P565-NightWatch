@@ -39,6 +39,7 @@ class Sensors(models.Model):
     img_name = models.CharField(max_length=100)
     light_data = models.IntegerField(null=True)
     battery_level = models.FloatField(null=True)
+    sensornumber = models.IntegerField(null=True)
 
     def __str__(self):
         return self.sensor_id
@@ -52,3 +53,17 @@ class Chat(models.Model):
 
     def __unicode__(self):
         return self.message
+
+
+class sensormine(models.Model):
+    """docstring for ClassName"""
+    sensornumber = models.IntegerField(null=True)
+    date = models.DateField(auto_now=False, auto_now_add=False)
+    time = models.TimeField(auto_now=False, auto_now_add=False)
+    chargestate =  models.FloatField(null=True)
+    lightint = models.FloatField(null=True)
+
+
+    def __int__(self):
+        return self.sensornumber
+        
