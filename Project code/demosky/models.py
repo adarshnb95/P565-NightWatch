@@ -15,6 +15,7 @@ class UserProfile(models.Model):
     bio = models.TextField(max_length=500, default = '')
     token = models.IntegerField(null = True, blank = True)
     fav_sen = models.CharField(max_length=10000, default = '')
+    token_valid = models.BooleanField(default = False)
 
 
     def __str__(self):

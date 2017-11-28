@@ -7,12 +7,14 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from demosky.forms import RegistrationForm, EditProfileForm, UserProfileForm
 from demosky.models import UserProfile
-from django.contrib import messages
+
+from django.contrib import messages,auth
 from django.http import HttpResponse, HttpResponseRedirect,JsonResponse
+
 from random import randint
 from django.core.mail import EmailMessage
 
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required,user_passes_test
 from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm, PasswordResetForm
 from django.contrib.auth.models import User
@@ -48,6 +50,22 @@ from django.db import connection
 from django.db.models import Q
 from newproj import settings
 
+####################################varun##########################################################
+
+
+
+def token_check(user):
+    newEmailUser = UserProfile.objects.get(user=user)
+    print (newEmailUser.token_valid)
+    return newEmailUser.token_valid
+
+## this has to be at the top########
+##############################end Varun#########################################################
+
+
+
+
+
 # Create your views here.
 def test():
     pass
@@ -73,6 +91,7 @@ def terms(request):
 
 # Create your views here.
 @login_required
+@user_passes_test(token_check, login_url='/demosky/verify-user/')
 def home(request):
     testvalue = request.user
     fav_sensors = json.dumps(get_favs(testvalue))
@@ -81,6 +100,7 @@ def home(request):
     weather_data = json.dumps(weathermine())
     sensorlist = Sensors.objects.all()
     return render(request,'demosky/home.html',{'full_list':full_list , 'light_list':light_list , 'weather_data':weather_data, 'sensorlist' : sensorlist , 'fav_sensors' : fav_sensors })
+
 
 def register(request):
     if request.method == 'POST':
@@ -95,10 +115,35 @@ def register(request):
         args = {'form': form}
         return render(request, 'demosky/reg_form.html', args)
 
+@login_required
+@user_passes_test(token_check, login_url='/demosky/verify-user/')
+def profile(request):
+    args = {'user': request.user}
+    return render(request, 'demosky/profile.html', args)
+
+@login_required
+@user_passes_test(token_check, login_url='/demosky/verify-user/')
+def edit_profile(request):
+    if request.method == 'POST':
+        user_form = EditProfileForm(request.POST , instance=request.user)
+        profile_form = UserProfileForm(request.POST,request.FILES, instance=request.user.userprofile)
+        if profile_form.is_valid():
+            (request.user.userprofile).save()
+        if user_form.is_valid() and profile_form.is_valid():
+            user_form.save()
+            profile_form.save()
+            return redirect('/demosky/profile')
+    else:
+            user_form = EditProfileForm(instance=request.user)
+            profile_form = UserProfileForm(instance=request.user.userprofile)
+            args ={'user_form':user_form, 'profile_form': profile_form}
+            return render(request,'demosky/edit_profile.html', args)
 
 
 
 #------------Varun------------------------------------------
+
+
 @login_required
 def verify(request):
     if request.method == 'POST':
@@ -108,8 +153,9 @@ def verify(request):
         newEmailUser = UserProfile.objects.get(user=request.user)
         print (newEmailUser.token)
         print (token)
-        if(int(token) == int(newEmailUser.token)):
-            print("Great Success")
+        if(int(token) == int(newEmailUser.token) ):
+            newEmailUser.token_valid = True
+            newEmailUser.save()
             return redirect('/demosky/')
         else:
             error = ("Invalid Token.")
@@ -237,22 +283,26 @@ def ldat():
 ##########Varun##############
 
 @login_required
+@user_passes_test(token_check, login_url='/demosky/verify-user/')
 def manageuser(request):
     if request.method == 'POST':
         print( request.POST)
-        userlist = request.POST.get('userlist')
+        userlist = dict(request.POST)['userlist']
+        users = User.objects.all()
         if userlist is not None:
-            for user in userlist:
-               newadmin = User.objects.get(pk=user)
-               newadmin.is_staff = True;
-               newadmin.save()
+            for user in users:
+                if str(user.id) not in userlist:
+                    user.is_staff = False
+                    user.save()
+                else:
+                    user.is_staff = True
+                    user.save()    
+
             error = "Users changed to admin successfully."
         else:
             
             error = "No User roles changed"
-            
 
-        users = User.objects.filter(is_staff=False)    
         args = {
                 'users': users,
                 'error': error
@@ -260,12 +310,13 @@ def manageuser(request):
             
         return render(request,'demosky/manage-user.html', args)   
     else:    
-        users = User.objects.filter(is_staff=False)
+        users = User.objects.all()
         print (users)
         return render(request,'demosky/manage-user.html',{'users':users})            
 
 
 @login_required
+@user_passes_test(token_check, login_url='/demosky/verify-user/')
 def managesensors(request):
     print(request.POST)
     if request.method == 'POST':
@@ -280,7 +331,7 @@ def managesensors(request):
             sens = Sensors(sensor_id =str(id),x_coord = xcord, y_coord = ycord)
             sens.save()
             error = "Sensors added successfully."
-        else:
+        elif(action == 'delete'):
             sensorlist = request.POST.get('sensorlist')
         
             if sensorlist is not None:
@@ -291,13 +342,22 @@ def managesensors(request):
                 error = "Sensors deleted successfully."
             else:
                 error = "No Sensors deleted"
+        else:
+            sensorslist = Sensors.objects.all()
+            for sensor in sensorslist:
+                xcord = request.POST.get(sensor.sensor_id+'_x')
+                ycord = request.POST.get(sensor.sensor_id+'_y')
+                sensor.x_coord = xcord
+                sensor.y_coord = ycord
+                sensor.save() 
+            error = "Sensors Modified successfully."
         
         sensors = Sensors.objects.all()
         return render(request,'demosky/manage-sensors.html',{'sensors':sensors, 'error' : error})        
 
     else:
         sensors = Sensors.objects.all()
-        return render(request,'demosky/manage-sensors.html',{'sensors':sensors})
+        return render(request,'demosky/manage-sensors.html',{'sensors':sensors, 'error':""})
 #######end-Varun##############
 
 
@@ -405,6 +465,18 @@ def get_favs(name):
     return retval
 ##################################end rahul###################################################
 
+##################################Varun#######################################################
+
+
+def logout(request):
+    newEmailUser = UserProfile.objects.get(user=request.user)
+    newEmailUser.token_valid = False
+    newEmailUser.save()
+    auth.logout(request)
+    return redirect('/demosky/login')
+
+
+##############################end varun##############################################################
 
 #####################################Shantanu##################################################
 

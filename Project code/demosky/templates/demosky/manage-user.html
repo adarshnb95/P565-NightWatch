@@ -3,27 +3,49 @@
 {% block title_block %} Register {% endblock %}
 {% block head_block %}
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<script type="text/javascript">
+	
+	$(function(){
+		$(document.body).on('click', '#submit', function() {
+			if($('#formuser input[type=checkbox]:checked').length < 1){
+				alert("Atleast one admin is required!");
+				return false;
+			}
+
+			 
+		})
+	}); 
+</script>
+
 {% endblock %}
+
 
 {% block body_block %}
 <div class="container">
 
 <h1 class="headers">Change roles to Admin</h1>
- <form method="post" class="text-big">
+ <form method="post" class="text-big" id="formuser">
  	{% csrf_token %}
 	 <table border="1" style="overflow:auto;width:auto" >
 			<tr style="background-color:#BBBBBB">
 					<td style="width:800px">Username</td>
 					<td>Admin</td>
 			</tr>
-		{% for user in users %}
+		{% for u in users %}
 		  <tr>
-	      <td><p style="color:blue">{{ user.username }} </p></td>
-	      <td><input id="{{user.id}}" name="userlist" type="checkbox" value="{{user.id}}" /> </td>
+	      <td><p style="color:blue">{{ u.username }} </p></td>
+	      <td>
+	      	{% if u.is_staff %}
+	     	 <input id="{{u.id}}" name="userlist" type="checkbox" value="{{u.id}}" checked />
+	     	{% else %}
+	     	 <input id="{{u.id}}" name="userlist" type="checkbox" value="{{u.id}}" />
+	       {% endif %}
+	       </td>
 	    </tr>
 	  {% endfor %}
 		</table>
- 	<button class="btn btn-default" type="submit"> Submit</button>
+ 	<button class="btn btn-default" type="submit" id="submit"> Submit</button>
  </form>	
 	
 <p class="text-big">{{error}}</p>

@@ -21,8 +21,8 @@
       	<div class="text-big" id="addsensor">
 			<form method="post" class="text-big" id="addsensorform" name="addsensorform">
 				{% csrf_token %}
-				<label>X-Coordinate</label><input type="text" name="x-coord" id="x-coord">
-				<label>Y-Coordinate</label><input type="text" name="y-coord" id="y-coord">
+				<label>X-Coordinate: &nbsp</label><input type="number" name="x-coord" id="x-coord" required="true">
+				<label>Y-Coordinate: &nbsp</label><input type="number" name="y-coord" id="y-coord" required="true">
 				<input type="hidden" name="action" value="add">
 				<button class="btn btn-default" type="submit"> Submit</button>
 			</form>
@@ -44,7 +44,7 @@
 			<ul>
 			  {% for sensor in sensors %}
 			    <li>
-			      <p style="color:blue">Sensor {{ sensor.sensor_id }} 
+			      <p style="color:blue">Sensor {{ sensor.sensor_id }} [{{sensor.x_coord}},{{sensor.y_coord}}] 
 			      <input id="{{sensor.sensor_id}}" name="sensorlist" type="checkbox" value="{{sensor.sensor_id}}" /> 
 			      </p>
 			    </li>
@@ -54,6 +54,35 @@
 		 	<button class="btn btn-default" type="submit"> Submit</button>
 	 </form>
 
+      </div>
+    </div>
+  </div>
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4 class="panel-title">
+        <a data-toggle="collapse" data-parent="#accordion" href="#collapse3">
+        Modify Sensors</a>
+      </h4>
+    </div>
+    <div id="collapse3" class="panel-collapse collapse">
+      <div class="panel-body">
+      	<div class="text-big" id="modsensor">
+			<form method="post" class="text-big" id="modsensorform" name="modsensorform">
+				{% csrf_token %}
+				<ul>
+			  		{% for sensor in sensors %}
+					    <li>
+					      <p style="color:blue">Sensor {{ sensor.sensor_id }}&nbsp&nbsp&nbsp  X:&nbsp<input type="text" name="{{sensor.sensor_id}}_x" 
+					      id="" value="{{sensor.x_coord}}">&nbsp Y:&nbsp<input type="text" name="{{sensor.sensor_id}}_y" 
+					      id="{{sensor_id}}_y" value="{{sensor.y_coord}}">
+					      </p>
+					    </li>
+				  	{% endfor %}
+				</ul>
+				<input type="hidden" name="action" value="mod">
+			 	<button class="btn btn-default" type="submit"> Submit</button>
+			</form>
+		</div>
       </div>
     </div>
   </div>
