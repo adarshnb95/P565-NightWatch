@@ -196,6 +196,85 @@ function myMap(searchObj) {
         }
       })(marker, i));
 }}
+
+function weathermine() {
+	var myObj;
+	myObj = JSON.parse("{{weather_data|escapejs}}");
+	console.log(myObj);
+
+	var len = 36;
+	var datetime;
+	var weather;
+	var det_weather;
+	var tempnow;
+
+	var html = "<div id='timeline' class='Climate'>";
+	html += "<table border = '1px' style='border-radius:10px'>";
+
+	html += "<tr>";
+	html += "<td background-color:#BBBBBB' >Date</td>";
+	for (var i = 0; i < len; i += 4) {
+			datetime = myObj[i];
+			
+			res = datetime.split(" ");
+
+			html += "<td style='bgcolor:rgba(0, 0, 0, 0.0);' align='center'>" + res[0].slice(5, 10) + "</td>";
+	}
+	html += "</tr>";
+
+	html += "<tr>";
+	html += "<td background-color:#BBBBBB' >Time</td>";
+		for (var i = 0; i < len; i += 4) {
+			datetime = myObj[i];
+			
+			res = datetime.split(" ");
+
+			html += "<td style='bgcolor:rgba(0, 0, 0, 0.0);' align='center'>" + res[1].slice(0,5) + " Hrs</td>";
+		}
+	html += "</tr>";
+
+	html += "<tr >";
+	html += "<td background-color:#BBBBBB' >Weather</td>";
+	for (var i = 0; i < len; i += 4) {
+		datetime = myObj[i];
+		weather = myObj[i + 1];
+		det_weather = myObj[i + 2];
+		tempnow = myObj[i + 3];
+		html += "<td align='center' " ;
+		if(weather == "Sunny") {
+				html += "bgcolor = '#FFE000'";
+			}
+			else if(weather == "Clouds"){
+				html += "bgcolor = '#A0A0FF'";
+			}
+			else if(weather == "Rain"){
+				html += "bgcolor = '#0000FF'";
+			}
+			else if (weather == "Clear"){
+				html += "bgcolor = '#FFFFFF'";
+			}
+		
+		html += ">"+weather+"</td>"	;	
+		//html += "<td align='center'>"+tempnow+"</td>";
+		}
+	html += "</tr>";
+	html += "<tr>";
+	html += "<td background-color:#BBBBBB' >Temperature(C)</td>";
+	for (var i = 0; i < len; i += 4) {
+			datetime = myObj[i];
+			weather = myObj[i + 1];
+			det_weather = myObj[i + 2];
+			tempnow = myObj[i + 3];
+			html += "<td align='center'>"+tempnow+"</td>";
+		}	
+	html += "</tr>";
+	html += "</table>";
+	html += "</div>";
+	document.getElementById("weatherstuff").innerHTML = html;
+
+}
+
+
 </script>
 
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA22S--gBRL49Y2SRDiE15XMlmvf2DEQ3Y&callback=myMap"></script>
@@ -212,6 +291,14 @@ function myMap(searchObj) {
 <div id="sensor">
 	
 </div>
+<h2 align="center" margin-top="40px"> Weather Today </h2>
+<div class="weatherstuff" id="weatherstuff">
+	<script type="text/javascript">
+		weathermine();
+	</script>
+</div>
+
+
 
 <script type="text/javascript">
 
