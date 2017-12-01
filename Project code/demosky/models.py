@@ -49,7 +49,7 @@ class Sensors(models.Model):
 
 class Chat(models.Model):
     created = models.DateTimeField(auto_now_add=True)
-    topic=models.CharField(max_length=100, default='')
+    topic=models.CharField(max_length=100)
     user = models.ForeignKey(User)
     message = models.CharField(max_length=200)
 

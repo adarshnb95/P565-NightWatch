@@ -557,9 +557,9 @@ def search(request):
             Filter = request.POST.getlist('Filter')
             print(key)
             n=len(Filter)
-            for i in range(n):
-                obj=lookup(Filter,i)
-                print(obj)
+            # for i in range(n):
+            #     obj=lookup(Filter,i)
+            #     print(obj)
             print(n)
             print(Filter)
 
@@ -761,8 +761,8 @@ def topic_edit(request):
         return render(request, 'demosky/topic_edit.html',{'topiclist':topiclist})
 
 
-def lookup(d,key):
-        return d[key]
+# def lookup(d,key):
+#         return d[key]
 
 
 ##################################### end Shantanu##################################################
