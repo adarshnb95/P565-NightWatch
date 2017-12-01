@@ -152,7 +152,7 @@ def verify(request):
     if request.method == 'POST':
         print (request.POST)
         token = request.POST.get('token')
-        forms = request.POST.get('tokenform')       
+        forms = request.POST.get('tokenform')
         newEmailUser = UserProfile.objects.get(user=request.user)
         print (newEmailUser.token)
         print (token)
@@ -162,15 +162,15 @@ def verify(request):
             return redirect('/demosky/')
         else:
             error = ("Invalid Token.")
-            return render(request,'demosky/verify-user.html',{'error' : error}) 
-    else:   
+            return render(request,'demosky/verify-user.html',{'error' : error})
+    else:
         newEmailUser = UserProfile.objects.get(user=request.user)
         newEmailUser.token = randint(10000,99999)
         email = EmailMessage('Token for Login', 'Please use this token for login : '+ str(newEmailUser.token)
             , to=[newEmailUser.user.email])
         email.send()
         newEmailUser.save()
-        return render(request, 'demosky/verify-user.html') 
+        return render(request, 'demosky/verify-user.html')
 
 
 
@@ -220,7 +220,7 @@ def verify(request):
  #rahul-------------
 
 
- 
+
 @login_required
 def settings(request):
     user = request.user
@@ -299,23 +299,23 @@ def manageuser(request):
                     user.save()
                 else:
                     user.is_staff = True
-                    user.save()    
+                    user.save()
 
             error = "Users changed to admin successfully."
         else:
-            
+
             error = "No User roles changed"
 
         args = {
                 'users': users,
                 'error': error
-            }    
-            
-        return render(request,'demosky/manage-user.html', args)   
-    else:    
+            }
+
+        return render(request,'demosky/manage-user.html', args)
+    else:
         users = User.objects.all()
         print (users)
-        return render(request,'demosky/manage-user.html',{'users':users})            
+        return render(request,'demosky/manage-user.html',{'users':users})
 
 
 @login_required
@@ -324,7 +324,7 @@ def managesensors(request):
     print(request.POST)
     if request.method == 'POST':
         action = request.POST.get('action')
-        
+
         if(action == 'add'):
             xcord = request.POST.get('x-coord')
             print(xcord)
@@ -336,7 +336,7 @@ def managesensors(request):
             error = "Sensors added successfully."
         elif(action == 'delete'):
             sensorlist = request.POST.get('sensorlist')
-        
+
             if sensorlist is not None:
                 for sensor in sensorlist:
                    print(sensor)
@@ -352,11 +352,11 @@ def managesensors(request):
                 ycord = request.POST.get(sensor.sensor_id+'_y')
                 sensor.x_coord = xcord
                 sensor.y_coord = ycord
-                sensor.save() 
+                sensor.save()
             error = "Sensors Modified successfully."
-        
+
         sensors = Sensors.objects.all()
-        return render(request,'demosky/manage-sensors.html',{'sensors':sensors, 'error' : error})        
+        return render(request,'demosky/manage-sensors.html',{'sensors':sensors, 'error' : error})
 
     else:
         sensors = Sensors.objects.all()
@@ -378,7 +378,7 @@ def weathermine():
         cond = 0
         itemlist = ['2017-10-27 07:04:55+160000']
 
-    
+
     date_tomorrow = datetime.today().date() + timedelta(days=1)
 
     test_var = datetime.strptime(itemlist[0], "%Y-%m-%d %H:%M:%S+%f")
@@ -388,15 +388,15 @@ def weathermine():
         #print itemlist
         print("dates behind clearing")
         open('static/DarkSky-Dev/weather/weather.txt',"w").close()
-    
+
 
         API_key =  '9a372f943ba48f409d680757e551c422'
 
         owm = OWM(API_key)
-        
+
         fc = owm.three_hours_forecast('shoals,us')
 
-        f = fc.get_forecast() 
+        f = fc.get_forecast()
 
         lst = f.get_weathers()
 
@@ -438,8 +438,7 @@ def favourites_mark(request):
             if post_sen in z:
                 print("its present skipping")
                 z.remove(post_sen)
-                print
-                z
+                print(z)
                 x.fav_sen = ''
                 for k in z:
                     x.fav_sen = x.fav_sen + k + ','
@@ -555,38 +554,140 @@ def search(request):
 
         if (action == 'key'):
             key = request.POST.get('key')
+            Filter = request.POST.getlist('Filter')
             print(key)
+            n=len(Filter)
+            for i in range(n):
+                obj=lookup(Filter,i)
+                print(obj)
+            print(n)
+            print(Filter)
+
+
             if key:
                 if User.objects.filter(username=key).exists():
                     u = User.objects.get(username=(key))
                     args = {'user': u}
                     return render(request, 'demosky/search_profile.html', args)
                 else:
-                    SearchProfile = UserProfile.objects.filter(
-                        Q(bio__icontains=key) |
-                        Q(location__icontains=key) |
-                        Q(quote__icontains=key) |
-                        Q(birthplace__icontains=key) |
-                        Q(work__icontains=key) |
-                        Q(study__icontains=key)|
-                        Q(fav_sen__icontains=key)
+                    if Filter:
+                        if n == 1:
+                            if ('bio_filter' in Filter):
 
-                )
+                                SearchProfile = UserProfile.objects.filter(
+                                    Q(bio__icontains=key)
+                                )
 
-#                   SearchUser = User.objects.filter(
-#                        Q(username__icontains=key)|
-#                        Q(first_name__icontains=key)|
-#                        Q(last_name__icontains=key))
-#                        print(SearchProfile)
-#                        print(SearchUser)
-#                        print(search)
-#                    searchlist=list(set(search))
-#                    print(searchlist)
-#               for obj in searchlist:
-#                   username = obj.user;
-#                   print(username)
-#                   error = username
+
+
+                            if ('birthplace_filter' in Filter):
+                                SearchProfile = UserProfile.objects.filter(
+                                    Q(birthplace__icontains=key)
+                                    )
+
+
+                            if ('work_filter'in Filter):
+                                SearchProfile = UserProfile.objects.filter(
+                                    Q(work__icontains=key)
+                                )
+
+
+                            if ('location_filter'in Filter):
+
+                                SearchProfile = UserProfile.objects.filter(
+                                    Q(location__icontains=key)
+                                    )
+                        elif n == 2:
+                            if ('bio_filter' in  Filter and 'location_filter' in Filter):
+                                print("taking 2")
+                                SearchProfile = UserProfile.objects.filter(
+                                   Q(bio__icontains=key) |
+                                   Q(location__icontains=key)
+                               )
+                                print(SearchProfile)
+
+                            if ('bio_filter'in  Filter and 'birthplace_filter' in Filter):
+                                SearchProfile = UserProfile.objects.filter(
+                                    Q(bio__icontains=key) |
+                                    Q(birthplace__icontains=key)
+
+
+                                )
+
+                            if ('bio_filter' in  Filter  and 'work_filter' in Filter):
+                                SearchProfile = UserProfile.objects.filter(
+                                    Q(bio__icontains=key) |
+                                    Q(work__icontains=key)
+
+
+                                )
+
+                            if ('birthplace_filter' in  Filter  and 'location_filter' in Filter):
+                                SearchProfile = UserProfile.objects.filter(
+                                    Q(location__icontains=key) |
+                                    Q(birthplace__icontains=key)
+
+                                )
+                            if ('work_filter' in  Filter  and 'location_filter' in Filter):
+                                SearchProfile = UserProfile.objects.filter(
+
+                                    Q(location__icontains=key) |
+                                    Q(work__icontains=key)
+
+
+                                )
+                            if ('birthplace_filter' in  Filter  and 'work_filter' in Filter):
+                                print("reached here")
+                                SearchProfile = UserProfile.objects.filter(
+
+                                    Q(birthplace__icontains=key) |
+                                    Q(work__icontains=key)
+
+                                )
+                        elif n == 3:
+                            if ('bio_filter' in  Filter  and 'location_filter' in  Filter  and 'work_filter' in Filter):
+                                SearchProfile = UserProfile.objects.filter(
+                                   Q(bio__icontains=key) |
+                                   Q(location__icontains=key) |
+                                   Q(work__icontains=key)
+
+                               )
+                            if ('bio_filter' in  Filter  and 'birthplace_filter' in  Filter  and 'location_filter' in Filter):
+                                SearchProfile = UserProfile.objects.filter(
+                                    Q(bio__icontains=key) |
+                                    Q(birthplace__icontains=key) |
+                                    Q(location__icontains=key)
+                                )
+                            if ('birthplace_filter' in  Filter  and 'work_filter' in  Filter  and 'location_filter' in Filter):
+                                SearchProfile = UserProfile.objects.filter(
+
+                                    Q(birthplace__icontains=key) |
+                                    Q(work__icontains=key) |
+                                    Q(location__icontains=key)
+                                )
+                        elif n == 4:
+                            SearchProfile = UserProfile.objects.filter(
+                                Q(bio__icontains=key) |
+                                Q(location__icontains=key) |
+                                Q(birthplace__icontains=key) |
+                                Q(work__icontains=key) 
+                            )
+
+                    else:
+                        SearchProfile = UserProfile.objects.filter(
+                            Q(bio__icontains=key) |
+                            Q(location__icontains=key) |
+                            Q(quote__icontains=key) |
+                            Q(birthplace__icontains=key) |
+                            Q(work__icontains=key) |
+                            Q(study__icontains=key) |
+                            Q(fav_sen__icontains=key)
+
+                        )
+
+                    print(SearchProfile)
                     searchlist = list(SearchProfile)
+
                     if searchlist:
                         return render(request, 'demosky/search.html', {'error1': searchlist})
                     else:
@@ -658,6 +759,10 @@ def topic_edit(request):
     else:
         topiclist = topics.objects.all()
         return render(request, 'demosky/topic_edit.html',{'topiclist':topiclist})
+
+
+def lookup(d,key):
+        return d[key]
 
 
 ##################################### end Shantanu##################################################
