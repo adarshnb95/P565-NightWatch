@@ -63,21 +63,27 @@
 
 <body>
     <div id="chat-body" class="panel panel-default">
-        <div class="panel-heading custom_class">Chat Room </div>
+        {% if topic != NULL %}
+             <div class="panel-heading custom_class">Discussion Topic: {{topic}} </div>
+        {% else %}
+             <div class ="panel-heading custom_class">General Chat! </div>
+        {% endif %}
         <div id="msg-list-div" class="panel-body">
             <ul id="msg-list" class="list-group">
                 {% for obj in chat %}
-                    {% if obj.user == request.user %}
-                        <li class="text-right list-group-item"></li>
-                <li class="text-right list-group-item"><b><font color ='green'>{{ obj.user }}:</font></b> {{ obj.message }}<br><small>{{obj.created.time}}</small></li>
 
-                    {% else %}
-                        <li class="text-left list-group-item"></li>
-                <li class="text-left list-group-item"><b><font color = 'blue'>{{ obj.user}}:</font></b> {{ obj.message }}<br><small>{{obj.created.time}}</small></li>
+                        {% if obj.user == request.user %}
+                            <li class="text-right list-group-item"></li>
+                        <li class="text-right list-group-item"><b><font color ='green'>{{ obj.user }}:</font></b> {{ obj.message }}<br><small>{{obj.created.time}}</small></li>
 
-                    {% endif %}
-                {% empty %}
-                    <li class="text-right list-group-item">No messages yet!</li>
+                        {% else %}
+                            <li class="text-left list-group-item"></li>
+                        <li class="text-left list-group-item"><b><font color = 'blue'>{{ obj.user}}:</font></b> {{ obj.message }}<br><small>{{obj.created.time}}</small></li>
+
+                        {% endif %}
+                    {% empty %}
+                        <li class="text-right list-group-item">No messages yet!</li>
+
                 {% endfor %}
                 <script>
                     var chatlist = document.getElementById('msg-list-div');
@@ -88,10 +94,6 @@
     </div>
 
     <form id="chat-form" method="post" action="post/" autocomplete="off">
-
-
-
-
             <div id="chat-bottom" class="input-group">
                  <input disabled  maxlength="3" size="2" value="99" id="counter" ><small>character's remaining</small>
                 <input type="text" onkeyup="textCounter(this,'counter',99);" id="chat-msg" name="chat-msg" maxlength="99" class="form-control" />
@@ -107,8 +109,7 @@
                  }
                 }
                 </script>
-
-
+                <input type="hidden" id="topicname" value="{{topic}}">
                 <span class="input-group-btn">
                     <input class="btn btn-default" id="send" type="submit" value="Send"/>
                 </span class>

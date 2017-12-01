@@ -50,6 +50,9 @@ from django.db import connection
 from django.db.models import Q
 from newproj import settings
 
+#sprint 5
+from .models import topics
+
 ####################################varun##########################################################
 
 
@@ -482,6 +485,7 @@ def logout(request):
 
 
 @login_required
+@user_passes_test(token_check, login_url='/demosky/verify-user/')
 def profile(request):
     args = {'user': request.user}
     return render(request, 'demosky/profile.html', args)
@@ -504,6 +508,7 @@ def edit_profile(request):
             return render(request,'demosky/edit_profile.html', args)
 
 @login_required
+@user_passes_test(token_check, login_url='/demosky/verify-user/')
 def search(request):
     print(request.POST)
     if request.method == 'POST':
@@ -596,16 +601,23 @@ def search(request):
     return render(request, 'demosky/search.html')
 
 @login_required
+@user_passes_test(token_check, login_url='/demosky/verify-user/')
 def Chatbox(request):
-    c = Chat.objects.all()
+    c = Chat.objects.filter(topic= '')
     return render(request, "demosky/chat_box.html", {'home': 'active', 'chat': c})
 
 @login_required
+@user_passes_test(token_check, login_url='/demosky/verify-user/')
 def Post(request):
     if request.method == "POST":
-        msg = request.POST.get('msgbox', None)
+        msg = request.POST.get('msgbox',None)
+        topicname = request.POST.get('topicname')
+
+        # topic_name=request.POST.get('topic')
         print(msg)
-        c = Chat(user=request.user, message=msg)
+        # print(topic_name)
+        c = Chat(user=request.user, message=msg, topic=topicname)
+
         if msg != '':
             c.save()
         return JsonResponse({ 'msg': msg, 'user': c.user.username })
@@ -613,10 +625,39 @@ def Post(request):
         return HttpResponse('Request must be POST.')
 
 @login_required
+@user_passes_test(token_check, login_url='/demosky/verify-user/')
 def Messages(request):
-    c = Chat.objects.all()
+    topicname = (request.GET.get('topicname'))
+    c = Chat.objects.filter(topic = topicname)
     return render(request, 'demosky/messages.html', {'chat': c})
 
+
+@login_required
+@user_passes_test(token_check, login_url='/demosky/verify-user/')
+def topic_edit(request):
+    if request.method == 'POST':
+        action = request.POST.get('action')
+
+        if (action == 'add'):
+            topic_var = request.POST.get('topic', None)
+            print(topic_var)
+            t= topics(topic=topic_var)
+            if topic_var != '':
+                 t.save()
+            error = "Topic is added to discussion board successfully."
+            topiclist = topics.objects.all()
+            return render(request, 'demosky/topic_edit.html', {'topiclist':topiclist, 'error': error})
+
+        if (action == 'displaytopic'):
+            topic_select = request.POST.get('topiclist')
+            print(topic_select)
+            c=Chat.objects.filter(topic = topic_select)
+            return render(request,"demosky/chat_box.html",{'home': 'active', 'chat':c, 'topic':topic_select})
+
+
+    else:
+        topiclist = topics.objects.all()
+        return render(request, 'demosky/topic_edit.html',{'topiclist':topiclist})
 
 
 ##################################### end Shantanu##################################################

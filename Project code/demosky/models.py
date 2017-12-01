@@ -49,12 +49,18 @@ class Sensors(models.Model):
 
 class Chat(models.Model):
     created = models.DateTimeField(auto_now_add=True)
+    topic=models.CharField(max_length=100, default='')
     user = models.ForeignKey(User)
     message = models.CharField(max_length=200)
 
-    def __unicode__(self):
-        return self.message
+    def __str__(self):
+        return self.topic
 
+class topics(models.Model):
+    topic=models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.topic
 
 class sensormine(models.Model):
     """docstring for ClassName"""

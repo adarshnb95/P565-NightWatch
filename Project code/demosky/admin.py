@@ -6,8 +6,10 @@ from demosky.models import Sensors
 
 from demosky.models import Chat
 from demosky.models import sensormine
+from demosky.models import topics
 
 admin.site.register(Sensors)
+
 
 
 
@@ -17,3 +19,4 @@ admin.site.register(Chat)
 
 admin.site.register(sensormine)
 
+admin.site.register(topics)
