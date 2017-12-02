@@ -74,21 +74,32 @@ def token_check(user):
 
 
 # Create your views here.
+#this function returns a list of active AND added sensors
 def test():
     pass
+    #get all the sensor objects
     a = Sensors.objects.all()
+    #initialize empty dictionary
     bundle = {}
+    # iterate through the objects
     for j in a:
+        #check if the sensor is active AND added
         if (j.status) and (j.add_admin):
+            #add to the dictionary 
             bundle[int(j.sensor_id)] = [str(j.sensor_id),j.x_coord,j.y_coord,str(j.img_name),j.light_data,j.battery_level,j.status,j.add_admin ]
     #print bundle
     return bundle
 
-
+#this is for the default landing page
 def home1(request):
+    update_data()
+    #obtain list of valid sensors
     full_list = json.dumps(test())
+    #obtain list of sensors and their light intensity
     light_list = json.dumps(ldat())
+    #obtain weather data
     weather_data = json.dumps(weathermine())
+    #render the data
     return render(request,'demosky/homebasic.html',{'full_list':full_list , 'light_list':light_list , 'weather_data':weather_data })
 
 def terms(request):
@@ -101,15 +112,25 @@ def terms(request):
 @login_required
 @user_passes_test(token_check, login_url='/demosky/verify-user/')
 def home(request):
+    update_data()
     #create_csv()
+    #obtain the sensor data for chart plotting for the current day
     chart_data_day = json.dumps(chartmine_day())
+    #obtain data for chart plotting over 12 months
     chart_data = json.dumps(chartmine())
+    #get the current user
     testvalue = request.user
+    #obtain a list of sensors the user has marked as his favourites
     fav_sensors = json.dumps(get_favs(testvalue))
+    #obtain list of valid sensors
     full_list = json.dumps(test())
+    #obtain list of sensors and their light intensity
     light_list = json.dumps(ldat())
+    #obtain weather data
     weather_data = json.dumps(weathermine())
+    #obtain all of the sensor objects
     sensorlist = Sensors.objects.all()
+    #pass data to the page to be rendered
     return render(request,'demosky/home.html',{'full_list':full_list , 'light_list':light_list , 'weather_data':weather_data, 'sensorlist' : sensorlist , 'fav_sensors' : fav_sensors , 'chart_data' : chart_data , 'chart_data_day' : chart_data_day })
 
 
@@ -279,13 +300,21 @@ def password(request):
 
 
 #################sprint 3 code
+
+#obtain light intensity data
 def ldat():
     pass
+    #obtain all of the sensor objects
     a = Sensors.objects.all()
+    #initialize light intensity dictionary
     lightdat = {}
+    #iterate over the objects
     for j in a:
-              lightdat[int(j.sensor_id)] = [j.light_data,str(j.sensor_id)]
+        #check if the sensor is valid and active
+        if (j.status) and (j.add_admin):
+            lightdat[int(j.sensor_id)] = [j.light_data,str(j.sensor_id)]
     #print bundle
+    #return light intensity
     return lightdat
 
 
@@ -375,44 +404,53 @@ def managesensors(request):
 
 #####rahul###################
 
-
+#obtain weather data
 def weathermine():
 
     cond = 1
-
+    #attempt to open the file which gets created after the first run
     try:
+        #open the file , the file is stored as a pickle
         itemlist = pickle.load(open('static/DarkSky-Dev/weather/weather.txt', 'r'))
     except Exception as e:
+        #file hasnt been found and we set a list to contain an old date
         cond = 0
         itemlist = ['2017-10-27 07:04:55+160000']
 
+    #get tomorrows date
+
 
     date_tomorrow = datetime.today().date() + timedelta(days=1)
-
+    #get the oldest date from the file
     test_var = datetime.strptime(itemlist[0], "%Y-%m-%d %H:%M:%S+%f")
 
     # need to run this logic with adarsh , varun , shantanu
+    # check if the date pulled from the file is the same as tomorrows date if it is that means we need to call the api and get latest data
     if ((cond ==0) or (test_var.date()>=date_tomorrow)):
         #print itemlist
-        print("dates behind clearing")
+        #print("dates behind clearing")
+
+        #create a new file
         open('static/DarkSky-Dev/weather/weather.txt',"w").close()
 
 
         API_key =  '9a372f943ba48f409d680757e551c422'
-
+        #call the api
         owm = OWM(API_key)
-
+        #get forecast of a location
         fc = owm.three_hours_forecast('shoals,us')
 
         f = fc.get_forecast()
-
+        #get weather from the forecast
         lst = f.get_weathers()
 
         b = []
+
         itemlist=[]
 
         for weather in f:
             #print (weather.get_reference_time('iso'),weather.get_status(),weather.get_detailed_status(),weather.get_temperature('celsius'))
+
             a = weather.get_temperature('celsius')
 
             b.append(weather.get_reference_time('iso'))
@@ -480,13 +518,15 @@ def get_favs(name):
 
 
 
-
+#update data
 def update_data():
     pass
+    #get all sensors
     sensors = Sensor_status.objects.all()
     #print sensors
+    #create empty sensor list
     sensorlist = []
-
+    #specify the date format
     date_format = "%Y-%m-%d"
 
 
@@ -515,7 +555,7 @@ def update_data():
 
             active = False
 
-            print (m.sensornumber,m.dateandtime,m.chargestate)
+            #print (m.sensornumber,m.dateandtime,m.chargestate)
 
             #now have the latest data of a particular sensor
             #determine if it is active - see if the difference in date is 1 day
@@ -561,22 +601,23 @@ def update_data():
 
 
 
-
+#create a csv file
 def create_csv():
     pass
-
+    #create a csv file
     outF = open('static/DarkSky-Dev/csv/csvfile.csv', "w")
 
 
     sensors = Sensor_status.objects.all()
     #print sensors
     sensorlist = []
+    #obtain list of sensors
     for i in sensors:
         #print i.status
         sensorlist.append(int(i.sensor_id))
 
     sensormine_data = sensormine.objects.all()
-
+    #for each sensor store data
     for j in sensorlist:
         sensormine_data = sensormine.objects.filter(sensornumber=j).order_by('-dateandtime')
 
