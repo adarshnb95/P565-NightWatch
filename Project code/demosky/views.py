@@ -514,7 +514,7 @@ def update_data():
 
             active = False
 
-            print m.sensornumber,m.dateandtime,m.chargestate
+            print (m.sensornumber,m.dateandtime,m.chargestate)
 
             #now have the latest data of a particular sensor
             #determine if it is active - see if the difference in date is 1 day
@@ -556,7 +556,7 @@ def update_data():
 
             break
 
-        print "nextloop"
+        print ("nextloop")
 
 
 
@@ -608,7 +608,7 @@ def chartmine():
         temp_dict[str(n)] = [[],[],[],[],[],[],[],[],[],[],[],[]]
 
 
-    print temp_dict
+    print (temp_dict)
 
 
     for j in sensorlist:
@@ -623,8 +623,8 @@ def chartmine():
 
             temp_dict[str(m.sensornumber)][int(month_temp)-1].append(m.lightint)
 
-            print date_temp.split('-') , month_temp  , m.sensornumber , m.lightint
-    print temp_dict
+            print (date_temp.split('-') , month_temp  , m.sensornumber , m.lightint)
+    print (temp_dict)
 
     #now need to put the data in a proper data structure 
     returnlist = []
@@ -638,9 +638,9 @@ def chartmine():
                 denom = len(c[s])
             list_value_temp = sum(c[s])/ denom
             returnlist.append(list_value_temp)
-    print "returnlist"
-    print returnlist
-    print "^returnlist"
+    print ("returnlist")
+    print (returnlist)
+    print ("^returnlist")
     return returnlist
 
 
@@ -929,6 +929,21 @@ def topic_edit(request):
             error = "Topic is added to discussion board successfully."
             topiclist = topics.objects.all()
             return render(request, 'demosky/topic_edit.html', {'topiclist':topiclist, 'error': error})
+
+        if (action == 'delete'):
+            print("Delete view")
+            topic_select=request.POST.getlist('topiclist')
+            if topic_select is not None:
+                for topic_name in topic_select:
+                    print(topic_name)
+                    removetopic=topics.objects.get(topic=str(topic_name))
+                    removetopic.delete()
+                error = "Topic deleted successfully."
+            else:
+                error="No topic deleted."
+            topiclist=topics.objects.all()
+            return render(request, 'demosky/topic_edit.html', {'topiclist': topiclist, 'error': error})
+
 
         if (action == 'displaytopic'):
             topic_select = request.POST.get('topiclist')

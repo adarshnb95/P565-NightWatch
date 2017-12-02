@@ -52,7 +52,10 @@
 			  {% endfor %}
 			</ul>
 			 <input type="hidden" name="action" value="displaytopic">
-		 	<button class="btn btn-default" type="submit"> Submit</button>
+            {% if user.is_staff %}
+            <button class="btn btn-default" name="action" value="delete">Delete topic</button>
+	       {% endif %}
+		 	<button class="btn btn-default" type="submit"> Join the Discussion</button>
 	 </form>
 
       </div>
