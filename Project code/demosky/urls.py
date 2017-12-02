@@ -32,5 +32,6 @@ urlpatterns = [
 	url(r'^topic_edit/$', views.topic_edit, name='topic'),
     url(r'^homebasic/$', views.home1, name='home1'),
     url(r'^terms/$', views.terms, name='terms'),
+    url(r'^ajax/download_csv/$', views.download_csv, name='download_csv'),
 
 ]
