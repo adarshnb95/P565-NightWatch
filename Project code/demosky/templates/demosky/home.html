@@ -442,4 +442,120 @@ function chartupdate(data_array){
 
 </script>
 
+
+
+
+
+
+
+
+
+<canvas id="myChart1" width="900" height="300"></canvas>
+<script type="text/javascript">
+	
+	var data_array_1 = JSON.parse("{{chart_data_day|escapejs}}");
+	console.log(data_array_1);
+
+	var custom_label_1;
+	var temp_arr_dat_1 = [];
+
+	var x_axis_1 = ["00:00","1:00","2:00","3:00","4:00","5:00","6:00","7:00","8:00","9:00","10:00","11:00","12:00","13:00","14:00","15:00","16:00","17:00","18:00","19:00","20:00","21:00","22:00","23:00"];
+	//var sen1 = [3200, 6000,500,4300]
+	custom_label_1 = 'sensor-'+ data_array_1[0];
+	for (var i = 1; i <=24; i++) {
+		temp_arr_dat_1.push(data_array_1[i]);
+	}
+
+	var ctx_1 = document.getElementById("myChart1");
+
+	var data_1 ={
+	    labels: x_axis_1,
+	    datasets: [
+	      { 
+	        data: temp_arr_dat_1,
+	        label: custom_label_1,
+	        borderColor: "#4AFF32",
+			fill: false
+	      }
+
+	    ]
+	  };
+
+
+
+
+
+
+
+
+	var myChart1 = new Chart(ctx_1, {
+	  type: 'line',
+	  data: data_1,
+	              options: {
+                responsive: false
+            }
+	});
+
+	chartupdate_1(data_array_1);
+
+
+
+
+function chartupdate_1(data_array_1){
+
+	console.log(data_array_1);
+
+
+
+	for (var i = 25; i <= data_array_1.length-25; i=i+25) {
+
+		var randomColor = "#000000".replace(/0/g,function(){return (~~(Math.random()*16)).toString(16);});
+		var custom_label_1;
+		var temp_arr_dat_1 = [];
+		var custom_label_1 =  'sensor-'+ data_array_1[i];
+			for (var h = i+1; h <=24+i; h++) {
+		temp_arr_dat_1.push(data_array_1[h]);
+	}
+
+	
+
+		var newDataset_1 = {
+	        label: custom_label_1,
+	        borderColor: randomColor,
+	        data: temp_arr_dat_1,
+	    }
+
+	    // You add the newly created dataset to the list of `data`
+	    data_1.datasets.push(newDataset_1);
+
+	    // You update the chart to take into account the new dataset
+	    myChart1.update();
+
+	}
+
+}
+
+
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 {% endblock %}

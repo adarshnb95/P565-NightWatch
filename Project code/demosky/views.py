@@ -102,6 +102,7 @@ def terms(request):
 @user_passes_test(token_check, login_url='/demosky/verify-user/')
 def home(request):
     #create_csv()
+    chart_data_day = json.dumps(chartmine_day())
     chart_data = json.dumps(chartmine())
     testvalue = request.user
     fav_sensors = json.dumps(get_favs(testvalue))
@@ -109,7 +110,7 @@ def home(request):
     light_list = json.dumps(ldat())
     weather_data = json.dumps(weathermine())
     sensorlist = Sensors.objects.all()
-    return render(request,'demosky/home.html',{'full_list':full_list , 'light_list':light_list , 'weather_data':weather_data, 'sensorlist' : sensorlist , 'fav_sensors' : fav_sensors , 'chart_data' : chart_data})
+    return render(request,'demosky/home.html',{'full_list':full_list , 'light_list':light_list , 'weather_data':weather_data, 'sensorlist' : sensorlist , 'fav_sensors' : fav_sensors , 'chart_data' : chart_data , 'chart_data_day' : chart_data_day })
 
 
 def register(request):
@@ -608,7 +609,7 @@ def chartmine():
         temp_dict[str(n)] = [[],[],[],[],[],[],[],[],[],[],[],[]]
 
 
-    print (temp_dict)
+    # print (temp_dict)
 
 
     for j in sensorlist:
@@ -623,8 +624,8 @@ def chartmine():
 
             temp_dict[str(m.sensornumber)][int(month_temp)-1].append(m.lightint)
 
-            print (date_temp.split('-') , month_temp  , m.sensornumber , m.lightint)
-    print (temp_dict)
+    #         print (date_temp.split('-') , month_temp  , m.sensornumber , m.lightint)
+    # print (temp_dict)
 
     #now need to put the data in a proper data structure 
     returnlist = []
@@ -638,10 +639,74 @@ def chartmine():
                 denom = len(c[s])
             list_value_temp = sum(c[s])/ denom
             returnlist.append(list_value_temp)
+    # print ("returnlist")
+    # print (returnlist)
+    # print ("^returnlist")
+    return returnlist
+
+
+def chartmine_day():
+    pass
+    #create a dictionary which has sensor number for keys and as values a list of list [[jan],[feb] ........[dec]]
+    temp_dict = {}
+
+    #get the sensors data
+    sensorlist = []
+    sensors = Sensor_status.objects.all()
+    for i in sensors:
+        #print i.status
+        sensorlist.append(int(i.sensor_id))
+
+    sensormine_data = sensormine.objects.all()
+
+    #initialize dict
+
+    for n in sensorlist:
+        temp_dict[str(n)] = [[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]]
+
+
+    print (temp_dict)
+
+
+    for j in sensorlist:
+        sensormine_data = sensormine.objects.filter(sensornumber=j).filter(date=datetime.today().date()).order_by('time')
+
+
+        for m in sensormine_data:
+            #now for each sensor we have arranged in increasing order of time
+            print m.dateandtime,m.time,m.sensornumber
+
+
+            time_temp = str(m.time)
+            temp2 = time_temp.split(':')
+            time1_temp = temp2[0]
+
+            temp_dict[str(m.sensornumber)][int(time1_temp)].append(m.lightint)
+
+            #print (date_temp.split('-') , month_temp  , m.sensornumber , m.lightint)
+            #print "^for loop"
+    print (temp_dict)
+
+    # #now need to put the data in a proper data structure 
+    returnlist = []
+    for key in temp_dict:
+        returnlist.append(int(key))
+        c = temp_dict[key]
+        #print c
+        for s in range(0,24):
+            denom = 1
+            if (len(c[s])> 0):
+                denom = len(c[s])
+            list_value_temp = sum(c[s])/ denom
+            returnlist.append(list_value_temp)
     print ("returnlist")
     print (returnlist)
     print ("^returnlist")
     return returnlist
+
+
+
+
 
 
 
