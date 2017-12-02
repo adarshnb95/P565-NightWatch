@@ -69,8 +69,28 @@ def token_check(user):
 ## this has to be at the top########
 ##############################end Varun#########################################################
 
-
-
+#return a list of sensors that need to be promoted
+def get_unpromoted_sensors():
+    pass
+    #get all the sensor objects
+    a = Sensors.objects.all()
+    #initialize empty dictionary
+    bundle = []
+    # iterate through the objects
+    for j in a:
+        #check if the sensor is active
+        if (j.status):
+            #check if it needs to be promoted
+            if (j.add_admin):
+                pass
+            else:
+                #put the value in the list
+                bundle[int(j.sensor_id)] = [str(j.sensor_id)]
+                bundle.append(int(j.sensor_id))
+                bundle.append(str(j.sensor_id))
+                bundle.append(j.sensornumber)
+    #print bundle
+    return bundle   
 
 
 # Create your views here.
@@ -358,6 +378,8 @@ def manageuser(request):
 @login_required
 @user_passes_test(token_check, login_url='/demosky/verify-user/')
 def managesensors(request):
+    #get list of sensors that need to be managed the return is of teh form [ sensor id(int) , sensor id (str) , sensornumer(int)]
+    unpromoted_sensors = get_unpromoted_sensors()
     print(request.POST)
     if request.method == 'POST':
         action = request.POST.get('action')
@@ -628,6 +650,7 @@ def create_csv():
             line = str(m.sensornumber)+","+str(m.dateandtime)+","+str(m.chargestate)+","+str(m.lightint)+"\n"
             outF.write(line)
     outF.close()
+
 
 
 def chartmine():
