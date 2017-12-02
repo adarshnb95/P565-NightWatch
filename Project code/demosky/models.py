@@ -41,6 +41,10 @@ class Sensors(models.Model):
     light_data = models.IntegerField(null=True)
     battery_level = models.FloatField(null=True)
     sensornumber = models.IntegerField(null=True)
+    status = models.BooleanField(default = False)
+    add_admin = models.BooleanField(default = False)
+
+
 
     def __str__(self):
         return self.sensor_id
@@ -66,11 +70,20 @@ class sensormine(models.Model):
     """docstring for ClassName"""
     sensornumber = models.IntegerField(null=True)
     date = models.DateField(auto_now=False, auto_now_add=False)
-    time = models.TimeField(auto_now=False, auto_now_add=False)
+    time = models.TimeField(auto_now=True)
     chargestate =  models.FloatField(null=True)
     lightint = models.FloatField(null=True)
+    dateandtime = models.DateTimeField(auto_now=False, auto_now_add=False)
 
 
     def __int__(self):
         return self.sensornumber
+
+class Sensor_status(models.Model):
+    sensor_id = models.CharField(max_length=100)
+    status = models.BooleanField(default = False)
+
+
+    def __str__(self):
+        return self.sensor_id
         

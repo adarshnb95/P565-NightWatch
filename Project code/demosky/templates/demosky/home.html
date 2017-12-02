@@ -351,4 +351,95 @@ function sensor() {
 	
 </script>
 
+
+
+<canvas id="myChart" width="900" height="300"></canvas>
+<script type="text/javascript">
+	
+	var data_array = JSON.parse("{{chart_data|escapejs}}");
+	console.log(data_array);
+
+	var custom_label;
+	var temp_arr_dat = [];
+
+	var x_axis = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+	//var sen1 = [3200, 6000,500,4300]
+	custom_label = 'sensor-'+ data_array[0];
+	for (var i = 1; i <=12; i++) {
+		temp_arr_dat.push(data_array[i]);
+	}
+
+	var ctx = document.getElementById("myChart");
+
+	var data ={
+	    labels: x_axis,
+	    datasets: [
+	      { 
+	        data: temp_arr_dat,
+	        label: custom_label,
+	        borderColor: "#4AFF32",
+			fill: false
+	      }
+
+	    ]
+	  };
+
+
+
+
+
+
+
+
+	var myChart = new Chart(ctx, {
+	  type: 'line',
+	  data: data,
+	              options: {
+                responsive: false
+            }
+	});
+
+	chartupdate(data_array);
+
+
+
+
+function chartupdate(data_array){
+
+	console.log(data_array);
+
+
+
+	for (var i = 13; i <= data_array.length-13; i=i+13) {
+
+		var randomColor = "#000000".replace(/0/g,function(){return (~~(Math.random()*16)).toString(16);});
+		var custom_label_1;
+		var temp_arr_dat_1 = [];
+		var custom_label_1 =  'sensor-'+ data_array[i];
+			for (var h = i+1; h <=12+i; h++) {
+		temp_arr_dat_1.push(data_array[h]);
+	}
+
+	
+
+		var newDataset = {
+	        label: custom_label_1,
+	        borderColor: randomColor,
+	        data: temp_arr_dat_1,
+	    }
+
+	    // You add the newly created dataset to the list of `data`
+	    data.datasets.push(newDataset);
+
+	    // You update the chart to take into account the new dataset
+	    myChart.update();
+
+	}
+
+}
+
+
+
+</script>
+
 {% endblock %}

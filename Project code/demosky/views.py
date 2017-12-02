@@ -52,6 +52,10 @@ from newproj import settings
 
 #sprint 5
 from .models import topics
+from demosky.models import sensormine
+from demosky.models import Sensor_status
+from django.db.models import Max
+
 
 ####################################varun##########################################################
 
@@ -75,7 +79,8 @@ def test():
     a = Sensors.objects.all()
     bundle = {}
     for j in a:
-        bundle[int(j.sensor_id)] = [str(j.sensor_id),j.x_coord,j.y_coord,str(j.img_name),j.light_data,j.battery_level]
+        if (j.status) and (j.add_admin):
+            bundle[int(j.sensor_id)] = [str(j.sensor_id),j.x_coord,j.y_coord,str(j.img_name),j.light_data,j.battery_level,j.status,j.add_admin ]
     #print bundle
     return bundle
 
@@ -96,13 +101,15 @@ def terms(request):
 @login_required
 @user_passes_test(token_check, login_url='/demosky/verify-user/')
 def home(request):
+    #create_csv()
+    chart_data = json.dumps(chartmine())
     testvalue = request.user
     fav_sensors = json.dumps(get_favs(testvalue))
     full_list = json.dumps(test())
     light_list = json.dumps(ldat())
     weather_data = json.dumps(weathermine())
     sensorlist = Sensors.objects.all()
-    return render(request,'demosky/home.html',{'full_list':full_list , 'light_list':light_list , 'weather_data':weather_data, 'sensorlist' : sensorlist , 'fav_sensors' : fav_sensors })
+    return render(request,'demosky/home.html',{'full_list':full_list , 'light_list':light_list , 'weather_data':weather_data, 'sensorlist' : sensorlist , 'fav_sensors' : fav_sensors , 'chart_data' : chart_data})
 
 
 def register(request):
@@ -465,6 +472,180 @@ def get_favs(name):
         z = x.fav_sen.split(",")
         retval = z
     return retval
+
+
+
+
+
+
+
+
+def update_data():
+    pass
+    sensors = Sensor_status.objects.all()
+    #print sensors
+    sensorlist = []
+
+    date_format = "%Y-%m-%d"
+
+
+    max_val = Sensors.objects.all().aggregate(Max('sensor_id'))
+    #print max_val
+    latest_vale=0
+    for key, value in max_val.iteritems():
+        latest_vale = int(value)
+
+    # print latest_vale
+    # print type(latest_vale)
+    for i in sensors:
+        #print i.status
+        sensorlist.append(int(i.sensor_id))
+
+    sensormine_data = sensormine.objects.all()
+
+    #print sensormine_data
+    # for i in sensormine_data:
+    #     print i.sensornumber
+
+    for j in sensorlist:
+        sensormine_data = sensormine.objects.filter(sensornumber=j).order_by('-dateandtime')
+
+        for m in sensormine_data:
+
+            active = False
+
+            print m.sensornumber,m.dateandtime,m.chargestate
+
+            #now have the latest data of a particular sensor
+            #determine if it is active - see if the difference in date is 1 day
+
+
+            data_date = str(m.dateandtime.date())
+            todays_data = str(datetime.today().date())
+            a = datetime.strptime(todays_data, date_format)
+            b = datetime.strptime(data_date, date_format)
+            delta = a - b
+            #print delta.days
+
+            if (delta.days>=2):
+                pass
+                #it means the senor data is two day old at least and not active
+            else:
+                #itmeans the sensor is active
+                active = True
+
+            #we have now established the sensor is active
+            #now we need to either create a new entry in the sensor table or update an existing one
+
+            try:
+                pass
+                testvariable = Sensors.objects.get(sensornumber= m.sensornumber)
+                #found a matching entry all we need to do is update
+                testvariable.light_data = m.lightint
+                testvariable.battery_level = m.chargestate
+                testvariable.status = active
+                testvariable.save()
+
+
+            except Exception as e:
+                pass
+                #no matching entry found and thus we need to create the entry
+                latest_vale = latest_vale+1
+                newsensor = Sensors(sensor_id = str(latest_vale),light_data = m.lightint , battery_level = m.chargestate , sensornumber = m.sensornumber , status = active , add_admin = False)
+                newsensor.save()
+
+            break
+
+        print "nextloop"
+
+
+
+
+def create_csv():
+    pass
+
+    outF = open('static/DarkSky-Dev/csv/csvfile.csv', "w")
+
+
+    sensors = Sensor_status.objects.all()
+    #print sensors
+    sensorlist = []
+    for i in sensors:
+        #print i.status
+        sensorlist.append(int(i.sensor_id))
+
+    sensormine_data = sensormine.objects.all()
+
+    for j in sensorlist:
+        sensormine_data = sensormine.objects.filter(sensornumber=j).order_by('-dateandtime')
+
+        for m in sensormine_data:
+
+            #print m.sensornumber,m.dateandtime,m.chargestate
+            line = ''
+            line = str(m.sensornumber)+","+str(m.dateandtime)+","+str(m.chargestate)+","+str(m.lightint)+"\n"
+            outF.write(line)
+    outF.close()
+
+
+def chartmine():
+    pass
+    #create a dictionary which has sensor number for keys and as values a list of list [[jan],[feb] ........[dec]]
+    temp_dict = {}
+
+    #get the sensors data
+    sensorlist = []
+    sensors = Sensor_status.objects.all()
+    for i in sensors:
+        #print i.status
+        sensorlist.append(int(i.sensor_id))
+
+    sensormine_data = sensormine.objects.all()
+
+    #initialize dict
+
+    for n in sensorlist:
+        temp_dict[str(n)] = [[],[],[],[],[],[],[],[],[],[],[],[]]
+
+
+    print temp_dict
+
+
+    for j in sensorlist:
+        sensormine_data = sensormine.objects.filter(sensornumber=j).order_by('date')
+
+
+        for m in sensormine_data:
+            #now for each sensor we have arranged in increasing order of date
+            date_temp = str(m.date)
+            temp1 = date_temp.split('-')
+            month_temp = temp1[1]
+
+            temp_dict[str(m.sensornumber)][int(month_temp)-1].append(m.lightint)
+
+            print date_temp.split('-') , month_temp  , m.sensornumber , m.lightint
+    print temp_dict
+
+    #now need to put the data in a proper data structure 
+    returnlist = []
+    for key in temp_dict:
+        returnlist.append(int(key))
+        c = temp_dict[key]
+        #print c
+        for s in range(0,12):
+            denom = 1
+            if (len(c[s])> 0):
+                denom = len(c[s])
+            list_value_temp = sum(c[s])/ denom
+            returnlist.append(list_value_temp)
+    print "returnlist"
+    print returnlist
+    print "^returnlist"
+    return returnlist
+
+
+
+
 ##################################end rahul###################################################
 
 ##################################Varun#######################################################
