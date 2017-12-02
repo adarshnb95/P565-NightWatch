@@ -1,0 +1,93 @@
+{% extends 'demosky/base.html' %}
+
+{% block title_block %} Topic {% endblock %}
+{% block head_block %}
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+{% endblock %}
+
+{% block body_block %}
+<div class="container">
+
+<div class="panel-group" id="accordion">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4 class="panel-title">
+        <a data-toggle="collapse" data-parent="#accordion" href="#collapse1">
+        Add Topic</a>
+      </h4>
+    </div>
+    <div id="collapse1" class="panel-collapse collapse in">
+      <div class="panel-body">
+      	<div class="text-big" id="addtopic">
+			<form method="post" class="text-big" id="addtopicform" name="addtopicform">
+				{% csrf_token %}
+				<label>Topic</label><input type="text" name="topic" id="topic">
+				<input type="hidden" name="action" value="add">
+				<button class="btn btn-default" type="submit"> Submit</button>
+			</form>
+		</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4 class="panel-title">
+        <a data-toggle="collapse" data-parent="#accordion" href="#collapse2">
+        List of Topics Available</a>
+      </h4>
+    </div>
+    <div id="collapse2" class="panel-collapse collapse">
+      <div class="panel-body">
+      	<form method="post" class="text-big">
+		 	{% csrf_token %}
+			<ul>
+			  {% for topic in topiclist %}
+
+			    <li>
+			      <p style="color:blue">{{topic}}
+			      <input id="topiclist" name="topiclist" type="radio" value="{{topic}}" />
+			      </p>
+			    </li>
+			  {% endfor %}
+			</ul>
+			 <input type="hidden" name="action" value="displaytopic">
+            {% if user.is_staff %}
+            <button class="btn btn-default" name="action" value="delete">Delete topic</button>
+	       {% endif %}
+		 	<button class="btn btn-default" type="submit"> Join the Discussion</button>
+	 </form>
+
+      </div>
+    </div>
+  </div>
+  <p class="text-big">{{error}}</p>
+</div>
+
+
+
+<!--<h1 class="headers">Change roles to Admin</h1>-->
+ <!--<form method="post" class="text-big">-->
+ 	<!--{% csrf_token %}-->
+	 <!--<table border="1" style="overflow:auto;width:auto" >-->
+			<!--<tr style="background-color:#BBBBBB">-->
+					<!--<td style="width:800px">Username</td>-->
+					<!--<td>Admin</td>-->
+			<!--</tr>-->
+		<!--{% for user in users %}-->
+		  <!--<tr>-->
+	      <!--<td><p style="color:blue">{{ user.username }} </p></td>-->
+	      <!--<td><input id="{{user.id}}" name="userlist" type="checkbox" value="{{user.id}}" /> </td>-->
+	    <!--</tr>-->
+	  <!--{% endfor %}-->
+		<!--</table>-->
+ 	<!--<button class="btn btn-default" type="submit"> Submit</button>-->
+ <!--</form>	-->
+
+
+
+
+
+
+</div>
+{% endblock %}

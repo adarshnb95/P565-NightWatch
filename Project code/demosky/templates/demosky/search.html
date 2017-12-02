@@ -17,6 +17,9 @@
         <div class="time">
             <a class="btn btn-default" type="button" id="Chat" href= "/demosky/chat_box">Chat Room <strong><i class="fa fa-comments" aria-hidden="true"></i></strong></a>
         </div>
+        <div class="time">
+            <a class="btn btn-default" type="button" id="Chat" href= "/demosky/topic_edit">Create or View Topics <strong><i class="fa fa-comments" aria-hidden="true"></i></strong></a>
+        </div>
       </h4>
     </div>
 
@@ -36,11 +39,28 @@
 			<form method="post" class="text-big" id="searchform" name="searchform">
 				{% csrf_token %}
 				<label>Key</label><input type="text" name="key" >
+                <div class="container">
+
+                    <div class="text-small" id="filter">
+                        <h5>Filter using:</h5>
+                        <t><t><small>Bio</small></t></t>
+                    <input type="checkbox" name="Filter" type="checkbox" value="bio_filter">
+                        <t><t><small>Location</small></t></t>
+                    <input type="checkbox" name="Filter" type="checkbox" value="location_filter">
+                        <t><t><small>Birthplace</small></t></t>
+                    <input type="checkbox" name="Filter" type="checkbox" value="birthplace_filter">
+                        <t><t><small>Work</small></t></t>
+                    <input type="checkbox" name="Filter" type="checkbox" value="work_filter">
+
+                    </div>
+                </div>
                 <input type="hidden" name="action" value="key">
+
 				<button class="btn btn-default" type="submit"> <i class="fa fa-search" aria-hidden="true"></i> Search</button>
 			</form>
 		</div>
       </div>
+
 
       <div class="panel-body">
        <div class="'text-big" id="usersearch result">
