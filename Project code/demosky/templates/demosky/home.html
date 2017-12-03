@@ -5,14 +5,15 @@
  {% block body_block %}
 
 <div align="center" >
-	  <select name="sensornumber" id="sensornumber">
+	  <select name="sensornumber" id="sensornumber" class="form-control" style="display: inline-block; width: 10%">
 	  {% for sensor in sensorlist %}
 	  	<option value="{{sensor.sensor_id}}">Sensor {{sensor.sensor_id}}</option>
 	  {% endfor %}
 	  </select>
 
      <!--  <input type="text" id="search-criteria" value="" /> -->
-      <input type="button" id="search" value="search" onclick="searchSensor();">
+      <input type="button" class="btn btn-default" id="search" value="search" onclick="searchSensor();" 
+      style="margin-top: -4px;">
 </div>
 
  <h1 align="center" class="headers">Hoosier National Forest</h1>
@@ -58,14 +59,14 @@ function searchSensor(){
 	});
 	var size = Object.keys(j).length;
 	var key;
-	for(var i=1; i< size ; i++){
+	/*for(var i=1; i< size ; i++){
 			if(myObj[i][0] == search){
 				key = i;
 				break;
 			}
-	}
+	}*/
 
-	myMap(myObj[key])
+	myMap(myObj[search])
 
 
 }
@@ -157,7 +158,7 @@ function myMap(searchObj) {
 
 
 					var starcond = false;
-					console.log("in here");
+					
 					for (var n = 0 ; n <= favsenlen-1 ; n++) {
 						console.log(favsenlist[n] == j[i][0]);
 						if (favsenlist[n] == j[i][0]){
@@ -168,7 +169,7 @@ function myMap(searchObj) {
 
 					}
 
-					console.log(starcond);
+					
 					if(starcond){
 						contentString += '<input type="image" onclick="testfn()" src="/static/DarkSky-Dev/imgs/star.jpg" style="width:40px;height:40px"/>'
 					+
@@ -200,7 +201,7 @@ function myMap(searchObj) {
 function weathermine() {
 	var myObj;
 	myObj = JSON.parse("{{weather_data|escapejs}}");
-	console.log(myObj);
+	
 
 	var len = 36;
 	var datetime;
@@ -357,7 +358,7 @@ function sensor() {
 <script type="text/javascript">
 	
 	var data_array = JSON.parse("{{chart_data|escapejs}}");
-	console.log(data_array);
+	
 
 	var custom_label;
 	var temp_arr_dat = [];
@@ -406,7 +407,7 @@ function sensor() {
 
 function chartupdate(data_array){
 
-	console.log(data_array);
+	
 
 
 
@@ -454,7 +455,7 @@ function chartupdate(data_array){
 <script type="text/javascript">
 	
 	var data_array_1 = JSON.parse("{{chart_data_day|escapejs}}");
-	console.log(data_array_1);
+	
 
 	var custom_label_1;
 	var temp_arr_dat_1 = [];
@@ -503,7 +504,7 @@ function chartupdate(data_array){
 
 function chartupdate_1(data_array_1){
 
-	console.log(data_array_1);
+	
 
 
 

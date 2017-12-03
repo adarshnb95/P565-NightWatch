@@ -35,18 +35,32 @@
       	<div class="text-big" id="addsensor">
 			<form method="post" class="text-big" id="addsensorform" name="addsensorform" >
 				{% csrf_token %}
-				<ul id="addlist" name="addlist">
-				{% for sensor in unpromotedsensors %}
-					<li>
-					      <p style="color:blue">Sensor {{ sensor }}&nbsp&nbsp&nbsp  X:&nbsp<input type="number" name="{{sensor}}_x1" 
-					      id="{{sensor}}_x1" >&nbsp Y:&nbsp<input type="number" name="{{sensor}}_y1" 
-					      id="{{sensor}}_y1">
-					      <button type="submit" class="btn btn-default" id="{{sensor}}" onclick="return addSensor({{sensor}})">
-					      Add</button>
-					      </p>
-				    </li>	
-				{% endfor %}
-				</ul>	
+				{% if unpromotedsensors %}	
+					<ul id="addlist" name="addlist">
+
+						{% for sensor in unpromotedsensors %}
+							<li>
+							      <p style="color:blue">Sensor {{ sensor }}&nbsp;&nbsp;&nbsp;  X:&nbsp;<input type="number" name="{{sensor}}_x1" 
+							      id="{{sensor}}_x1" step="any">&nbsp; Y:&nbsp;<input type="number" name="{{sensor}}_y1" 
+							      id="{{sensor}}_y1" step="any">
+							      
+										  &nbsp; &nbsp; Image:&nbsp;<select name="images_{{sensor}}" id="images_{{sensor}}" class="form-control" style="display: inline-block; width: 10%">
+										  {% for name in imgName %}
+										  	<option value="{{name}}">{{name}}</option>
+										  {% endfor %}
+										  </select>
+
+										     <!--  <input type="text" id="search-criteria" value="" /> -->
+									      <button type="submit" class="btn btn-default" id="{{sensor}}" onclick="return addSensor({{sensor}})">
+							      Add</button>
+							      
+									 </p>     
+						    </li>	
+						{% endfor %}
+					</ul>	
+				{% else %}
+					No Sensors to add.
+				{% endif %}
 				<input type="hidden" name="action" value="add">
 	
 			</form>
@@ -96,9 +110,9 @@
 				<ul>
 			  		{% for sensor in sensors %}
 					    <li>
-					      <p style="color:blue">Sensor {{ sensor.sensor_id }}&nbsp&nbsp&nbsp  X:&nbsp<input type="text" name="{{sensor.sensor_id}}_x" 
-					      id="" value="{{sensor.x_coord}}" style="font-size:16px;">&nbsp Y:&nbsp<input type="text" name="{{sensor.sensor_id}}_y" 
-					      id="{{sensor_id}}_y" value="{{sensor.y_coord}}" style="font-size:16px;">
+					      <p style="color:blue">Sensor {{ sensor.sensor_id }}&nbsp&nbsp&nbsp  X:&nbsp<input type="number" name="{{sensor.sensor_id}}_x" 
+					      id="" value="{{sensor.x_coord}}" style="font-size:16px;" step="any">&nbsp Y:&nbsp<input type="number" name="{{sensor.sensor_id}}_y" 
+					      id="{{sensor_id}}_y" value="{{sensor.y_coord}}" style="font-size:16px;" step="any">
 					      </p>
 					    </li>
 				  	{% endfor %}

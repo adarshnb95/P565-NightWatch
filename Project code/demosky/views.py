@@ -85,10 +85,6 @@ def get_unpromoted_sensors():
                 pass
             else:
                 #put the value in the list
-<<<<<<< HEAD
-            
-=======
->>>>>>> 8864b12253ed4998d95feb3a7b5848847d4f82fd
                 bundle.append(int(j.sensor_id))
                 bundle.append(str(j.sensor_id))
                 bundle.append(j.sensornumber)
@@ -152,8 +148,9 @@ def home(request):
     #obtain weather data
     weather_data = json.dumps(weathermine())
     #obtain all of the sensor objects
-    sensorlist = Sensors.objects.all()
+    sensorlist = Sensors.objects.filter(add_admin=True)
     #pass data to the page to be rendered
+
     return render(request,'demosky/home.html',{'full_list':full_list , 'light_list':light_list , 'weather_data':weather_data, 'sensorlist' : sensorlist , 'fav_sensors' : fav_sensors , 'chart_data' : chart_data , 'chart_data_day' : chart_data_day })
 
 
@@ -383,8 +380,10 @@ def manageuser(request):
 def managesensors(request):
     #get list of sensors that need to be managed the return is of teh form [ sensor id(int) , sensor id (str) , sensornumer(int)]
     unpromoted_sensors = get_unpromoted_sensors()[::3]
-    print(unpromoted_sensors)
-    print(request.POST)
+    imgName = []
+    for f in os.listdir('static/DarkSky-Dev/imgs/sensors'):
+        imgName.append(str(f).split(".")[0])
+        
     if request.method == 'POST':
         action = request.POST.get('action')
 
@@ -394,12 +393,14 @@ def managesensors(request):
                 if str(uns)+'_x1' in request.POST:
                     x1= request.POST.get(str(uns)+'_x1')
                     y1 = request.POST.get(str(uns)+'_y1')
+                    img = request.POST.get('images_'+str(uns))
                     if(x1 is not '' and y1 is not '' ):
                         print("x---"+str(x1))
                         sen = Sensors.objects.get(sensor_id =uns)
                         sen.x_coord = x1
                         sen.y_coord = y1
                         sen.add_admin = True
+                        sen.img_name = img
                         sen.save()
                         unpromoted_sensors = get_unpromoted_sensors()[::3]
             error = "Sensors added successfully."
@@ -414,7 +415,7 @@ def managesensors(request):
                 error = "Sensors deleted successfully."
             else:
                 error = "No Sensors deleted"
-        else:
+        elif(action == 'mod'):
             sensorslist = Sensors.objects.all()
             for sensor in sensorslist:
                 xcord = request.POST.get(sensor.sensor_id+'_x')
@@ -425,11 +426,11 @@ def managesensors(request):
             error = "Sensors Modified successfully."
 
         sensors = Sensors.objects.all()
-        return render(request,'demosky/manage-sensors.html',{'sensors':sensors, 'unpromotedsensors': unpromoted_sensors, 'error' : error})
+        return render(request,'demosky/manage-sensors.html',{'sensors':sensors, 'unpromotedsensors': unpromoted_sensors, 'error' : error,'imgName' : imgName})
 
     else:
         sensors = Sensors.objects.all()
-        return render(request,'demosky/manage-sensors.html',{'sensors':sensors, 'unpromotedsensors': unpromoted_sensors, 'error':""})
+        return render(request,'demosky/manage-sensors.html',{'sensors':sensors, 'unpromotedsensors': unpromoted_sensors, 'error':"", 'imgName' : imgName})
 #######end-Varun##############
 
 
