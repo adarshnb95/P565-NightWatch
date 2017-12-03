@@ -74,11 +74,11 @@
 
                         {% if obj.user == request.user %}
                             <li class="text-right list-group-item"></li>
-                        <li class="text-right list-group-item"><b><font color ='green'>{{ obj.user }}:</font></b> {{ obj.message }}<br><small>{{obj.created.time}}</small></li>
+                        <li class="text-right list-group-item"><b><font color ='green'>{{ obj.user }}:</font></b> {{ obj.message }}<br><small>{{obj.created}}</small></li>
 
                         {% else %}
                             <li class="text-left list-group-item"></li>
-                        <li class="text-left list-group-item"><b><font color = 'blue'>{{ obj.user}}:</font></b> {{ obj.message }}<br><small>{{obj.created.time}}</small></li>
+                        <li class="text-left list-group-item"><b><font color = 'blue'>{{ obj.user}}:</font></b> {{ obj.message }}<br><small>{{obj.created}}</small></li>
 
                         {% endif %}
                     {% empty %}
