@@ -480,7 +480,7 @@ def weathermine():
         for weather in f:
             #print (weather.get_reference_time('iso'),weather.get_status(),weather.get_detailed_status(),weather.get_temperature('celsius'))
 
-            a = weather.get_temperature('celsius')
+            a = weather.get_temperature('fahrenheit')
 
             b.append(weather.get_reference_time('iso'))
             b.append(weather.get_status())
