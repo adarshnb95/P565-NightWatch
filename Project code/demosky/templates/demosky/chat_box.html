@@ -66,7 +66,7 @@
         {% if topic != NULL %}
              <div class="panel-heading custom_class">Discussion Topic: {{topic}} </div>
         {% else %}
-             <div class ="panel-heading custom_class">General Chat! </div>
+             <div class ="panel-heading custom_class"><h4><b class="headers"> General Chat </b></h4></div>
         {% endif %}
         <div id="msg-list-div" class="panel-body">
             <ul id="msg-list" class="list-group">
@@ -95,7 +95,7 @@
 
     <form id="chat-form" method="post" action="post/" autocomplete="off">
             <div id="chat-bottom" class="input-group">
-                 <input disabled  maxlength="3" size="2" value="99" id="counter" ><small>character's remaining</small>
+                <!--  <input disabled  maxlength="3" size="2" value="99" id="counter" ><small>character's remaining</small> -->
                 <input type="text" onkeyup="textCounter(this,'counter',99);" id="chat-msg" name="chat-msg" maxlength="99" class="form-control" />
                 <script>
                 function textCounter(field,field2,maxlimit)

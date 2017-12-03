@@ -24,8 +24,9 @@
 {% block body_block %}
 <div class="container">
 
-<h1 class="headers">Change roles to Admin</h1>
- <form method="post" class="text-big" id="formuser">
+<h1 class="headers">&nbsp;&nbsp;Change roles to Admin</h1>
+ 
+ <br><form method="post" class="text-big" id="formuser">
  	{% csrf_token %}
 	 <table border="1" style="overflow:auto;width:auto" >
 			<tr style="background-color:#BBBBBB">
@@ -45,7 +46,7 @@
 	    </tr>
 	  {% endfor %}
 		</table>
- 	<button class="btn btn-default" type="submit" id="submit"> Submit</button>
+ 	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button class="btn btn-default" type="submit" id="submit"> Submit</button>
  </form>	
 	
 <p class="text-big">{{error}}</p>

@@ -85,7 +85,7 @@ def get_unpromoted_sensors():
                 pass
             else:
                 #put the value in the list
-                bundle[int(j.sensor_id)] = [str(j.sensor_id)]
+            
                 bundle.append(int(j.sensor_id))
                 bundle.append(str(j.sensor_id))
                 bundle.append(j.sensornumber)
@@ -379,22 +379,29 @@ def manageuser(request):
 @user_passes_test(token_check, login_url='/demosky/verify-user/')
 def managesensors(request):
     #get list of sensors that need to be managed the return is of teh form [ sensor id(int) , sensor id (str) , sensornumer(int)]
-    unpromoted_sensors = get_unpromoted_sensors()
+    unpromoted_sensors = get_unpromoted_sensors()[::3]
+    print(unpromoted_sensors)
     print(request.POST)
     if request.method == 'POST':
         action = request.POST.get('action')
 
         if(action == 'add'):
-            xcord = request.POST.get('x-coord')
-            print(xcord)
-            ycord = request.POST.get('y-coord')
-            prev = Sensors.objects.last()
-            id = int(prev.sensor_id)+1
-            sens = Sensors(sensor_id =str(id),x_coord = xcord, y_coord = ycord)
-            sens.save()
+
+            for uns in unpromoted_sensors:
+                if str(uns)+'_x1' in request.POST:
+                    x1= request.POST.get(str(uns)+'_x1')
+                    y1 = request.POST.get(str(uns)+'_y1')
+                    if(x1 is not '' and y1 is not '' ):
+                        print("x---"+str(x1))
+                        sen = Sensors.objects.get(sensor_id =uns)
+                        sen.x_coord = x1
+                        sen.y_coord = y1
+                        sen.add_admin = True
+                        sen.save()
+                        unpromoted_sensors = get_unpromoted_sensors()[::3]
             error = "Sensors added successfully."
         elif(action == 'delete'):
-            sensorlist = request.POST.get('sensorlist')
+            sensorlist = dict(request.POST)['sensorlist'] 
 
             if sensorlist is not None:
                 for sensor in sensorlist:
@@ -415,11 +422,11 @@ def managesensors(request):
             error = "Sensors Modified successfully."
 
         sensors = Sensors.objects.all()
-        return render(request,'demosky/manage-sensors.html',{'sensors':sensors, 'error' : error})
+        return render(request,'demosky/manage-sensors.html',{'sensors':sensors, 'unpromotedsensors': unpromoted_sensors, 'error' : error})
 
     else:
         sensors = Sensors.objects.all()
-        return render(request,'demosky/manage-sensors.html',{'sensors':sensors, 'error':""})
+        return render(request,'demosky/manage-sensors.html',{'sensors':sensors, 'unpromotedsensors': unpromoted_sensors, 'error':""})
 #######end-Varun##############
 
 
@@ -555,7 +562,7 @@ def update_data():
     max_val = Sensors.objects.all().aggregate(Max('sensor_id'))
     #print max_val
     latest_vale=0
-    for key, value in max_val.iteritems():
+    for key, value in max_val.items():
         latest_vale = int(value)
 
     # print latest_vale
@@ -738,7 +745,7 @@ def chartmine_day():
 
         for m in sensormine_data:
             #now for each sensor we have arranged in increasing order of time
-            print m.dateandtime,m.time,m.sensornumber
+            print (m.dateandtime,m.time,m.sensornumber)
 
 
             time_temp = str(m.time)

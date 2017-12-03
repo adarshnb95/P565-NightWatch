@@ -12,14 +12,16 @@
   <div class="panel panel-default">
     <div class="panel-heading">
       <h4 class="panel-title">
-       Search Users
+      <b class="headers">Search Users</b>
 
         <div class="time">
-            <a class="btn btn-default" type="button" id="Chat" href= "/demosky/chat_box">Chat Room <strong><i class="fa fa-comments" aria-hidden="true"></i></strong></a>
+            &nbsp;&nbsp;<a class="btn btn-default" type="button" id="Chat" href= "/demosky/chat_box" >Chat Room <strong><i class="fa fa-comments" aria-hidden="true"></i></strong></a>
         </div>
         <div class="time">
-            <a class="btn btn-default" type="button" id="Chat" href= "/demosky/topic_edit">Create or View Topics <strong><i class="fa fa-comments" aria-hidden="true"></i></strong></a>
-        </div>
+            <a class="btn btn-default" type="button" id="Chat" href= "/demosky/topic_edit" >Create or View Topics <strong><i class="fa fa-comments" aria-hidden="true"></i></strong></a>
+        </div>&nbsp;&nbsp;&nbsp;
+        <div class="time" ></div>
+
       </h4>
     </div>
 
@@ -27,7 +29,7 @@
       	<div class="text-big" id="searchuser by Username">
 			<form method="post" class="text-big" id="searchform" name="searchform">
 				{% csrf_token %}
-				<label>Username</label><input type="text" name="u-name" >
+				&nbsp;&nbsp;&nbsp;<label>Username &nbsp;</label><input type="text" name="u-name" >
                 <input type="hidden" name="action" value="uname">
 				<button class="btn btn-default" type="submit"> <i class="fa fa-search" aria-hidden="true"></i> Search</button>
 			</form>
@@ -38,11 +40,12 @@
       	<div class="text-big" id="searchuser by key">
 			<form method="post" class="text-big" id="searchform" name="searchform">
 				{% csrf_token %}
-				<label>Key</label><input type="text" name="key" >
+				&nbsp;&nbsp;&nbsp;<label>Key&nbsp;&nbsp;</label><input type="text" name="key" > 
+        <button class="btn btn-default" type="submit"> <i class="fa fa-search" aria-hidden="true"></i> Search</button>
                 <div class="container">
 
                     <div class="text-small" id="filter">
-                        <h5>Filter using:</h5>
+                        <h4>Filter using:</h4>
                         <t><t><small>Bio</small></t></t>
                     <input type="checkbox" name="Filter" type="checkbox" value="bio_filter">
                         <t><t><small>Location</small></t></t>
@@ -56,7 +59,6 @@
                 </div>
                 <input type="hidden" name="action" value="key">
 
-				<button class="btn btn-default" type="submit"> <i class="fa fa-search" aria-hidden="true"></i> Search</button>
 			</form>
 		</div>
       </div>

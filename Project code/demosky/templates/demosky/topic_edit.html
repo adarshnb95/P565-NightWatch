@@ -12,7 +12,7 @@
   <div class="panel panel-default">
     <div class="panel-heading">
       <h4 class="panel-title">
-        <a data-toggle="collapse" data-parent="#accordion" href="#collapse1">
+        <a data-toggle="collapse" data-parent="#accordion" href="#collapse1" class="headers">
         Add Topic</a>
       </h4>
     </div>
@@ -21,9 +21,9 @@
       	<div class="text-big" id="addtopic">
 			<form method="post" class="text-big" id="addtopicform" name="addtopicform">
 				{% csrf_token %}
-				<label>Topic</label><input type="text" name="topic" id="topic">
+				<p>Topic &nbsp;<input type="text" name="topic" id="topic">
 				<input type="hidden" name="action" value="add">
-				<button class="btn btn-default" type="submit"> Submit</button>
+				<button class="btn btn-default" type="submit"> Submit</button></p>
 			</form>
 		</div>
       </div>
@@ -33,7 +33,7 @@
   <div class="panel panel-default">
     <div class="panel-heading">
       <h4 class="panel-title">
-        <a data-toggle="collapse" data-parent="#accordion" href="#collapse2">
+        <a data-toggle="collapse" data-parent="#accordion" href="#collapse2" class="headers">
         List of Topics Available</a>
       </h4>
     </div>
@@ -52,6 +52,7 @@
 			  {% endfor %}
 			</ul>
 			 <input type="hidden" name="action" value="displaytopic">
+           &nbsp; &nbsp;
             {% if user.is_staff %}
             <button class="btn btn-default" name="action" value="delete">Delete topic</button>
 	       {% endif %}

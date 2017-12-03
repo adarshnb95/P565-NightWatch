@@ -22,27 +22,33 @@
       $(this).closest("li").addClass('active').siblings().removeClass('active');
       return(false);   // no default behavior from clicking on the link
   });
-
-  function onTabClick(e){
+*/
+  /*function onTabClick(e){
     console.log(e);
+    alert("hi");
     var ul = document.getElementById('thenavigation');
     
     for (var i=0;i<ul.children.length;i++){
        ul.children[i].className = "" ;
-       console.log(ul.children[i]); 
+       
        if(ul.children[i].id == e){
+          alert("in here!") 
           ul.children[i].className = "active";
        }  
     }
-  }
+  }setTimeout(onTabClick,5000);
+  */
+  /*$(function(){
+    $('#menu > ul.nav li a').click(function(e) {
+        alert("Hi!!!");
+        setTimeout(function () {
+         alert("Hi!!!"); 
+        var $this = $(this);
+        $this.parent().siblings().removeClass('active').end().addClass('active');
+      },2000);        
+    });
+  });*/
 
-
-  $('#thenavigation li').click(function() {
-    alert("hello");
-    $(this).closest('ul').find('a').removeClass('active');
-    $(this).addClass('active');
-  });
-*/
   </script>
 
 
@@ -67,12 +73,12 @@
 
 <div class="wrapper">
 <nav class="navbar navbar-inverse" >
-  <div class="container-fluid" >
+  <div class="container-fluid"  >
     <div class="navbar-header">
       <a class="navbar-brand" href="/demosky/">Nights Watch</a>
     </div>
     <ul class="nav navbar-nav" id="thenavigation">
-      <li class="active"><a href="/demosky/">Home</a></li>
+      <li><a href="/demosky/">Home</a></li>
       {% if user.is_staff %}
         <li ><a href="/demosky/manage-user">Manage User</a></li>
         <li ><a href="/demosky/manage-sensors">Manage Sensors</a></li>
@@ -88,7 +94,7 @@
               <li><a href="/demosky/search">Socialize</a></li>
           </ul>
        <ul class="nav navbar-nav navbar-right">
-         <li><a href="/demosky/logout/"><span class="glyphicon glyphicon-log-in"></span>{{request.user}} Logout</a></li>
+         <li><a href="/demosky/logout/"><span class="glyphicon glyphicon-log-in"></span>&nbsp;&nbsp;{{request.user}} Logout</a></li>
        </ul>
 
  
