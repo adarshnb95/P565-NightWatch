@@ -85,7 +85,10 @@ def get_unpromoted_sensors():
                 pass
             else:
                 #put the value in the list
+<<<<<<< HEAD
             
+=======
+>>>>>>> 8864b12253ed4998d95feb3a7b5848847d4f82fd
                 bundle.append(int(j.sensor_id))
                 bundle.append(str(j.sensor_id))
                 bundle.append(j.sensornumber)
@@ -562,6 +565,7 @@ def update_data():
     max_val = Sensors.objects.all().aggregate(Max('sensor_id'))
     #print max_val
     latest_vale=0
+
     for key, value in max_val.items():
         latest_vale = int(value)
 
@@ -626,15 +630,17 @@ def update_data():
 
             break
 
-        print ("nextloop")
+       # print ("nextloop")
 
 
 
 #create a csv file
-def create_csv():
+def create_csv(name):
     pass
+    name_1 = name 
     #create a csv file
-    outF = open('static/DarkSky-Dev/csv/csvfile.csv', "w")
+    location_1 = 'static/DarkSky-Dev/csv/'+ str(name)+'.csv'
+    outF = open(location_1, "w")
 
 
     sensors = Sensor_status.objects.all()
@@ -657,6 +663,65 @@ def create_csv():
             line = str(m.sensornumber)+","+str(m.dateandtime)+","+str(m.chargestate)+","+str(m.lightint)+"\n"
             outF.write(line)
     outF.close()
+
+
+
+def download_csv(request):
+    pass
+    # data = { 'value': 'pass' }
+    # return JsonResponse(data);
+    username_1 = request.user
+    location_2 = 'static/DarkSky-Dev/csv/'+ str(username_1)+'.csv'
+    
+    newEmailUser_1 = UserProfile.objects.get(user=request.user)
+    create_csv(username_1)
+
+
+    newEmailUser = UserProfile.objects.get(user=request.user)
+    newEmailUser.token = randint(10000,99999)
+    email = EmailMessage('Nightswatch CSV download', 'Please find attached the CSV file you requested'
+            , to=[newEmailUser.user.email])
+    email.attach_file(location_2)
+    email.send()
+
+    data = {'value': 'pass'}
+    return JsonResponse(data);
+
+
+    # if request.method == 'POST':
+    #     pass
+    #     post_text = request.POST.get('uname')
+    #     post_uname = request.POST.get('uname')
+    #     post_sen = request.POST.get('var1')
+    #     a = UserProfile.objects.filter(user__username=post_uname)
+
+    #     for x in a:
+    #         z = x.fav_sen.split(",")
+    #         print(z)
+    #         print(type(z[0]))
+    #         if post_sen in z:
+    #             print("its present skipping")
+    #             z.remove(post_sen)
+    #             print(z)
+    #             x.fav_sen = ''
+    #             for k in z:
+    #                 x.fav_sen = x.fav_sen + k + ','
+    #             x.save()
+    #             data = {'value': 'pass'}
+    #             return JsonResponse(data);
+    #         x.fav_sen = x.fav_sen + post_sen + ','
+    #         # print x.fav_sen
+    #         x.save()
+
+    #     data = {'value': 'pass'}
+    #     return JsonResponse(data);
+    # else:
+    #     data = {'value': 'fail'}
+    #     return JsonResponse(data);
+
+
+
+
 
 
 

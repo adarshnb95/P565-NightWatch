@@ -548,7 +548,26 @@ function chartupdate_1(data_array_1){
 
 
 
+<div align="center">
 
+<button type="button" onclick="download()">EMAIL me CSV data</button>
+ 
+<script type="text/javascript">
+	function download(){
+
+
+				$.ajax({
+        	url: 'ajax/download_csv/',
+        	type: 'post',
+        	data: {'csrfmiddlewaretoken': '{{ csrf_token }}'},
+        	dataType: 'json',
+        	success: function (data) {}  });
+}
+
+</script>
+
+
+</div>
 
 
 
