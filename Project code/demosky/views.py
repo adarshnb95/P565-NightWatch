@@ -92,6 +92,7 @@ def get_unpromoted_sensors():
     return bundle   
 
 
+
 # Create your views here.
 #this function returns a list of active AND added sensors
 def test():
@@ -484,7 +485,7 @@ def weathermine():
         for weather in f:
             #print (weather.get_reference_time('iso'),weather.get_status(),weather.get_detailed_status(),weather.get_temperature('celsius'))
 
-            a = weather.get_temperature('celsius')
+            a = weather.get_temperature('fahrenheit')
 
             b.append(weather.get_reference_time('iso'))
             b.append(weather.get_status())
@@ -1124,13 +1125,22 @@ def topic_edit(request):
 
         if (action == 'add'):
             topic_var = request.POST.get('topic', None)
-            print(topic_var)
-            t= topics(topic=topic_var)
-            if topic_var != '':
-                 t.save()
-            error = "Topic is added to discussion board successfully."
-            topiclist = topics.objects.all()
-            return render(request, 'demosky/topic_edit.html', {'topiclist':topiclist, 'error': error})
+            # print(topic_var)
+            # topiclist=topics.objects.all()
+            # print (topiclist.values())
+            if topics.objects.filter(topic=topic_var).exists():
+                error="Topic is already present in the discussion board. Please go through the list of discussions."
+                topiclist = topics.objects.all()
+                return render(request, 'demosky/topic_edit.html', {'topiclist':topiclist, 'error': error})
+
+            else:
+                #print(topic_var)
+                t= topics(topic=topic_var)
+                if topic_var != '':
+                     t.save()
+                error = "Topic is added to discussion board successfully."
+                topiclist = topics.objects.all()
+                return render(request, 'demosky/topic_edit.html', {'topiclist':topiclist, 'error': error})
 
         if (action == 'delete'):
             print("Delete view")

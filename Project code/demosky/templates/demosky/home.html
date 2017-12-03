@@ -241,26 +241,25 @@ function weathermine() {
 		weather = myObj[i + 1];
 		det_weather = myObj[i + 2];
 		tempnow = myObj[i + 3];
-		html += "<td align='center' " ;
-		if(weather == "Sunny") {
-				html += "bgcolor = '#FFE000'";
+		html += "<td align='center'><p>"+weather+"</p>";
+		if (weather == "Sunny") {
+				html += "<img style='width: 50px; height: 50px;' src='/static/Darksky-Dev/imgs/sunny.png'/>";
 			}
-			else if(weather == "Clouds"){
-				html += "bgcolor = '#A0A0FF'";
+			else if (weather == "Clouds") {
+				html += "<img style='width: 50px; height: 50px;' src='/static/Darksky-Dev/imgs/clouds.png'/>";
 			}
-			else if(weather == "Rain"){
-				html += "bgcolor = '#0000FF'";
+			else if (weather == "Rain") {
+				html += "<img style='width: 50px; height: 50px;' src='/static/Darksky-Dev/imgs/rain.png'/>";
 			}
-			else if (weather == "Clear"){
-				html += "bgcolor = '#FFFFFF'";
-			}
+			else if (weather == "Clear") {
+				html += "<img style='width: 50px; height: 50px;' src='/static/Darksky-Dev/imgs/clear.png'/>";
+			}	
+		html += "</td>";
 		
-		html += ">"+weather+"</td>"	;	
-		//html += "<td align='center'>"+tempnow+"</td>";
 		}
 	html += "</tr>";
 	html += "<tr>";
-	html += "<td background-color:#BBBBBB' >Temperature(C)</td>";
+	html += "<td background-color:#BBBBBB' >Temperature(F)</td>";
 	for (var i = 0; i < len; i += 4) {
 			datetime = myObj[i];
 			weather = myObj[i + 1];
@@ -284,9 +283,17 @@ function weathermine() {
 <!-- Bar format by Adarsh -->
 
 <!-- Adding another bar for displaying information-->
-<h2 align="center" margin-top="40px"> Sensor Values</h2>
-<div class= "badatable" id="testtable">
-  
+<div class="panel-group">
+	<div class="panel panel-default" style="background:transparent;">
+		<div class="panel-heading" style="background:transparent;">
+			<h2 class="panel-title" >
+					<h2 align="center" margin-top="40px"><a data-toggle="collapse" href="#collapse3" style="background:transparent;color:inherit">Sensor Values</a></h2>
+			</h2>
+		</div>
+		<div id="collapse3" class="panel-collapse collapse">
+			<div class="badatable" id="testtable"></div>
+		</div>
+	</div>
 </div>
 
 <div id="sensor">
@@ -354,7 +361,21 @@ function sensor() {
 
 <div align = "center">
 
-<canvas id="myChart" width="900" height="300" ></canvas>
+<div class="panel-group" >
+	<div class="panel panel-default" style="background:transparent;">
+		<div class="panel-heading" style="background:transparent;">
+			<h4 class="panel-title">
+				<a data-toggle="collapse" href="#collapse1" style="background:transparent;">Yearly Analysis</a>
+			</h4>
+		</div>
+		<div id="collapse1" class="panel-collapse collapse" >
+			<canvas id="myChart" width="900" height="300"></canvas>
+		</div>
+	</div>
+</div>
+
+
+
 <script type="text/javascript">
 	
 	var data_array = JSON.parse("{{chart_data|escapejs}}");
@@ -451,7 +472,21 @@ function chartupdate(data_array){
 <div align="center">
 
 
-<canvas id="myChart1" width="900" height="300" ></canvas>
+
+<div class="panel-group">
+	<div class="panel panel-default" style="background:transparent;">
+		<div class="panel-heading" style="background:transparent;" border="none">
+			<h4 class="panel-title">
+				<a data-toggle="collapse" href="#collapse2" style="background:transparent;">Hourly Analysis for today</a>
+			</h4>
+		</div>
+		<div id="collapse2" class="panel-collapse collapse">
+			<canvas id="myChart1" width="900" height="300"></canvas>
+		</div>
+	</div>
+</div>
+
+
 <script type="text/javascript">
 	
 	var data_array_1 = JSON.parse("{{chart_data_day|escapejs}}");
