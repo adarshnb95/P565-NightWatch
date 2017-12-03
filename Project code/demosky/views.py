@@ -85,15 +85,12 @@ def get_unpromoted_sensors():
                 pass
             else:
                 #put the value in the list
-<<<<<<< HEAD
-            
-=======
->>>>>>> 8864b12253ed4998d95feb3a7b5848847d4f82fd
                 bundle.append(int(j.sensor_id))
                 bundle.append(str(j.sensor_id))
                 bundle.append(j.sensornumber)
     #print bundle
     return bundle   
+
 
 
 # Create your views here.
