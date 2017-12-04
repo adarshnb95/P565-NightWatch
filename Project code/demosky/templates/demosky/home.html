@@ -287,7 +287,7 @@ function weathermine() {
 	<div class="panel panel-default" style="background:transparent;">
 		<div class="panel-heading" style="background:transparent;">
 			<h2 class="panel-title" >
-					<h2 align="center" margin-top="40px"><a data-toggle="collapse" href="#collapse3" style="background:transparent;color:inherit">Sensor Values</a></h2>
+					<h2 align="center" margin-top="40px"><a class="btn btn-default" data-toggle="collapse" href="#collapse3" border="3px" style="font-size: 32px;color:white;background:#252525;">Sensor Values</a></h2>
 			</h2>
 		</div>
 		<div id="collapse3" class="panel-collapse collapse">
@@ -328,10 +328,10 @@ var x=sensor();
     html+="</tr>";
     html+="<tr>";
     for (var i = 0; i < x.length; i++) {
-      if(x[i][0]<34){
+      if(x[i][0]<4999){
         html+="<td><img src='/static/DarkSky-Dev/imgs/Meterlow.png' width='130px' height ='100px'></td>";
       }
-      else if(x[i][0]>66){
+      else if(x[i][0]>10000){
         html+="<td><img src='/static/DarkSky-Dev/imgs/Meterhigh.png' width='130px' height ='100px' ></td>";
       }
       else{
@@ -365,7 +365,7 @@ function sensor() {
 	<div class="panel panel-default" style="background:transparent;">
 		<div class="panel-heading" style="background:transparent;">
 			<h4 class="panel-title">
-				<a data-toggle="collapse" href="#collapse1" style="background:transparent;">Yearly Analysis</a>
+				<h2 align="center" margin-top="40px"><a class="btn btn-default" data-toggle="collapse" href="#collapse1" border="3px" style="font-size: 32px;color:white;background:#252525;">Yearly Analysis</a></h2>
 			</h4>
 		</div>
 		<div id="collapse1" class="panel-collapse collapse" >
@@ -477,7 +477,7 @@ function chartupdate(data_array){
 	<div class="panel panel-default" style="background:transparent;">
 		<div class="panel-heading" style="background:transparent;" border="none">
 			<h4 class="panel-title">
-				<a data-toggle="collapse" href="#collapse2" style="background:transparent;">Hourly Analysis for today</a>
+				<h2 align="center" margin-top="40px"><a class="btn btn-default" data-toggle="collapse" href="#collapse2" border="3px" style="font-size: 32px;color:white;background:#252525;">Hourly Analysis</a></h2>
 			</h4>
 		</div>
 		<div id="collapse2" class="panel-collapse collapse">
@@ -586,8 +586,8 @@ function chartupdate_1(data_array_1){
 
 <div align="center">
 
-<button type="button" onclick="download()">EMAIL me CSV data</button>
- 
+<button type="button" class="btn btn-default" onclick="download()">E-mail me in CSV format</button>
+ <p style="padding:15px"></p>
 <script type="text/javascript">
 	function download(){
 

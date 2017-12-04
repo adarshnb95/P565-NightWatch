@@ -31,7 +31,8 @@
 				{% csrf_token %}
 				&nbsp;&nbsp;&nbsp;<label>Username &nbsp;</label><input type="text" name="u-name" >
                 <input type="hidden" name="action" value="uname">
-				<button class="btn btn-default" type="submit"> <i class="fa fa-search" aria-hidden="true"></i> Search</button>
+                <button class="btn btn-default" type="submit"> <i class="fa fa-search" aria-hidden="true"></i> Search</button>
+                <p style="margin-left:15px">OR</p>
 			</form>
 		</div>
       </div>
@@ -40,7 +41,7 @@
       	<div class="text-big" id="searchuser by key">
 			<form method="post" class="text-big" id="searchform" name="searchform">
 				{% csrf_token %}
-				&nbsp;&nbsp;&nbsp;<label>Key&nbsp;&nbsp;</label><input type="text" name="key" > 
+				&nbsp;&nbsp;&nbsp;<label>Keyword&nbsp;&nbsp;</label><input type="text" name="key" > 
         <button class="btn btn-default" type="submit"> <i class="fa fa-search" aria-hidden="true"></i> Search</button>
                 <div class="container">
 
