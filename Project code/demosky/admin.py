@@ -9,16 +9,13 @@ from demosky.models import sensormine
 from demosky.models import topics
 from demosky.models import Sensor_status
 
-admin.site.register(Sensors)
+admin.site.register(Sensors)  # registering sensor table
 
+admin.site.register(UserProfile) # registering userprofile table
 
+admin.site.register(Chat)# registering chat table
 
+admin.site.register(sensormine)# registering sensormine table
 
-admin.site.register(UserProfile)
-
-admin.site.register(Chat)
-
-admin.site.register(sensormine)
-
-admin.site.register(topics)
-admin.site.register(Sensor_status)
+admin.site.register(topics)# registering topic table
+admin.site.register(Sensor_status)# registering sensor_status table

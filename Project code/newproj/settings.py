@@ -26,7 +26,7 @@ SECRET_KEY = '-=gxv8t5s*jc+zyzoj!aw43&7qblek%pioe+1z_!8x064js3s6'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-
+# mention the host name on which you want to run the website
 ALLOWED_HOSTS = [
     'silo.soic.indiana.edu',
     '127.0.0.1',
@@ -191,8 +191,8 @@ SOCIAL_AUTH_GITHUB_SECRET = '21e81f85db9510b3ebb10c3e21f9bdd2c6619c9e'
 SOCIAL_AUTH_TWITTER_KEY = 'SxiZjufgAgpqxJOwKin6cxun2'
 SOCIAL_AUTH_TWITTER_SECRET = '1Jn1CpYrIGpoIRuwPi5f7er8zocpB1r2YJf4Gkgxj61DY4Ixj6'
 
-SOCIAL_AUTH_FACEBOOK_KEY = '520728351600204'  # App ID
-SOCIAL_AUTH_FACEBOOK_SECRET = '94eca4297cc4ce51f226eeb0d9a99df0'  # App Secret
+SOCIAL_AUTH_FACEBOOK_KEY = '2123126584581671'  # App ID
+SOCIAL_AUTH_FACEBOOK_SECRET = '61b72059bb8aa3c57b62cff2bbab2e1d'  # App Secret
 
 SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']
 SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {
