@@ -4,7 +4,7 @@ from django.db.models.signals import post_save
 from PIL import Image
 from django.utils.encoding import python_2_unicode_compatible
 
-class UserProfile(models.Model):
+class UserProfile(models.Model):   # creating user profile table in database
     user= models.OneToOneField(User, unique=True)
     location=models.CharField(max_length=50,default = '')
     birthplace = models.CharField(max_length=50, default='')
@@ -33,7 +33,7 @@ post_save.connect(create_profile, sender=User)
 @python_2_unicode_compatible  # only if you need to support Python 2
 
 
-class Sensors(models.Model):
+class Sensors(models.Model): # creating sensor table in database
     sensor_id = models.CharField(max_length=100)
     x_coord = models.FloatField(null=True)
     y_coord = models.FloatField(null=True)
@@ -51,7 +51,7 @@ class Sensors(models.Model):
         
 
 
-class Chat(models.Model):
+class Chat(models.Model): # creating chat table in database
     created = models.DateTimeField(auto_now_add=True)
     topic=models.CharField(max_length=100)
     user = models.ForeignKey(User)
@@ -60,7 +60,7 @@ class Chat(models.Model):
     def __str__(self):
         return self.topic
 
-class topics(models.Model):
+class topics(models.Model): # creating topic table in  database
     topic=models.CharField(max_length=100)
 
     def __str__(self):

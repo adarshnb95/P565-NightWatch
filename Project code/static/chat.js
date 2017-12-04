@@ -1,6 +1,6 @@
 $('#chat-form').on('submit', function(event){
     event.preventDefault();
-
+// ajax script to post messages.
     $.ajax({
         url : 'Post/',
         type : 'POST',
@@ -14,7 +14,7 @@ $('#chat-form').on('submit', function(event){
         }
     });
 });
-
+// function to retrieve messages from db
 function getMessages(){
     if (!scrolling) {
         var topicname = $('#topicname').val();
@@ -27,7 +27,7 @@ function getMessages(){
     }
     scrolling = false;
 }
-
+// function to stop screen from redirecting to new messages, when scrolling through chat
 var scrolling = false;
 $(function(){
     $('#msg-list-div').on('scroll', function(){
@@ -50,6 +50,7 @@ $(document).ready(function() {
  });
 
 // using jQuery
+//funtion that works as csrf mechanism alternative for ajax
 function getCookie(name) {
     var cookieValue = null;
     if (document.cookie && document.cookie !== '') {

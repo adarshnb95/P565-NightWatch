@@ -3,12 +3,13 @@ from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from demosky.models import UserProfile
 from django import forms
+#code written by shantanu#
 
-class UploadFileForm(forms.Form):
+class UploadFileForm(forms.Form):       #form to upload files in database
     title = forms.CharField(max_length=50)
     file = forms.FileField()
 
-class RegistrationForm(UserCreationForm):
+class RegistrationForm(UserCreationForm):   #user registeration form.
     email = forms.EmailField(required=True)
 
    
@@ -25,9 +26,9 @@ class RegistrationForm(UserCreationForm):
         )
 
 
-#code written by shantanu#
 
-    def save(self, commit=True):
+
+    def save(self, commit=True): # form to save data of user in userprofile when generating database
         user = super(RegistrationForm, self).save(commit=False)
         user.first_name = self.cleaned_data['first_name']
         user.last_name = self.cleaned_data['last_name']
@@ -39,7 +40,7 @@ class RegistrationForm(UserCreationForm):
         return user
 
 
-class EditProfileForm(UserChangeForm):
+class EditProfileForm(UserChangeForm): #form to edit profile form
     class Meta:
         model = User
         fields = (
@@ -50,7 +51,7 @@ class EditProfileForm(UserChangeForm):
 
         )
 
-class UserProfileForm(forms.ModelForm):
+class UserProfileForm(forms.ModelForm):     #Edit profile form
     study=forms.CharField(widget=forms.TextInput(
         attrs={
         'class':'form-control',
@@ -85,7 +86,7 @@ class UserProfileForm(forms.ModelForm):
         }
     ))
 
-    class Meta:
+    class Meta:         #class to store the order in userprofile
         model = UserProfile
         fields = (
                     'study',

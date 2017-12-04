@@ -63,7 +63,7 @@ from django.db.models import Max
 
 def token_check(user):
     newEmailUser = UserProfile.objects.get(user=user)
-    print (newEmailUser.token_valid)
+    #print (newEmailUser.token_valid)
     return newEmailUser.token_valid
 
 ## this has to be at the top########
@@ -200,12 +200,12 @@ def edit_profile(request):
 @login_required
 def verify(request):
     if request.method == 'POST':
-        print (request.POST)
+        #print (request.POST)
         token = request.POST.get('token')
         forms = request.POST.get('tokenform')
         newEmailUser = UserProfile.objects.get(user=request.user)
-        print (newEmailUser.token)
-        print (token)
+        #print (newEmailUser.token)
+        #print (token)
         if(int(token) == int(newEmailUser.token) ):
             newEmailUser.token_valid = True
             newEmailUser.save()
@@ -347,7 +347,7 @@ def ldat():
 @user_passes_test(token_check, login_url='/demosky/verify-user/')
 def manageuser(request):
     if request.method == 'POST':
-        print( request.POST)
+        #print( request.POST)
         userlist = dict(request.POST)['userlist']
         users = User.objects.all()
         if userlist is not None:
@@ -372,7 +372,7 @@ def manageuser(request):
         return render(request,'demosky/manage-user.html', args)
     else:
         users = User.objects.all()
-        print (users)
+        #print (users)
         return render(request,'demosky/manage-user.html',{'users':users})
 
 
@@ -396,7 +396,7 @@ def managesensors(request):
                     y1 = request.POST.get(str(uns)+'_y1')
                     img = request.POST.get('images_'+str(uns))
                     if(x1 is not '' and y1 is not '' ):
-                        print("x---"+str(x1))
+                        #print("x---"+str(x1))
                         sen = Sensors.objects.get(sensor_id =uns)
                         sen.x_coord = x1
                         sen.y_coord = y1
@@ -410,7 +410,7 @@ def managesensors(request):
 
             if sensorlist is not None:
                 for sensor in sensorlist:
-                   print(sensor)
+                   #print(sensor)
                    removeSensor = Sensors.objects.get(sensor_id=str(sensor))
                    removeSensor.delete()
                 error = "Sensors deleted successfully."
@@ -458,7 +458,7 @@ def weathermine():
     #get the oldest date from the file
     test_var = datetime.strptime(itemlist[0], "%Y-%m-%d %H:%M:%S+%f")
 
-    # need to run this logic with adarsh , varun , shantanu
+
     # check if the date pulled from the file is the same as tomorrows date if it is that means we need to call the api and get latest data
     if ((cond ==0) or (test_var.date()>=date_tomorrow)):
         #print itemlist
@@ -513,12 +513,12 @@ def favourites_mark(request):
 
         for x in a:
             z = x.fav_sen.split(",")
-            print(z)
-            print(type(z[0]))
+            #print(z)
+            #print(type(z[0]))
             if post_sen in z:
-                print("its present skipping")
+                #print("its present skipping")
                 z.remove(post_sen)
-                print(z)
+                #print(z)
                 x.fav_sen = ''
                 for k in z:
                     x.fav_sen = x.fav_sen + k + ','
@@ -564,12 +564,23 @@ def update_data():
     date_format = "%Y-%m-%d"
 
 
-    max_val = Sensors.objects.all().aggregate(Max('sensor_id'))
-    #print max_val
+    # max_val = Sensors.objects.all().aggregate(Max('sensor_id'))
+    # print max_val
+    # print "^max_val"
     latest_vale=0
 
-    for key, value in max_val.items():
-        latest_vale = int(value)
+    # for key, value in max_val.items():
+    #     latest_vale = int(value)
+
+    sensor_id_list = []
+    new_obj = Sensors.objects.all()
+    for f in new_obj:
+        sensor_id_list.append(int(f.sensor_id))
+    # print sensor_id_list
+    # print max(sensor_id_list)
+
+
+    latest_vale = max(sensor_id_list)
 
     # print latest_vale
     # print type(latest_vale)
@@ -632,8 +643,7 @@ def update_data():
 
             break
 
-       # print ("nextloop")
-
+       # print ("nextloop"
 
 
 #create a csv file
@@ -803,7 +813,7 @@ def chartmine_day():
         temp_dict[str(n)] = [[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]]
 
 
-    print (temp_dict)
+    #print (temp_dict)
 
 
     for j in sensorlist:
@@ -812,7 +822,7 @@ def chartmine_day():
 
         for m in sensormine_data:
             #now for each sensor we have arranged in increasing order of time
-            print (m.dateandtime,m.time,m.sensornumber)
+            #print (m.dateandtime,m.time,m.sensornumber)
 
 
             time_temp = str(m.time)
@@ -823,7 +833,7 @@ def chartmine_day():
 
             #print (date_temp.split('-') , month_temp  , m.sensornumber , m.lightint)
             #print "^for loop"
-    print (temp_dict)
+    #print (temp_dict)
 
     # #now need to put the data in a proper data structure 
     returnlist = []
@@ -837,9 +847,9 @@ def chartmine_day():
                 denom = len(c[s])
             list_value_temp = sum(c[s])/ denom
             returnlist.append(list_value_temp)
-    print ("returnlist")
-    print (returnlist)
-    print ("^returnlist")
+    #print ("returnlist")
+    #print (returnlist)
+    #print ("^returnlist")
     return returnlist
 
 
@@ -869,18 +879,20 @@ def logout(request):
 
 @login_required
 @user_passes_test(token_check, login_url='/demosky/verify-user/')
+#Definition to display user profiles
 def profile(request):
     args = {'user': request.user}
     return render(request, 'demosky/profile.html', args)
 
 @login_required
+#Definition to edit user profiles
 def edit_profile(request):
     if request.method == 'POST':
-        user_form = EditProfileForm(request.POST , instance=request.user)
-        profile_form = UserProfileForm(request.POST,request.FILES, instance=request.user.userprofile)
+        user_form = EditProfileForm(request.POST , instance=request.user) # user form to edit first name and last name
+        profile_form = UserProfileForm(request.POST,request.FILES, instance=request.user.userprofile) # profile form to edit profile information
         if profile_form.is_valid():
             (request.user.userprofile).save()
-        if user_form.is_valid() and profile_form.is_valid():
+        if user_form.is_valid() and profile_form.is_valid(): # checks if the data in the forms are valid.
             user_form.save()
             profile_form.save()
             return redirect('/demosky/profile')
@@ -892,21 +904,22 @@ def edit_profile(request):
 
 @login_required
 @user_passes_test(token_check, login_url='/demosky/verify-user/')
+#Definition to search user profiles.
 def search(request):
-    print(request.POST)
+
     if request.method == 'POST':
         action = request.POST.get('action')
 
         if (action == 'uname'):
             key1 = request.POST.get('u-name')
-            print(key1)
+            #print(key1)
             if key1:
-                if User.objects.filter(username=key1).exists():
+                if User.objects.filter(username=key1).exists(): # if entered username exactly matches username, show the profile directly
                     u = User.objects.get(username=(key1))
                     args = {'user': u}
                     return render(request, 'demosky/search_profile.html', args)
                 else:
-
+                    # search user profile by username, first_name, last_name.
                     SearchUser = User.objects.filter(
                         Q(username__icontains=key1) |
                         Q(first_name__icontains=key1) |
@@ -922,13 +935,13 @@ def search(request):
             else:
                 error = 'Please enter a search key!'
                 return render(request, 'demosky/search.html', {'error': error})
-
+        # function to search profiles, by field data in bio, location, and other profile fields
         if (action == 'keysearch'):
-            print('reached here')
+            #print('reached here')
             username = request.POST.get('result')
-            print(username)
+            #print(username)
             if User.objects.filter(username=username).exists():
-                print(username)
+                #print(username)
                 u = User.objects.get(username=(username))
                 args = {'user': u}
                 return render(request, 'demosky/search_profile.html', args)
@@ -939,15 +952,15 @@ def search(request):
         if (action == 'key'):
             key = request.POST.get('key')
             Filter = request.POST.getlist('Filter')
-            print(key)
+            #print(key)
             n=len(Filter)
             # for i in range(n):
             #     obj=lookup(Filter,i)
             #     print(obj)
-            print(n)
-            print(Filter)
+            #print(n)
+            #print(Filter)
 
-
+            #fucnction to search key only in the fields mentioned by the user.
             if key:
                 if User.objects.filter(username=key).exists():
                     u = User.objects.get(username=(key))
@@ -983,12 +996,12 @@ def search(request):
                                     )
                         elif n == 2:
                             if ('bio_filter' in  Filter and 'location_filter' in Filter):
-                                print("taking 2")
+                                #print("taking 2")
                                 SearchProfile = UserProfile.objects.filter(
                                    Q(bio__icontains=key) |
                                    Q(location__icontains=key)
                                )
-                                print(SearchProfile)
+                                #print(SearchProfile)
 
                             if ('bio_filter'in  Filter and 'birthplace_filter' in Filter):
                                 SearchProfile = UserProfile.objects.filter(
@@ -1021,7 +1034,7 @@ def search(request):
 
                                 )
                             if ('birthplace_filter' in  Filter  and 'work_filter' in Filter):
-                                print("reached here")
+                                #print("reached here")
                                 SearchProfile = UserProfile.objects.filter(
 
                                     Q(birthplace__icontains=key) |
@@ -1069,7 +1082,7 @@ def search(request):
 
                         )
 
-                    print(SearchProfile)
+                    #print(SearchProfile)
                     searchlist = list(SearchProfile)
 
                     if searchlist:
@@ -1087,19 +1100,22 @@ def search(request):
 
 @login_required
 @user_passes_test(token_check, login_url='/demosky/verify-user/')
+
+#Definition to create and render chatbox.
 def Chatbox(request):
     c = Chat.objects.filter(topic= '')
     return render(request, "demosky/chat_box.html", {'home': 'active', 'chat': c})
 
 @login_required
 @user_passes_test(token_check, login_url='/demosky/verify-user/')
+#Definition to post messages in the chat_box and save them in database.
 def Post(request):
     if request.method == "POST":
         msg = request.POST.get('msgbox',None)
         topicname = request.POST.get('topicname')
 
         # topic_name=request.POST.get('topic')
-        print(msg)
+        #print(msg)
         # print(topic_name)
         c = Chat(user=request.user, message=msg, topic=topicname)
 
@@ -1111,6 +1127,7 @@ def Post(request):
 
 @login_required
 @user_passes_test(token_check, login_url='/demosky/verify-user/')
+#definition to retrieve the previous messages from the database and render it on the chatbox
 def Messages(request):
     topicname = (request.GET.get('topicname'))
     c = Chat.objects.filter(topic = topicname)
@@ -1119,16 +1136,14 @@ def Messages(request):
 
 @login_required
 @user_passes_test(token_check, login_url='/demosky/verify-user/')
+#Definition to add and delete Topics for discussion.
 def topic_edit(request):
     if request.method == 'POST':
         action = request.POST.get('action')
-
+        # function to add topic of discussion in database
         if (action == 'add'):
             topic_var = request.POST.get('topic', None)
-            # print(topic_var)
-            # topiclist=topics.objects.all()
-            # print (topiclist.values())
-            if topics.objects.filter(topic=topic_var).exists():
+            if topics.objects.filter(topic=topic_var).exists(): #
                 error="Topic is already present in the discussion board. Please go through the list of discussions."
                 topiclist = topics.objects.all()
                 return render(request, 'demosky/topic_edit.html', {'topiclist':topiclist, 'error': error})
@@ -1141,13 +1156,13 @@ def topic_edit(request):
                 error = "Topic is added to discussion board successfully."
                 topiclist = topics.objects.all()
                 return render(request, 'demosky/topic_edit.html', {'topiclist':topiclist, 'error': error})
-
+        #function to delete topic from the database
         if (action == 'delete'):
-            print("Delete view")
+            #print("Delete view")
             topic_select=request.POST.getlist('topiclist')
             if topic_select is not None:
                 for topic_name in topic_select:
-                    print(topic_name)
+                    #print(topic_name)
                     removetopic=topics.objects.get(topic=str(topic_name))
                     removetopic.delete()
                 error = "Topic deleted successfully."
@@ -1156,10 +1171,10 @@ def topic_edit(request):
             topiclist=topics.objects.all()
             return render(request, 'demosky/topic_edit.html', {'topiclist': topiclist, 'error': error})
 
-
+        #function to dred
         if (action == 'displaytopic'):
             topic_select = request.POST.get('topiclist')
-            print(topic_select)
+            #print(topic_select)
             c=Chat.objects.filter(topic = topic_select)
             return render(request,"demosky/chat_box.html",{'home': 'active', 'chat':c, 'topic':topic_select})
 
